@@ -1,0 +1,103 @@
+---
+// src/pages/services/[slug].astro
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const { data } = entry;
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": data.serviceSchema.serviceType,
+  "description": data.serviceSchema.description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "WiseTech",
+    "url": "https://wisetech.ca",
+    "telephone": "888-445-9473",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Mississauga",
+      "addressRegion": "ON",
+      "addressCountry": "CA"
+    }
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Mississauga" },
+    { "@type": "City", "name": "Toronto" },
+    { "@type": "City", "name": "Brampton" },
+    { "@type": "City", "name": "Oakville" }
+  ]
+};
+---
+
+<PageLayout
+  title={data.metaTitle}
+  description={data.metaDescription}
+  additionalSchema={serviceSchema}
+>
+
+  <Hero
+    breadcrumb={`Services / ${data.title}`}
+    headline={data.hero.headline}
+    subheadline={data.hero.subheadline}
+    ctaText="Get a Free Assessment"
+    ctaHref="/contact"
+    photo={data.hero.photo}
+    photoAlt={data.hero.photoAlt}
+  />
+
+  <TrustBar items={data.trustBar} />
+
+  <section class="section-white">
+    <div class="container-lg">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8">What's Included</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {data.features.map(feature => (
+          <div class="flex gap-4 items-start">
+            <span class="text-cyan-400 font-bold text-xl mt-0.5 flex-shrink-0">✓</span>
+            <div>
+              <h3 class="font-semibold text-slate-900 mb-1">{feature.name}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-slate">
+    <div class="container-lg max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-6">{data.bodyTitle}</h2>
+      <div class="prose prose-slate prose-lg max-w-none
+        prose-headings:font-bold prose-headings:text-slate-900
+        prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-slate-900">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={data.faqs} />
+
+  <CTABanner
+    headline={data.ctaHeadline}
+    subtext={data.ctaSubtext}
+  />
+
+</PageLayout>

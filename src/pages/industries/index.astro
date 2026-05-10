@@ -1,0 +1,86 @@
+---
+// src/pages/industries/index.astro
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/Hero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const allIndustries = await getCollection('industries');
+
+const icons: Record<string, string> = {
+  'law-firms': '⚖️',
+  'dental-healthcare': '🦷',
+  'accounting-finance': '📊',
+  'real-estate': '🏠',
+  'manufacturing': '🏭',
+  'hospitality': '🏨',
+  'retail-ecommerce': '🛍️',
+  'education': '🎓',
+};
+
+const order = [
+  'law-firms',
+  'dental-healthcare',
+  'accounting-finance',
+  'real-estate',
+  'manufacturing',
+  'hospitality',
+  'retail-ecommerce',
+  'education',
+];
+
+const industries = order.map(slug =>
+  allIndustries.find(i => i.slug === slug)
+).filter(Boolean);
+---
+
+<PageLayout
+  title="IT Support by Industry Mississauga | WiseTech"
+  description="WiseTech provides specialist managed IT for law firms, dental offices, accounting firms, real estate, manufacturing, and more in Mississauga and the GTA."
+>
+
+  <Hero
+    headline="IT Support for Every Industry in Mississauga"
+    subheadline="Every industry has unique IT requirements, compliance obligations, and technology challenges. WiseTech delivers specialist managed IT for the industries that power Mississauga's economy."
+    ctaText="Get a Free Assessment"
+    ctaHref="/contact"
+    photo="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format"
+    photoAlt="WiseTech serving industries in Mississauga"
+  />
+
+  <TrustBar />
+
+  <section class="section-white">
+    <div class="container-lg">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Industries We Serve</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">Specialist IT support with deep knowledge of your industry's compliance requirements and technology challenges.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {industries.map(industry => industry && (
+          <a
+            href={`/industries/${industry.slug}`}
+            class="card p-6 flex flex-col gap-3 hover:shadow-md hover:border-cyan-400 transition-all group"
+          >
+            <div class="text-4xl">{icons[industry.slug] ?? '💼'}</div>
+            <h3 class="font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">
+              {industry.data.title}
+            </h3>
+            <p class="text-slate-600 text-sm leading-relaxed flex-1">
+              {industry.data.metaDescription}
+            </p>
+            <span class="text-cyan-500 text-sm font-semibold">Learn more →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Don't See Your Industry?"
+    subtext="WiseTech works with businesses across Mississauga and the GTA. Contact us — we likely have experience in your sector."
+  />
+
+</PageLayout>

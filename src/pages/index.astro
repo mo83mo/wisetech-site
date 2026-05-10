@@ -1,17 +1,173 @@
 ---
+// src/pages/index.astro
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import IndustryTag from '../components/IndustryTag.astro';
+import CTABanner from '../components/CTABanner.astro';
 
+const services = [
+  {
+    title: 'Managed IT Services',
+    description: 'Proactive monitoring, unlimited helpdesk, and full IT management for your Mississauga business.',
+    icon: '🖥️',
+    href: '/services/managed-it',
+  },
+  {
+    title: 'Cybersecurity',
+    description: 'Enterprise-grade endpoint protection, email security, and threat monitoring for SMBs.',
+    icon: '🔒',
+    href: '/services/cybersecurity',
+  },
+  {
+    title: 'Cloud Solutions',
+    description: 'Microsoft 365 and Google Workspace migration, setup, and ongoing cloud management.',
+    icon: '☁️',
+    href: '/services/cloud-solutions',
+  },
+  {
+    title: 'Backup & Disaster Recovery',
+    description: 'Automated encrypted backups and documented disaster recovery so you never lose critical data.',
+    icon: '💾',
+    href: '/services/backup-disaster-recovery',
+  },
+  {
+    title: 'Network & Infrastructure',
+    description: 'Business-grade network design, firewall, Wi-Fi, and 24/7 monitoring for your office.',
+    icon: '🌐',
+    href: '/services/network-infrastructure',
+  },
+  {
+    title: 'IT Consulting',
+    description: 'Technology roadmapping, vCIO services, and strategic guidance aligned to your business goals.',
+    icon: '💼',
+    href: '/services/it-consulting',
+  },
+  {
+    title: 'VoIP & Communications',
+    description: 'Cloud phone systems with mobile access, auto-attendant, and unified communications.',
+    icon: '📞',
+    href: '/services/voip-communications',
+  },
+  {
+    title: 'CCTV & Surveillance',
+    description: 'Professional IP camera installation with remote viewing and access control integration.',
+    icon: '📷',
+    href: '/services/cctv-surveillance',
+  },
+];
+
+const industries = [
+  { label: 'Law Firms', icon: '⚖️', href: '/industries/law-firms' },
+  { label: 'Dental & Healthcare', icon: '🦷', href: '/industries/dental-healthcare' },
+  { label: 'Accounting & Finance', icon: '📊', href: '/industries/accounting-finance' },
+  { label: 'Real Estate', icon: '🏠', href: '/industries/real-estate' },
+  { label: 'Manufacturing', icon: '🏭', href: '/industries/manufacturing' },
+  { label: 'Hospitality', icon: '🏨', href: '/industries/hospitality' },
+  { label: 'Retail & E-Commerce', icon: '🛍️', href: '/industries/retail-ecommerce' },
+  { label: 'Education', icon: '🎓', href: '/industries/education' },
+];
+
+const differentiators = [
+  {
+    icon: '⚡',
+    title: 'Proactive, Not Reactive',
+    body: 'We fix problems before you notice them — 24/7 monitoring catches issues while your team sleeps.',
+  },
+  {
+    icon: '💰',
+    title: 'Flat Monthly Pricing',
+    body: 'No surprise invoices or hourly billing. One predictable fee covers everything in your plan.',
+  },
+  {
+    icon: '📍',
+    title: 'Local Mississauga Team',
+    body: 'We are based in Mississauga and can be on-site quickly when remote support is not enough.',
+  },
+  {
+    icon: '🔒',
+    title: 'Cybersecurity Built In',
+    body: 'Every plan includes security controls — not as an add-on, but as a foundation.',
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<PageLayout
+  title="Managed IT Services Mississauga | WiseTech Advanced IT Solutions"
+  description="WiseTech provides managed IT support, cybersecurity, and cloud services for small businesses in Mississauga and the GTA. Local MSP. Call 888-445-9473."
+>
+
+  <!-- Hero -->
+  <Hero
+    headline="IT Support That Keeps Mississauga Businesses Running"
+    subheadline="Proactive managed IT, cybersecurity, and cloud services for small and medium businesses in the GTA. No jargon. No surprises. Just reliable IT."
+    ctaText="Get a Free IT Assessment"
+    ctaHref="/contact"
+    secondaryCta={{ text: 'View Services', href: '/services' }}
+    photo="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format"
+    photoAlt="WiseTech IT support team in Mississauga"
+  />
+
+  <!-- Trust Bar -->
+  <TrustBar />
+
+  <!-- Services Preview -->
+  <section class="section-white">
+    <div class="container-lg">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Our Core Services</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">Everything your Mississauga business needs — managed by one trusted local partner.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {services.map(service => (
+          <ServiceCard {...service} />
+        ))}
+      </div>
+      <div class="text-center mt-8">
+        <a href="/services" class="text-cyan-500 font-semibold hover:text-cyan-400 transition">View All Services →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why WiseTech -->
+  <section class="section-slate">
+    <div class="container-lg">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Why Mississauga Businesses Choose WiseTech</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">We are not just an IT vendor — we are a partner invested in your business's success.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {differentiators.map(d => (
+          <div class="card p-6">
+            <div class="text-3xl mb-3">{d.icon}</div>
+            <h3 class="font-bold text-slate-900 mb-2">{d.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{d.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries -->
+  <section class="section-white">
+    <div class="container-lg">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Industries We Serve</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">Specialist IT support for the industries that drive Mississauga's economy.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+        {industries.map(industry => (
+          <IndustryTag {...industry} />
+        ))}
+      </div>
+      <div class="text-center mt-6">
+        <a href="/industries" class="text-cyan-500 font-semibold hover:text-cyan-400 transition">View All Industries →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <CTABanner />
+
+</PageLayout>
