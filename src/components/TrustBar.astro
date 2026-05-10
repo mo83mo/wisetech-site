@@ -1,0 +1,26 @@
+---
+// src/components/TrustBar.astro
+interface Props {
+  items?: string[];
+}
+
+const defaultItems = [
+  '⚡ 24/7 Support',
+  '🔒 Cybersecurity First',
+  '📍 Local Mississauga MSP',
+  '⏱️ Fast Response Times',
+];
+
+const { items = defaultItems } = Astro.props;
+---
+
+<div class="bg-navy-900 border-t border-navy-800 border-b border-navy-800 py-4 px-4">
+  <div class="max-w-6xl mx-auto flex flex-wrap justify-center md:justify-around gap-4">
+    {items.map((item, i) => (
+      <>
+        <span class="text-slate-400 text-sm font-semibold">{item}</span>
+        {i < items.length - 1 && <span class="hidden md:inline text-navy-800">|</span>}
+      </>
+    ))}
+  </div>
+</div>

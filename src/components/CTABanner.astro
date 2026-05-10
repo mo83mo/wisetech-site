@@ -1,0 +1,24 @@
+---
+// src/components/CTABanner.astro
+interface Props {
+  headline?: string;
+  subtext?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const {
+  headline = 'Ready to Stop Worrying About IT?',
+  subtext = 'Get a free IT assessment for your Mississauga business — no obligation, no jargon.',
+  ctaText = 'Book Your Free Assessment',
+  ctaHref = '/contact',
+} = Astro.props;
+---
+
+<section class="bg-hero-gradient py-16 px-4">
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">{headline}</h2>
+    <p class="text-slate-400 text-base mb-8">{subtext}</p>
+    <a href={ctaHref} class="btn-primary text-base px-8 py-4">{ctaText}</a>
+  </div>
+</section>
