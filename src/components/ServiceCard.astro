@@ -1,0 +1,17 @@
+---
+// src/components/ServiceCard.astro
+interface Props {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+}
+const { title, description, icon, href } = Astro.props;
+---
+
+<a href={href} class="card p-6 flex flex-col gap-3 hover:shadow-md hover:border-cyan-400 transition-all group">
+  <div class="text-4xl">{icon}</div>
+  <h3 class="font-bold text-slate-900 group-hover:text-cyan-600 transition-colors">{title}</h3>
+  <p class="text-slate-600 text-sm leading-relaxed flex-1">{description}</p>
+  <span class="text-cyan-500 text-sm font-semibold">Learn more →</span>
+</a>
