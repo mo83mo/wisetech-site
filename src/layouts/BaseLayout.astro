@@ -1,0 +1,99 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  additionalSchema?: object;
+}
+
+const {
+  title,
+  description,
+  ogImage = 'https://wisetech.ca/images/og-default.jpg',
+  canonicalURL = Astro.url.href,
+  additionalSchema,
+} = Astro.props;
+
+const GA_ID = 'G-XXXXXXXXXX'; // Replace with real GA4 Measurement ID after setup
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "WiseTech",
+  "url": "https://wisetech.ca",
+  "telephone": "888-445-9473",
+  "email": "Info@wisetech.ca",
+  "logo": "https://wisetech.ca/images/logo-white.png",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "750-2 Robert Speck Parkway",
+    "addressLocality": "Mississauga",
+    "addressRegion": "ON",
+    "postalCode": "L4Z 1H8",
+    "addressCountry": "CA"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Mississauga" },
+    { "@type": "City", "name": "Toronto" },
+    { "@type": "City", "name": "Brampton" },
+    { "@type": "City", "name": "Oakville" }
+  ],
+  "priceRange": "$$"
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Primary Meta -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="WiseTech" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png" />
+
+  <!-- LocalBusiness Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
+
+  <!-- Additional Schema (Service, FAQ etc.) -->
+  {additionalSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(additionalSchema)} />
+  )}
+
+  <!-- Google Analytics 4 -->
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+</head>
+<body class="font-sans antialiased bg-white text-slate-700">
+  <slot />
+</body>
+</html>
