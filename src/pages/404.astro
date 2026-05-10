@@ -1,0 +1,31 @@
+---
+// src/pages/404.astro
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Page Not Found | WiseTech"
+  description="The page you were looking for could not be found. Return to WiseTech's homepage for managed IT services in Mississauga."
+>
+  <div class="bg-hero-gradient min-h-[70vh] flex items-center justify-center px-4 py-20">
+    <div class="text-center max-w-lg">
+      <p class="text-cyan-400 font-extrabold text-6xl mb-4">404</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+        Page Not Found
+      </h1>
+      <p class="text-slate-400 text-base leading-relaxed mb-8">
+        The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/" class="btn-primary">Go to Homepage</a>
+        <a href="/contact" class="btn-secondary">Contact Us</a>
+      </div>
+      <div class="mt-10 flex flex-wrap gap-4 justify-center text-sm">
+        <a href="/services" class="text-slate-400 hover:text-cyan-400 transition">Services</a>
+        <a href="/industries" class="text-slate-400 hover:text-cyan-400 transition">Industries</a>
+        <a href="/pricing" class="text-slate-400 hover:text-cyan-400 transition">Pricing</a>
+        <a href="/blog" class="text-slate-400 hover:text-cyan-400 transition">Blog</a>
+      </div>
+    </div>
+  </div>
+</PageLayout>
