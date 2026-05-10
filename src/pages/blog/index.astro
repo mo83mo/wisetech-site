@@ -1,0 +1,95 @@
+---
+// src/pages/blog/index.astro
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/Hero.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const allPosts = await getCollection('blog');
+
+const now = new Date();
+const posts = allPosts
+  .filter(post => post.data.pubDate <= now)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+const categoryColors: Record<string, string> = {
+  'Cybersecurity': 'bg-red-50 text-red-700 border-red-200',
+  'Cloud': 'bg-blue-50 text-blue-700 border-blue-200',
+  'IT Tips': 'bg-green-50 text-green-700 border-green-200',
+  'Industry News': 'bg-purple-50 text-purple-700 border-purple-200',
+};
+---
+
+<PageLayout
+  title="IT Blog for Mississauga Businesses | WiseTech"
+  description="Practical IT advice, cybersecurity tips, and technology guidance for small businesses in Mississauga and the GTA — from the WiseTech team."
+>
+
+  <Hero
+    headline="IT Insights for Mississauga Businesses"
+    subheadline="Practical advice on cybersecurity, cloud technology, and managed IT — written for business owners, not IT professionals."
+    ctaText="Book a Free Assessment"
+    ctaHref="/contact"
+    showPhone={false}
+  />
+
+  <section class="section-white">
+    <div class="container-lg">
+
+      {posts.length === 0 ? (
+        <div class="text-center py-16 text-slate-500">
+          <p class="text-lg">Our first posts are coming soon. Check back shortly!</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map(post => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="card flex flex-col overflow-hidden hover:shadow-md hover:border-cyan-400 transition-all group"
+            >
+              {post.data.heroImage && (
+                <img
+                  src={post.data.heroImage}
+                  alt={post.data.title}
+                  class="w-full h-44 object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-5 flex flex-col flex-1 gap-3">
+                <div class="flex items-center gap-2">
+                  <span class={`text-xs font-semibold px-2 py-0.5 rounded border ${categoryColors[post.data.category] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                    {post.data.category}
+                  </span>
+                  <span class="text-slate-400 text-xs">{post.data.readTime} min read</span>
+                </div>
+                <h2 class="font-bold text-slate-900 leading-snug group-hover:text-cyan-600 transition-colors">
+                  {post.data.title}
+                </h2>
+                <p class="text-slate-600 text-sm leading-relaxed flex-1">{post.data.description}</p>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-slate-400">{formatDate(post.data.pubDate)}</span>
+                  <span class="text-cyan-500 text-sm font-semibold">Read more →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Need IT Help Now?"
+    subtext="Don't wait for the next blog post — book a free assessment and get personalised advice for your Mississauga business."
+  />
+
+</PageLayout>

@@ -1,0 +1,137 @@
+---
+// src/pages/about.astro
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const values = [
+  {
+    icon: '🤝',
+    name: 'Integrity',
+    description: 'We give you transparent, honest advice — even when it means recommending against something we could sell you.',
+  },
+  {
+    icon: '✅',
+    name: 'Accountability',
+    description: 'We own our commitments. If something goes wrong, we fix it — no excuses, no finger-pointing.',
+  },
+  {
+    icon: '🧠',
+    name: 'Knowledge',
+    description: 'Our team stays current with the latest technology and threats so you benefit from expertise, not guesswork.',
+  },
+  {
+    icon: '💪',
+    name: 'Commitment',
+    description: 'We treat your business like our own. Your success is the measure of ours.',
+  },
+  {
+    icon: '🔥',
+    name: 'Passion',
+    description: 'We genuinely love technology and the problems it solves. That enthusiasm shows in how we work.',
+  },
+];
+
+const serviceAreas = [
+  'Mississauga', 'Toronto', 'Brampton', 'Oakville',
+  'Burlington', 'Etobicoke', 'North York', 'Scarborough',
+];
+---
+
+<PageLayout
+  title="About WiseTech | Managed IT Provider in Mississauga"
+  description="WiseTech is a Mississauga-based managed IT services provider helping small and medium businesses across the GTA with IT support, cybersecurity, and cloud solutions."
+>
+
+  <Hero
+    headline="Your Local IT Partner in Mississauga"
+    subheadline="WiseTech was built to give Mississauga small businesses access to the kind of professional, proactive IT support that was previously only available to large enterprises — at a price that makes sense for SMBs."
+    ctaText="Work With Us"
+    ctaHref="/contact"
+    photo="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format"
+    photoAlt="WiseTech team in Mississauga office"
+  />
+
+  <TrustBar />
+
+  <!-- Mission & Vision -->
+  <section class="section-white">
+    <div class="container-lg max-w-4xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 mb-4">Our Mission</h2>
+          <p class="text-slate-600 leading-relaxed">
+            To deliver tailored, cutting-edge IT services that help Mississauga businesses thrive in an ever-changing technological landscape — with transparency, reliability, and a genuine commitment to our clients' success.
+          </p>
+        </div>
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 mb-4">Our Vision</h2>
+          <p class="text-slate-600 leading-relaxed">
+            A GTA where every small business has access to enterprise-grade IT support and cybersecurity — regardless of size or budget. Technology should be a competitive advantage for Mississauga SMBs, not a source of stress.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="section-slate">
+    <div class="container-lg">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Our Values</h2>
+        <p class="text-slate-600 max-w-xl mx-auto">These are not words on a wall — they are how we make decisions every day.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        {values.map(value => (
+          <div class="card p-6 text-center">
+            <div class="text-3xl mb-3">{value.icon}</div>
+            <h3 class="font-bold text-slate-900 mb-2">{value.name}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why WiseTech -->
+  <section class="section-white">
+    <div class="container-lg max-w-3xl">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-6">Why We Started WiseTech</h2>
+      <div class="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-a:text-cyan-600">
+        <p>
+          Most small businesses in Mississauga have had the same experience with IT: something breaks, they call someone, pay an hourly rate, and hope it does not happen again. It usually does.
+        </p>
+        <p>
+          WiseTech was founded to change that model. We believe small businesses deserve the same proactive, strategic IT support that enterprise companies take for granted — delivered by a local team that understands the Mississauga business community and can be on-site when it matters.
+        </p>
+        <p>
+          We focus on relationships, not transactions. When you work with WiseTech, you have a dedicated team that knows your environment, understands your business, and is invested in keeping your technology running — not waiting for it to break so they can bill you.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Areas -->
+  <section class="section-slate">
+    <div class="container-lg">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-extrabold text-slate-900 mb-3">Areas We Serve</h2>
+        <p class="text-slate-600">Based in Mississauga, serving businesses across the Greater Toronto Area.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 justify-center">
+        {serviceAreas.map(area => (
+          <span class="bg-white border border-gray-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-full">
+            📍 {area}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Ready to Work With a Local IT Partner?"
+    subtext="Book a free IT assessment — we will review your current setup and show you exactly how WiseTech can help."
+  />
+
+</PageLayout>

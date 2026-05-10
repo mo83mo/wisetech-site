@@ -1,0 +1,216 @@
+---
+// src/pages/contact.astro
+// IMPORTANT: Replace FORMSPREE_ID with your actual Formspree form ID after creating
+// a free account at formspree.io. The ID looks like 'xpzgkdqr'.
+const FORMSPREE_ID = 'FORMSPREE_ID';
+
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/Hero.astro';
+
+const services = [
+  'Managed IT Services',
+  'Cybersecurity',
+  'Backup & Disaster Recovery',
+  'Cloud Solutions (M365 / Google Workspace)',
+  'Network & Infrastructure',
+  'IT Consulting & Strategy',
+  'VoIP & Communications',
+  'CCTV & Surveillance',
+  'Not sure — just want advice',
+];
+
+const businessHours = [
+  { day: 'Monday – Friday', hours: '8:00 AM – 6:00 PM' },
+  { day: 'Saturday', hours: 'Closed' },
+  { day: 'Sunday', hours: 'Closed' },
+];
+---
+
+<PageLayout
+  title="Contact WiseTech | Managed IT Mississauga"
+  description="Contact WiseTech for managed IT support, cybersecurity, and cloud services in Mississauga and the GTA. Call 888-445-9473 or fill out our contact form."
+>
+
+  <Hero
+    headline="Get in Touch with WiseTech"
+    subheadline="Ready to talk about your IT needs? Fill out the form below or give us a call. We respond to all inquiries within one business hour during business hours."
+    ctaText="Call Us Now"
+    ctaHref="tel:8884459473"
+    showPhone={false}
+  />
+
+  <section class="section-white">
+    <div class="container-lg">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+
+        <!-- Contact Form -->
+        <div class="lg:col-span-2">
+          <h2 class="text-2xl font-extrabold text-slate-900 mb-6">Send Us a Message</h2>
+
+          <form
+            action={`https://formspree.io/f/${FORMSPREE_ID}`}
+            method="POST"
+            id="contact-form"
+            class="flex flex-col gap-5"
+          >
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="name" class="block text-sm font-semibold text-slate-700 mb-1.5">Full Name *</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  placeholder="Jane Smith"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label for="company" class="block text-sm font-semibold text-slate-700 mb-1.5">Company Name</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  placeholder="Acme Corp"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label for="email" class="block text-sm font-semibold text-slate-700 mb-1.5">Email Address *</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  placeholder="jane@acmecorp.ca"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-semibold text-slate-700 mb-1.5">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="(905) 555-0100"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="service" class="block text-sm font-semibold text-slate-700 mb-1.5">How Can We Help? *</label>
+              <select
+                id="service"
+                name="service"
+                required
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent bg-white"
+              >
+                <option value="" disabled selected>Select a service...</option>
+                {services.map(s => (
+                  <option value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-semibold text-slate-700 mb-1.5">Message *</label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={5}
+                placeholder="Tell us about your business, your current IT setup, and what you need help with..."
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Honeypot anti-spam -->
+            <input type="text" name="_gotcha" class="hidden" />
+
+            <div>
+              <button
+                type="submit"
+                class="btn-primary w-full sm:w-auto text-base px-8 py-3"
+              >
+                Send Message
+              </button>
+              <p class="text-slate-500 text-xs mt-2">We respond within 1 business hour during business hours.</p>
+            </div>
+          </form>
+
+          <div id="form-success" class="hidden bg-green-50 border border-green-200 rounded-lg p-4 mt-4">
+            <p class="text-green-800 font-semibold">✓ Message sent! We'll be in touch within one business hour.</p>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="flex flex-col gap-6">
+
+          <div class="card p-6">
+            <h3 class="font-bold text-slate-900 mb-4">Contact Details</h3>
+            <div class="flex flex-col gap-3 text-sm">
+              <div class="flex gap-3 items-start">
+                <span class="text-cyan-400 mt-0.5">📞</span>
+                <div>
+                  <p class="font-semibold text-slate-900">Phone</p>
+                  <a href="tel:8884459473" class="text-slate-600 hover:text-cyan-500 transition">888-445-9473</a>
+                </div>
+              </div>
+              <div class="flex gap-3 items-start">
+                <span class="text-cyan-400 mt-0.5">✉️</span>
+                <div>
+                  <p class="font-semibold text-slate-900">Email</p>
+                  <a href="mailto:Info@wisetech.ca" class="text-slate-600 hover:text-cyan-500 transition">Info@wisetech.ca</a>
+                </div>
+              </div>
+              <div class="flex gap-3 items-start">
+                <span class="text-cyan-400 mt-0.5">📍</span>
+                <div>
+                  <p class="font-semibold text-slate-900">Office</p>
+                  <address class="not-italic text-slate-600 leading-relaxed">
+                    750-2 Robert Speck Parkway<br />
+                    Mississauga, ON L4Z 1H8
+                  </address>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-6">
+            <h3 class="font-bold text-slate-900 mb-4">Business Hours</h3>
+            <div class="flex flex-col gap-2">
+              {businessHours.map(bh => (
+                <div class="flex justify-between text-sm">
+                  <span class="text-slate-600">{bh.day}</span>
+                  <span class="font-medium text-slate-900">{bh.hours}</span>
+                </div>
+              ))}
+              <p class="text-xs text-slate-500 mt-2">24/7 monitoring active outside business hours. Emergency support available on Professional and Advanced plans.</p>
+            </div>
+          </div>
+
+          <div class="card p-6 bg-navy-900 border-navy-800">
+            <h3 class="font-bold text-white mb-2">Prefer to call?</h3>
+            <p class="text-slate-400 text-sm mb-4">Speak directly with a WiseTech advisor. No phone trees, no hold music.</p>
+            <a href="tel:8884459473" class="btn-primary block text-center">
+              📞 888-445-9473
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</PageLayout>
+
+<script>
+  if (window.location.search.includes('success')) {
+    const successEl = document.getElementById('form-success');
+    if (successEl) successEl.classList.remove('hidden');
+  }
+</script>

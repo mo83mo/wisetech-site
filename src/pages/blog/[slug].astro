@@ -1,0 +1,132 @@
+---
+// src/pages/blog/[slug].astro
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { data } = entry;
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+const categoryColors: Record<string, string> = {
+  'Cybersecurity': 'bg-red-50 text-red-700 border-red-200',
+  'Cloud': 'bg-blue-50 text-blue-700 border-blue-200',
+  'IT Tips': 'bg-green-50 text-green-700 border-green-200',
+  'Industry News': 'bg-purple-50 text-purple-700 border-purple-200',
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": data.title,
+  "description": data.description,
+  "datePublished": data.pubDate.toISOString(),
+  "dateModified": (data.updatedDate ?? data.pubDate).toISOString(),
+  "author": {
+    "@type": "Organization",
+    "name": "WiseTech",
+    "url": "https://wisetech.ca"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "WiseTech",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://wisetech.ca/images/logo-white.png"
+    }
+  },
+  ...(data.heroImage ? { "image": data.heroImage } : {}),
+};
+---
+
+<PageLayout
+  title={`${data.title} | WiseTech Blog`}
+  description={data.description}
+  ogImage={data.heroImage}
+  additionalSchema={articleSchema}
+>
+
+  <div class="bg-hero-gradient py-14 px-4">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex items-center gap-3 mb-5">
+        <a href="/blog" class="text-slate-400 hover:text-white text-sm transition">← Blog</a>
+        <span class="text-slate-600">/</span>
+        <span class={`text-xs font-semibold px-2 py-0.5 rounded border ${categoryColors[data.category] ?? 'bg-slate-700 text-slate-300 border-slate-600'}`}>
+          {data.category}
+        </span>
+      </div>
+      <h1 class="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-5">
+        {data.title}
+      </h1>
+      <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+        <span>By {data.author}</span>
+        <span>·</span>
+        <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+        <span>·</span>
+        <span>{data.readTime} min read</span>
+      </div>
+    </div>
+  </div>
+
+  {data.heroImage && (
+    <div class="bg-navy-900 px-4 pb-0">
+      <div class="max-w-3xl mx-auto">
+        <img
+          src={data.heroImage}
+          alt={data.title}
+          class="w-full rounded-t-xl object-cover h-64 md:h-80"
+          loading="eager"
+        />
+      </div>
+    </div>
+  )}
+
+  <section class="section-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <div class="prose prose-slate prose-lg max-w-none
+        prose-headings:font-extrabold prose-headings:text-slate-900
+        prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+        prose-p:text-slate-600 prose-p:leading-relaxed
+        prose-a:text-cyan-600 prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-slate-900
+        prose-ul:text-slate-600 prose-ol:text-slate-600
+        prose-li:my-1
+        prose-hr:border-gray-200">
+        <Content />
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <p class="text-sm text-slate-500">Published by <span class="font-semibold text-slate-700">{data.author}</span></p>
+          <p class="text-sm text-slate-400">{formatDate(data.pubDate)}</p>
+        </div>
+        <a href="/blog" class="text-cyan-500 font-semibold text-sm hover:text-cyan-400 transition">
+          ← Back to Blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Have Questions About Your Business IT?"
+    subtext="Book a free assessment with WiseTech — personalised advice for your Mississauga business, no obligation."
+  />
+
+</PageLayout>

@@ -1,0 +1,200 @@
+---
+// src/pages/pricing.astro
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/Hero.astro';
+import PricingCard from '../components/PricingCard.astro';
+import FAQ from '../components/FAQ.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const plans = [
+  {
+    name: 'Essential',
+    monthlyPrice: 99,
+    annualMonthlyEquiv: 83,
+    annualYearlyTotal: 990,
+    annualSavings: 198,
+    minUsers: 5,
+    bestFor: 'Small teams, low IT risk',
+    features: [
+      'Remote helpdesk (Mon–Fri 8am–6pm)',
+      'Patch management & updates',
+      'Endpoint antivirus & firewall',
+      '24/7 remote monitoring',
+      'Email security & spam filtering',
+      'Cloud backup (daily)',
+    ],
+    notIncluded: [
+      'On-site support',
+      'Advanced EDR / MDR',
+      'vCIO / IT strategy',
+    ],
+    isPopular: false,
+  },
+  {
+    name: 'Professional',
+    monthlyPrice: 149,
+    annualMonthlyEquiv: 124,
+    annualYearlyTotal: 1490,
+    annualSavings: 298,
+    minUsers: 5,
+    bestFor: 'Most Mississauga SMBs',
+    features: [
+      'Everything in Essential',
+      '24/7 helpdesk support',
+      'Advanced EDR (endpoint detection)',
+      'Microsoft 365 / Google Workspace admin',
+      'Security awareness training (quarterly)',
+      'On-site support (2 visits/month per client)',
+      'Disaster recovery planning',
+      'Quarterly business review',
+    ],
+    notIncluded: [
+      'MDR / compliance reporting',
+    ],
+    isPopular: true,
+  },
+  {
+    name: 'Advanced',
+    monthlyPrice: 199,
+    annualMonthlyEquiv: 166,
+    annualYearlyTotal: 1990,
+    annualSavings: 398,
+    minUsers: 5,
+    bestFor: 'Legal, dental, accounting firms',
+    features: [
+      'Everything in Professional',
+      'Managed Detection & Response (MDR)',
+      'Compliance support (PHIPA, PIPEDA)',
+      'vCIO — IT strategy & roadmap',
+      'Unlimited on-site support',
+      'Cyber insurance documentation',
+      '1-hour SLA for critical issues',
+      'Monthly executive reports',
+    ],
+    isPopular: false,
+  },
+];
+
+const addons = [
+  { name: 'VoIP & Unified Communications', price: 'From $15/user/month' },
+  { name: 'CCTV Installation & Service', price: 'Project-based quote' },
+  { name: 'Cloud Migration', price: 'Project-based quote' },
+];
+
+const pricingFaqs = [
+  {
+    question: 'Is there a setup or onboarding fee?',
+    answer: 'WiseTech charges a one-time onboarding fee to cover the initial environment assessment, documentation, and configuration of monitoring and security tools. The fee varies based on the number of users and complexity of your environment. We will provide a clear quote before you sign anything.',
+  },
+  {
+    question: 'What is the minimum contract length?',
+    answer: 'Our standard agreements are month-to-month on the monthly billing plan, or 12 months on the annual plan. Annual contracts receive the equivalent of 2 months free. There are no penalties for leaving after your agreed term.',
+  },
+  {
+    question: 'Can I change plans after signing up?',
+    answer: 'Yes. You can upgrade to a higher tier at any time — the new rate takes effect at the start of the next billing cycle. Downgrading is available at renewal. If your business needs change significantly, contact us and we will find the right solution.',
+  },
+  {
+    question: 'What happens if I need to add more users?',
+    answer: 'Adding users is straightforward — we simply pro-rate the additional users at your current plan rate for the remainder of the month, then include them in full from the next billing cycle. There is no minimum notice period for adding users.',
+  },
+  {
+    question: 'Do your plans cover remote workers?',
+    answer: 'Yes. All WiseTech plans support remote and hybrid workforces. Remote workers receive the same helpdesk support, endpoint protection, and monitoring as office-based staff. For on-site visits, we cover the Mississauga and GTA area.',
+  },
+];
+---
+
+<PageLayout
+  title="Managed IT Pricing Mississauga | WiseTech"
+  description="Transparent managed IT pricing for Mississauga businesses. Essential from $99/user/month, Professional $149, Advanced $199. Annual plans available. No hidden fees."
+>
+
+  <Hero
+    headline="Simple, Transparent IT Pricing"
+    subheadline="No hidden fees. No surprise invoices. One flat monthly rate covers everything in your plan — with annual billing available for businesses that want to save."
+    ctaText="Book a Free Assessment"
+    ctaHref="/contact"
+    showPhone={true}
+  />
+
+  <!-- Billing Toggle -->
+  <section class="bg-navy-900 py-8 px-4">
+    <div class="max-w-xs mx-auto flex items-center justify-center gap-4">
+      <span id="label-monthly" class="text-white font-semibold text-sm">Monthly</span>
+      <label class="relative inline-flex items-center cursor-pointer">
+        <input type="checkbox" id="billing-toggle" class="sr-only peer" />
+        <div class="w-12 h-6 bg-slate-700 rounded-full peer peer-checked:bg-cyan-400 transition-colors"></div>
+        <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-6"></div>
+      </label>
+      <span id="label-annual" class="text-slate-400 font-semibold text-sm">
+        Annual
+        <span class="ml-1.5 bg-cyan-400 text-navy-900 text-xs font-extrabold px-2 py-0.5 rounded-full">2 months FREE</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section class="section-slate">
+    <div class="container-lg">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        {plans.map(plan => (
+          <PricingCard {...plan} ctaHref="/contact" />
+        ))}
+      </div>
+
+      <!-- Add-ons -->
+      <div class="mt-10 bg-white border border-gray-200 rounded-xl p-6">
+        <h3 class="font-bold text-slate-900 mb-4">Available Add-Ons</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {addons.map(addon => (
+            <div class="bg-slate-50 border border-gray-200 rounded-lg p-4">
+              <p class="font-semibold text-slate-900 text-sm">{addon.name}</p>
+              <p class="text-slate-500 text-xs mt-1">{addon.price}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={pricingFaqs} title="Pricing Questions" />
+
+  <CTABanner
+    headline="Not Sure Which Plan Is Right for You?"
+    subtext="Book a free assessment and we will recommend the right plan based on your team size, industry, and IT requirements."
+  />
+
+</PageLayout>
+
+<script>
+  const toggle = document.getElementById('billing-toggle') as HTMLInputElement | null;
+  const labelMonthly = document.getElementById('label-monthly');
+  const labelAnnual = document.getElementById('label-annual');
+
+  const plans = [
+    { name: 'Essential', monthly: 99, annual: 83 },
+    { name: 'Professional', monthly: 149, annual: 124 },
+    { name: 'Advanced', monthly: 199, annual: 166 },
+  ];
+
+  toggle?.addEventListener('change', () => {
+    const isAnnual = toggle.checked;
+
+    labelMonthly?.classList.toggle('text-white', !isAnnual);
+    labelMonthly?.classList.toggle('text-slate-400', isAnnual);
+    labelAnnual?.classList.toggle('text-white', isAnnual);
+    labelAnnual?.classList.toggle('text-slate-400', !isAnnual);
+
+    plans.forEach(plan => {
+      const key = plan.name.toLowerCase();
+      const priceEl = document.getElementById(`price-${key}`);
+      const annualLabelEl = document.getElementById(`annual-label-${key}`);
+      const saveLabelEl = document.getElementById(`save-label-${key}`);
+
+      if (priceEl) priceEl.textContent = `$${isAnnual ? plan.annual : plan.monthly}`;
+      if (annualLabelEl) annualLabelEl.style.display = isAnnual ? 'block' : 'none';
+      if (saveLabelEl) saveLabelEl.style.display = isAnnual ? 'block' : 'none';
+    });
+  });
+</script>
