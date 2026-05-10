@@ -1,0 +1,136 @@
+---
+// src/components/Nav.astro
+const services = [
+  { label: 'Managed IT Services', href: '/services/managed-it' },
+  { label: 'Cybersecurity', href: '/services/cybersecurity' },
+  { label: 'Backup & Disaster Recovery', href: '/services/backup-disaster-recovery' },
+  { label: 'Cloud Solutions', href: '/services/cloud-solutions' },
+  { label: 'Network & Infrastructure', href: '/services/network-infrastructure' },
+  { label: 'IT Consulting & Strategy', href: '/services/it-consulting' },
+  { label: 'VoIP & Communications', href: '/services/voip-communications' },
+  { label: 'CCTV & Surveillance', href: '/services/cctv-surveillance' },
+];
+
+const industries = [
+  { label: 'Law Firms', href: '/industries/law-firms' },
+  { label: 'Dental & Healthcare', href: '/industries/dental-healthcare' },
+  { label: 'Accounting & Finance', href: '/industries/accounting-finance' },
+  { label: 'Real Estate', href: '/industries/real-estate' },
+  { label: 'Manufacturing', href: '/industries/manufacturing' },
+  { label: 'Hospitality', href: '/industries/hospitality' },
+  { label: 'Retail & E-Commerce', href: '/industries/retail-ecommerce' },
+  { label: 'Education', href: '/industries/education' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="bg-navy-900 sticky top-0 z-50 shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16">
+
+    <!-- Logo -->
+    <a href="/" class="flex-shrink-0">
+      <img src="/images/logo-white.png" alt="WiseTech" class="h-10 w-auto" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-6">
+
+      <!-- Services Dropdown -->
+      <div class="relative group">
+        <button class="text-slate-300 hover:text-white text-sm font-medium flex items-center gap-1 py-5">
+          Services
+          <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="absolute top-full left-0 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+          {services.map(s => (
+            <a href={s.href} class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-cyan-600 transition-colors">
+              {s.label}
+            </a>
+          ))}
+          <div class="border-t border-gray-100 mt-1 pt-1">
+            <a href="/services" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
+              View All Services →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Industries Dropdown -->
+      <div class="relative group">
+        <button class="text-slate-300 hover:text-white text-sm font-medium flex items-center gap-1 py-5">
+          Industries
+          <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="absolute top-full left-0 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+          {industries.map(i => (
+            <a href={i.href} class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 hover:text-cyan-600 transition-colors">
+              {i.label}
+            </a>
+          ))}
+          <div class="border-t border-gray-100 mt-1 pt-1">
+            <a href="/industries" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
+              View All Industries →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/pricing" class={`text-sm font-medium ${currentPath === '/pricing' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Pricing</a>
+      <a href="/about" class={`text-sm font-medium ${currentPath === '/about' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>About</a>
+      <a href="/blog" class={`text-sm font-medium ${currentPath.startsWith('/blog') ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Blog</a>
+
+      <a href="/contact" class="btn-primary ml-2">Free Assessment</a>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2" aria-label="Toggle menu">
+      <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-navy-800 px-4 pb-4">
+    <div class="pt-3">
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Services</p>
+      {services.map(s => (
+        <a href={s.href} class="block py-2 text-sm text-slate-300 hover:text-white">{s.label}</a>
+      ))}
+    </div>
+    <div class="pt-3 border-t border-navy-800">
+      <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Industries</p>
+      {industries.map(i => (
+        <a href={i.href} class="block py-2 text-sm text-slate-300 hover:text-white">{i.label}</a>
+      ))}
+    </div>
+    <div class="pt-3 border-t border-navy-800 flex flex-col gap-2">
+      <a href="/pricing" class="text-sm text-slate-300 hover:text-white py-2">Pricing</a>
+      <a href="/about" class="text-sm text-slate-300 hover:text-white py-2">About</a>
+      <a href="/blog" class="text-sm text-slate-300 hover:text-white py-2">Blog</a>
+      <a href="/contact" class="btn-primary text-center mt-2">Free Assessment</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden', isOpen);
+    iconOpen?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+  });
+</script>
