@@ -1,0 +1,39 @@
+/* src/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-slate-700 antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply text-slate-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-cyan-400 text-navy-900 font-bold rounded-md px-6 py-3 text-sm hover:bg-cyan-300 transition-colors;
+  }
+  .btn-secondary {
+    @apply border border-cyan-400 text-cyan-400 font-semibold rounded-md px-6 py-3 text-sm hover:bg-cyan-400 hover:text-navy-900 transition-colors;
+  }
+  .section-white {
+    @apply bg-white py-16 px-4;
+  }
+  .section-slate {
+    @apply bg-slate-50 py-16 px-4;
+  }
+  .container-lg {
+    @apply max-w-6xl mx-auto;
+  }
+  .card {
+    @apply bg-white border border-gray-200 rounded-xl shadow-sm;
+  }
+}
