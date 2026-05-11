@@ -134,7 +134,6 @@ const sections = [
                     type="checkbox"
                     class="mt-0.5 h-5 w-5 rounded border-gray-300 accent-cyan-500 flex-shrink-0 cursor-pointer"
                     data-section={sIdx}
-                    onchange="updateScore(this)"
                   />
                   <span class="text-slate-700 text-sm leading-relaxed group-has-[:checked]:line-through group-has-[:checked]:text-slate-400 transition">
                     {item}
@@ -176,7 +175,8 @@ const sections = [
 </PageLayout>
 
 <script>
-  const totalItems = document.querySelectorAll('input[type="checkbox"][data-section]').length;
+  const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-section]');
+  const totalItems = checkboxes.length;
 
   function updateScore(checkbox: HTMLInputElement) {
     const sectionIdx = checkbox.dataset.section;
@@ -186,7 +186,7 @@ const sections = [
     if (scoreEl) scoreEl.textContent = `${checked} / ${sectionItems.length}`;
 
     // Update total
-    const total = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked').length;
+    const total = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-section]:checked').length;
     const totalEl = document.getElementById('total-score');
     const bar = document.getElementById('score-bar');
     const msg = document.getElementById('score-message');
@@ -196,6 +196,7 @@ const sections = [
       const pct = total / totalItems;
       if (pct === 0) {
         msg.textContent = 'Complete the checklist above to see your score.';
+        msg.className = 'text-slate-400 text-sm mb-6';
       } else if (pct < 0.4) {
         msg.textContent = '⚠️ Significant gaps identified. We strongly recommend a professional assessment.';
         msg.className = 'text-red-400 text-sm mb-6';
@@ -211,4 +212,9 @@ const sections = [
       }
     }
   }
+
+  // Attach listeners to every checkbox — this replaces the broken inline onchange
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => updateScore(cb));
+  });
 </script>
