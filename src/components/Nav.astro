@@ -36,6 +36,8 @@ const currentPath = Astro.url.pathname;
     <!-- Desktop Nav -->
     <div class="hidden md:flex items-center gap-6">
 
+      <a href="/" class={`text-sm font-medium ${currentPath === '/' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Home</a>
+
       <!-- Services Dropdown -->
       <div class="relative group">
         <button class="text-slate-300 hover:text-white text-sm font-medium flex items-center gap-1 py-5">
@@ -85,6 +87,7 @@ const currentPath = Astro.url.pathname;
       <a href="/blog" class={`text-sm font-medium ${currentPath.startsWith('/blog') ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Blog</a>
 
       <a href="/contact" class="btn-primary ml-2">Free Assessment</a>
+      <a href="/signin" class="border border-slate-500 text-slate-300 hover:text-white hover:border-white text-sm font-medium px-4 py-2 rounded-md transition-colors ml-1">Sign In</a>
     </div>
 
     <!-- Mobile Hamburger -->
@@ -113,10 +116,12 @@ const currentPath = Astro.url.pathname;
       ))}
     </div>
     <div class="pt-3 border-t border-navy-800 flex flex-col gap-2">
+      <a href="/" class="text-sm text-slate-300 hover:text-white py-2">Home</a>
       <a href="/pricing" class="text-sm text-slate-300 hover:text-white py-2">Pricing</a>
       <a href="/about" class="text-sm text-slate-300 hover:text-white py-2">About</a>
       <a href="/blog" class="text-sm text-slate-300 hover:text-white py-2">Blog</a>
       <a href="/contact" class="btn-primary text-center mt-2">Free Assessment</a>
+      <a href="/signin" class="border border-slate-500 text-slate-300 text-sm font-medium text-center px-4 py-2 rounded-md mt-1">Sign In</a>
     </div>
   </div>
 </nav>
