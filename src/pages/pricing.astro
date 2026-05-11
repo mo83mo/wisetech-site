@@ -158,6 +158,70 @@ const pricingFaqs = [
     </div>
   </section>
 
+  <!-- Pricing Calculator -->
+  <section class="section-white">
+    <div class="container-lg max-w-3xl">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Calculate Your Monthly Cost</h2>
+        <p class="text-slate-600">Enter your team size and select a plan to see your exact monthly and annual cost.</p>
+      </div>
+
+      <div class="bg-slate-50 border border-gray-200 rounded-2xl p-8">
+        <!-- Inputs -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label for="calc-users" class="block text-sm font-semibold text-slate-700 mb-2">Number of Employees</label>
+            <input
+              type="number"
+              id="calc-users"
+              min="5"
+              max="500"
+              value="10"
+              class="w-full border border-gray-300 rounded-lg px-4 py-3 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-cyan-400 text-slate-900"
+            />
+            <p class="text-xs text-slate-500 mt-1">Minimum 5 users</p>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Select Plan</label>
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-gray-200 bg-white hover:border-cyan-400 transition has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
+                <input type="radio" name="calc-plan" value="99" class="accent-cyan-500" checked />
+                <span class="text-sm font-medium text-slate-700">Essential — $99/user/mo</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-gray-200 bg-white hover:border-cyan-400 transition has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
+                <input type="radio" name="calc-plan" value="149" class="accent-cyan-500" />
+                <span class="text-sm font-medium text-slate-700">Professional — $149/user/mo</span>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-gray-200 bg-white hover:border-cyan-400 transition has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
+                <input type="radio" name="calc-plan" value="199" class="accent-cyan-500" />
+                <span class="text-sm font-medium text-slate-700">Advanced — $199/user/mo</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Monthly Cost</p>
+            <p id="calc-monthly" class="text-4xl font-extrabold text-slate-900">$990</p>
+            <p class="text-slate-500 text-sm mt-1">billed monthly</p>
+          </div>
+          <div class="bg-navy-900 border-2 border-cyan-400 rounded-xl p-6 text-center">
+            <p class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Annual Cost <span class="bg-cyan-400 text-navy-900 px-1.5 py-0.5 rounded text-xs ml-1">Save 2 months</span></p>
+            <p id="calc-annual" class="text-4xl font-extrabold text-white">$9,900</p>
+            <p class="text-slate-400 text-sm mt-1">billed annually</p>
+            <p id="calc-savings" class="text-cyan-400 text-xs font-semibold mt-1">You save $1,980/year</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <a href="/contact" class="btn-primary text-base px-8">Get a Custom Quote →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <FAQ faqs={pricingFaqs} title="Pricing Questions" />
 
   <CTABanner
@@ -197,4 +261,41 @@ const pricingFaqs = [
       if (saveLabelEl) saveLabelEl.style.display = isAnnual ? 'block' : 'none';
     });
   });
+</script>
+
+<script>
+  function updateCalc() {
+    const usersInput = document.getElementById('calc-users') as HTMLInputElement | null;
+    const planRadios = document.querySelectorAll<HTMLInputElement>('input[name="calc-plan"]');
+    const monthlyEl = document.getElementById('calc-monthly');
+    const annualEl = document.getElementById('calc-annual');
+    const savingsEl = document.getElementById('calc-savings');
+
+    if (!usersInput || !monthlyEl || !annualEl || !savingsEl) return;
+
+    let users = parseInt(usersInput.value) || 5;
+    if (users < 5) users = 5;
+
+    let pricePerUser = 99;
+    planRadios.forEach(radio => {
+      if (radio.checked) pricePerUser = parseInt(radio.value);
+    });
+
+    const monthly = users * pricePerUser;
+    const annual = users * pricePerUser * 10; // 2 months free
+    const savings = users * pricePerUser * 2;
+
+    const fmt = (n: number) => '$' + n.toLocaleString('en-CA');
+
+    monthlyEl.textContent = fmt(monthly);
+    annualEl.textContent = fmt(annual);
+    savingsEl.textContent = `You save ${fmt(savings)}/year`;
+  }
+
+  document.getElementById('calc-users')?.addEventListener('input', updateCalc);
+  document.querySelectorAll('input[name="calc-plan"]').forEach(r => {
+    r.addEventListener('change', updateCalc);
+  });
+
+  updateCalc();
 </script>

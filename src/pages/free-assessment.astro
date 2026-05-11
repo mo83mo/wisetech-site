@@ -1,0 +1,214 @@
+---
+// src/pages/free-assessment.astro
+import PageLayout from '../layouts/PageLayout.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const sections = [
+  {
+    title: 'Network & Infrastructure',
+    icon: '🌐',
+    items: [
+      'Do you have a business-grade firewall protecting your network?',
+      'Is your Wi-Fi network segmented (guest Wi-Fi separate from business systems)?',
+      'Are all network devices (routers, switches, access points) under support?',
+      'Do you have a documented network diagram showing all devices?',
+      'Is remote access to your network secured with a VPN?',
+    ],
+  },
+  {
+    title: 'Cybersecurity',
+    icon: '🔒',
+    items: [
+      'Is multi-factor authentication (MFA) enabled on all business email accounts?',
+      'Do all workstations have business-grade endpoint protection (EDR), not just consumer antivirus?',
+      'Is email security filtering configured to block phishing and malicious attachments?',
+      'Have your staff completed security awareness training in the last 12 months?',
+      'Do you have a written incident response plan for a cyberattack?',
+      'Are DMARC, DKIM, and SPF records configured on your email domain?',
+    ],
+  },
+  {
+    title: 'Backup & Disaster Recovery',
+    icon: '💾',
+    items: [
+      'Are all critical business files backed up automatically every day?',
+      'Are backups stored off-site or in the cloud (not just on a local drive)?',
+      'Are your backups immutable (protected from ransomware encryption)?',
+      'Have you tested a full restore from backup in the last 6 months?',
+      'Do you have a documented Recovery Time Objective (RTO) and Recovery Point Objective (RPO)?',
+    ],
+  },
+  {
+    title: 'Cloud & Productivity',
+    icon: '☁️',
+    items: [
+      'Are you using a business-tier Microsoft 365 or Google Workspace plan (not personal/consumer accounts)?',
+      'Is Microsoft 365 or Google Workspace admin access properly secured with MFA and limited to IT staff?',
+      'Do you have a process for revoking cloud access when employees leave?',
+      'Are all software licences tracked and up to date?',
+      'Is your line-of-business software hosted in the cloud or on a supported server?',
+    ],
+  },
+  {
+    title: 'Patch Management & Updates',
+    icon: '🔧',
+    items: [
+      'Are Windows/macOS updates applied to all workstations within 30 days of release?',
+      'Are servers on a regular patching schedule?',
+      'Is all third-party software (browsers, Office, Adobe, etc.) kept up to date?',
+      'Are firmware updates applied to network devices and servers?',
+    ],
+  },
+  {
+    title: 'Compliance & Privacy',
+    icon: '📋',
+    items: [
+      'Do you have a documented IT security policy?',
+      'Do you have a privacy policy that covers how client data is collected and stored?',
+      'If your business handles health information, do you have PHIPA compliance controls in place?',
+      'Do you have cyber insurance coverage?',
+      'Is there a process for securely disposing of old computers and hard drives?',
+    ],
+  },
+];
+---
+
+<PageLayout
+  title="Free IT Assessment Checklist | WiseTech Mississauga"
+  description="Use WiseTech's free IT assessment checklist to evaluate your Mississauga business's cybersecurity, backup, network, and compliance posture. Identify gaps before they become problems."
+>
+
+  <!-- Hero -->
+  <div class="bg-hero-gradient py-16 px-4">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-5">
+        Free Service
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+        Free IT Assessment Checklist
+      </h1>
+      <p class="text-slate-400 text-lg leading-relaxed mb-6">
+        Use this checklist to evaluate your business's IT posture across six key areas. Identify gaps before they become costly problems — and see exactly where WiseTech can help.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#checklist" class="btn-primary">Start the Checklist ↓</a>
+        <a href="/contact" class="btn-secondary">Book a Professional Assessment</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to use -->
+  <section class="section-slate">
+    <div class="container-lg max-w-3xl">
+      <div class="bg-white border border-gray-200 rounded-xl p-6">
+        <h2 class="font-bold text-slate-900 mb-2">How to Use This Checklist</h2>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Go through each section and check off the items that are currently in place at your business.
+          Items you cannot check off represent gaps in your IT security or operations.
+          The more unchecked items you find, the more value a WiseTech managed IT assessment will provide.
+          <strong class="text-slate-900"> A professional assessment is free and takes about 45 minutes.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Checklist sections -->
+  <section id="checklist" class="section-white">
+    <div class="container-lg max-w-3xl">
+      <div class="flex flex-col gap-8">
+        {sections.map((section, sIdx) => (
+          <div class="border border-gray-200 rounded-2xl overflow-hidden">
+            <!-- Section header -->
+            <div class="bg-slate-50 px-6 py-4 flex items-center gap-3 border-b border-gray-200">
+              <span class="text-2xl">{section.icon}</span>
+              <h2 class="font-extrabold text-slate-900 text-lg">{section.title}</h2>
+              <span id={`score-${sIdx}`} class="ml-auto text-xs font-semibold text-slate-500 bg-white border border-gray-200 px-3 py-1 rounded-full">
+                0 / {section.items.length}
+              </span>
+            </div>
+            <!-- Items -->
+            <div class="divide-y divide-gray-100">
+              {section.items.map((item, iIdx) => (
+                <label class="flex items-start gap-4 px-6 py-4 cursor-pointer hover:bg-slate-50 transition group">
+                  <input
+                    type="checkbox"
+                    class="mt-0.5 h-5 w-5 rounded border-gray-300 accent-cyan-500 flex-shrink-0 cursor-pointer"
+                    data-section={sIdx}
+                    onchange="updateScore(this)"
+                  />
+                  <span class="text-slate-700 text-sm leading-relaxed group-has-[:checked]:line-through group-has-[:checked]:text-slate-400 transition">
+                    {item}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Overall score -->
+      <div class="mt-10 bg-navy-900 rounded-2xl p-8 text-center">
+        <h2 class="text-white font-extrabold text-xl mb-2">Your IT Assessment Score</h2>
+        <div class="flex items-end justify-center gap-1 my-4">
+          <span id="total-score" class="text-6xl font-extrabold text-cyan-400">0</span>
+          <span class="text-slate-400 text-2xl mb-2">/ {sections.reduce((a, s) => a + s.items.length, 0)}</span>
+        </div>
+        <div id="score-bar-wrap" class="w-full bg-navy-800 rounded-full h-3 mb-4 overflow-hidden">
+          <div id="score-bar" class="bg-cyan-400 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+        <p id="score-message" class="text-slate-400 text-sm mb-6">
+          Complete the checklist above to see your score.
+        </p>
+        <a href="/contact" class="btn-primary text-base px-8">
+          Book Your Free Professional Assessment →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Ready for a Professional IT Assessment?"
+    subtext="Our free IT assessment goes deeper than a checklist — we review your actual systems and give you a prioritised action plan. No obligation."
+    ctaText="Book a Free Assessment"
+    ctaHref="/contact"
+  />
+
+</PageLayout>
+
+<script>
+  const totalItems = document.querySelectorAll('input[type="checkbox"][data-section]').length;
+
+  function updateScore(checkbox: HTMLInputElement) {
+    const sectionIdx = checkbox.dataset.section;
+    const sectionItems = document.querySelectorAll<HTMLInputElement>(`input[data-section="${sectionIdx}"]`);
+    const checked = Array.from(sectionItems).filter(i => i.checked).length;
+    const scoreEl = document.getElementById(`score-${sectionIdx}`);
+    if (scoreEl) scoreEl.textContent = `${checked} / ${sectionItems.length}`;
+
+    // Update total
+    const total = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked').length;
+    const totalEl = document.getElementById('total-score');
+    const bar = document.getElementById('score-bar');
+    const msg = document.getElementById('score-message');
+    if (totalEl) totalEl.textContent = String(total);
+    if (bar) bar.style.width = `${Math.round((total / totalItems) * 100)}%`;
+    if (msg) {
+      const pct = total / totalItems;
+      if (pct === 0) {
+        msg.textContent = 'Complete the checklist above to see your score.';
+      } else if (pct < 0.4) {
+        msg.textContent = '⚠️ Significant gaps identified. We strongly recommend a professional assessment.';
+        msg.className = 'text-red-400 text-sm mb-6';
+      } else if (pct < 0.7) {
+        msg.textContent = '🔶 Some gaps found. A WiseTech assessment will help prioritise what to fix first.';
+        msg.className = 'text-yellow-400 text-sm mb-6';
+      } else if (pct < 1) {
+        msg.textContent = '✅ Good foundation — a few gaps to close. Book an assessment for a detailed action plan.';
+        msg.className = 'text-green-400 text-sm mb-6';
+      } else {
+        msg.textContent = '🎉 Excellent! Your IT posture looks strong. Book a call to verify with our experts.';
+        msg.className = 'text-cyan-400 text-sm mb-6';
+      }
+    }
+  }
+</script>
