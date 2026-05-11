@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CCTV & Surveillance"
 metaTitle: "CCTV Installation Mississauga | WiseTech"
 metaDescription: "Professional CCTV and security camera installation for Mississauga businesses. Remote monitoring, IP cameras, access control. Call WiseTech: 888-445-9473."
@@ -8,15 +8,15 @@ hero:
   photo: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&h=400&fit=crop&auto=format"
   photoAlt: "CCTV security camera installation for Mississauga business"
 trustBar:
-  - "ðŸ“· IP Camera Systems"
-  - "ðŸ“± Remote Viewing"
-  - "ðŸ”’ Access Control Integration"
-  - "ðŸ”§ Professional Installation"
+  - "📷 IP Camera Systems"
+  - "📱 Remote Viewing"
+  - "🔒 Access Control Integration"
+  - "🔧 Professional Installation"
 features:
   - name: "IP Camera Installation"
     description: "High-definition IP cameras covering indoor and outdoor areas, with night vision and motion detection."
   - name: "Remote Viewing"
-    description: "View your cameras from anywhere on your smartphone, tablet, or computer â€” 24 hours a day."
+    description: "View your cameras from anywhere on your smartphone, tablet, or computer — 24 hours a day."
   - name: "Network Video Recorder (NVR)"
     description: "Secure on-site or cloud-based video storage with configurable retention periods to meet your needs."
   - name: "Access Control Integration"
@@ -28,15 +28,15 @@ features:
 bodyTitle: "Protect Your Mississauga Business with Professional Surveillance"
 faqs:
   - question: "How many cameras does my business need?"
-    answer: "The number of cameras depends on the size and layout of your premises, the entry and exit points, and your specific security requirements. WiseTech conducts a free site survey to assess your space and recommend the minimum number of cameras required for complete coverage â€” we never oversell cameras you do not need."
+    answer: "The number of cameras depends on the size and layout of your premises, the entry and exit points, and your specific security requirements. WiseTech conducts a free site survey to assess your space and recommend the minimum number of cameras required for complete coverage — we never oversell cameras you do not need."
   - question: "Can I view my cameras remotely from my phone?"
     answer: "Yes. All WiseTech CCTV systems include a mobile app that allows you to view live and recorded footage from your smartphone or tablet, anywhere in the world. You can also receive motion-triggered alerts when activity is detected."
   - question: "How long is footage stored?"
     answer: "Standard configurations store 30 days of footage on a local Network Video Recorder (NVR). Extended retention periods are available with additional storage or cloud backup. WiseTech will recommend a retention period based on your industry requirements and any insurance or compliance obligations."
   - question: "Do you integrate CCTV with door access control?"
-    answer: "Yes. WiseTech can integrate your camera system with electronic door access control, allowing you to see video associated with any access event â€” who entered, when, and through which door. This is particularly useful for offices, warehouses, and multi-tenant commercial spaces."
+    answer: "Yes. WiseTech can integrate your camera system with electronic door access control, allowing you to see video associated with any access event — who entered, when, and through which door. This is particularly useful for offices, warehouses, and multi-tenant commercial spaces."
 ctaHeadline: "Ready to Secure Your Mississauga Business?"
-ctaSubtext: "Book a free site survey â€” we'll assess your premises and design a CCTV system tailored to your needs."
+ctaSubtext: "Book a free site survey — we'll assess your premises and design a CCTV system tailored to your needs."
 serviceSchema:
   serviceType: "CCTV and Surveillance Installation"
   description: "Professional CCTV camera installation, network video recording, and access control solutions for businesses in Mississauga and the GTA."
@@ -44,7 +44,7 @@ serviceSchema:
 
 ## Protect Your Mississauga Business with Professional Surveillance
 
-A professionally installed CCTV system does more than record footage â€” it deters theft and vandalism, protects your employees, supports insurance claims, and gives you visibility into your business premises even when you are not on-site.
+A professionally installed CCTV system does more than record footage — it deters theft and vandalism, protects your employees, supports insurance claims, and gives you visibility into your business premises even when you are not on-site.
 
 Off-the-shelf consumer camera systems from big-box stores are designed for homes, not businesses. They lack the reliability, image quality, storage capacity, and integration capabilities that commercial environments require. WiseTech designs and installs purpose-built IP camera systems that are engineered for business use.
 
@@ -62,4 +62,4 @@ WiseTech's CCTV systems include a mobile app for remote viewing from any smartph
 
 ### Integration with Access Control
 
-For businesses that want a complete physical security solution, WiseTech integrates CCTV with electronic door access control. This allows you to correlate video footage with access events â€” seeing exactly who entered through which door and when â€” and to remotely lock or unlock doors from your smartphone.
+For businesses that want a complete physical security solution, WiseTech integrates CCTV with electronic door access control. This allows you to correlate video footage with access events — seeing exactly who entered through which door and when — and to remotely lock or unlock doors from your smartphone.

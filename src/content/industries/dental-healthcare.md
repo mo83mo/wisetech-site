@@ -1,4 +1,4 @@
-﻿---
+---
 title: "IT Support for Dental & Healthcare"
 metaTitle: "IT Support for Dental Offices Mississauga | WiseTech"
 metaDescription: "PHIPA-compliant managed IT for dental offices and healthcare clinics in Mississauga. Protect patient data and meet regulatory requirements. Call 888-445-9473."
@@ -8,10 +8,10 @@ hero:
   photo: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop&auto=format"
   photoAlt: "Dental office IT support in Mississauga"
 trustBar:
-  - "ðŸ¥ PHIPA Compliant"
-  - "ðŸ¦· Dental Software Experts"
-  - "ðŸ”’ Patient Data Protected"
-  - "âš¡ Minimal Chair-Side Disruption"
+  - "🏥 PHIPA Compliant"
+  - "🦷 Dental Software Experts"
+  - "🔒 Patient Data Protected"
+  - "⚡ Minimal Chair-Side Disruption"
 features:
   - name: "PHIPA Compliance Support"
     description: "IT policies, access controls, and documentation that meet Ontario's Personal Health Information Protection Act requirements."
@@ -20,11 +20,11 @@ features:
   - name: "Encrypted Patient Data Storage"
     description: "Patient records, X-rays, and clinical notes stored with encryption at rest and in transit."
   - name: "Secure Workstation Management"
-    description: "Locked-down workstations at reception, hygienist stations, and treatment rooms â€” each with appropriate access controls."
+    description: "Locked-down workstations at reception, hygienist stations, and treatment rooms — each with appropriate access controls."
   - name: "Backup & Disaster Recovery"
     description: "Automated encrypted backups of all patient data with documented recovery procedures and regular test restores."
   - name: "Cyber Insurance Documentation"
-    description: "Security controls and written policies that satisfy cyber insurance underwriters â€” required for most healthcare practices."
+    description: "Security controls and written policies that satisfy cyber insurance underwriters — required for most healthcare practices."
 bodyTitle: "PHIPA Compliance and IT Security for Ontario Dental Offices"
 faqs:
   - question: "What does PHIPA require from a dental office's IT systems?"
@@ -36,12 +36,12 @@ faqs:
   - question: "Do you handle the PHIPA breach notification requirement?"
     answer: "In the event of a breach, WiseTech provides technical support to contain the incident, preserve evidence, and document what data was affected. The legal obligation to notify the Information and Privacy Commissioner and affected patients rests with your practice, but WiseTech's incident response documentation provides the technical foundation you need to fulfil that obligation."
 ctaHeadline: "Protect Your Patients and Your Practice"
-ctaSubtext: "Book a free PHIPA IT assessment for your Mississauga dental office or healthcare clinic â€” no obligation."
+ctaSubtext: "Book a free PHIPA IT assessment for your Mississauga dental office or healthcare clinic — no obligation."
 ---
 
 ## PHIPA Compliance and IT Security for Ontario Dental Offices
 
-Dental offices and healthcare clinics in Ontario are custodians of some of the most sensitive personal information that exists â€” patient health records, clinical notes, diagnostic images, and insurance information. The Personal Health Information Protection Act (PHIPA) sets clear obligations for how this information must be protected, and the consequences of a breach extend well beyond financial loss.
+Dental offices and healthcare clinics in Ontario are custodians of some of the most sensitive personal information that exists — patient health records, clinical notes, diagnostic images, and insurance information. The Personal Health Information Protection Act (PHIPA) sets clear obligations for how this information must be protected, and the consequences of a breach extend well beyond financial loss.
 
 A data breach at a dental office can trigger a mandatory report to the Information and Privacy Commissioner of Ontario, notification to every affected patient, regulatory scrutiny, and significant reputational damage in the community. For a practice that depends on patient trust, the impact can be severe.
 
@@ -53,7 +53,7 @@ WiseTech implements all of these controls and provides the written documentation
 
 ### Dental Software Expertise
 
-Your practice management software is the heart of your clinic's operations. WiseTech's technicians are experienced with the major dental platforms used in the GTA â€” Dentrix, Eaglesoft, ABELDent, and Cleardent â€” and manage server configurations, workstation imaging, software updates, and integrations with digital imaging systems.
+Your practice management software is the heart of your clinic's operations. WiseTech's technicians are experienced with the major dental platforms used in the GTA — Dentrix, Eaglesoft, ABELDent, and Cleardent — and manage server configurations, workstation imaging, software updates, and integrations with digital imaging systems.
 
 When something goes wrong with your software, you need a technician who understands the system, not someone who has to learn it while your chair-side staff wait.
 
