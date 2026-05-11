@@ -1,7 +1,7 @@
 ---
 title: "PHIPA Compliance for Ontario Dental Offices: A Practical IT Guide"
 description: "What Ontario's Personal Health Information Protection Act requires from your dental office's IT systems — and how to meet those requirements without disrupting clinical operations."
-pubDate: 2026-07-05
+pubDate: 2026-04-12
 category: "Industry News"
 author: "WiseTech Team"
 readTime: 8

@@ -1,7 +1,7 @@
 ---
 title: "Ransomware: What It Is and How to Protect Your Mississauga Business"
 description: "A plain-language guide to ransomware for Mississauga small business owners — what it is, how attacks happen, what they cost, and how to protect your business."
-pubDate: 2026-08-02
+pubDate: 2026-03-29
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 7
