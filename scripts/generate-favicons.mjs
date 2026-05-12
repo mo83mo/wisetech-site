@@ -4,7 +4,7 @@ import { mkdirSync } from 'fs';
 
 mkdirSync('public/images', { recursive: true });
 
-const input = 'C:/Users/muham/OneDrive/Desktop/WiseTech IT Logo/Wisetech-logo-Final-White.png';
+const input = 'C:/Users/muham/OneDrive/Desktop/WiseTech IT Logo/New Site/Wisetech-logo-Final-White.png';
 
 // 32x32 PNG
 await sharp(input)
