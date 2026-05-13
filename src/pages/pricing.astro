@@ -79,6 +79,7 @@ const addons = [
   { name: 'VoIP & Unified Communications', price: 'From $15/user/month' },
   { name: 'CCTV Installation & Service', price: 'Project-based quote' },
   { name: 'Cloud Migration', price: 'Project-based quote' },
+  { name: 'Network Installation', price: 'Project-based quote' },
 ];
 
 const pricingFaqs = [
@@ -146,13 +147,209 @@ const pricingFaqs = [
       <!-- Add-ons -->
       <div class="mt-10 bg-white border border-gray-200 rounded-xl p-6">
         <h3 class="font-bold text-slate-900 mb-4">Available Add-Ons</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {addons.map(addon => (
             <div class="bg-slate-50 border border-gray-200 rounded-lg p-4">
               <p class="font-semibold text-slate-900 text-sm">{addon.name}</p>
               <p class="text-slate-500 text-xs mt-1">{addon.price}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="mt-10">
+        <h3 class="text-2xl font-extrabold text-slate-900 mb-2 text-center">Full Plan Comparison</h3>
+        <p class="text-slate-500 text-sm text-center mb-6">See exactly what's included in every tier — side by side.</p>
+        <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white shadow-sm">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left px-5 py-4 font-bold text-slate-700 bg-slate-50 w-1/2">Feature</th>
+                <th class="text-center px-4 py-4 font-bold text-slate-700 bg-slate-50">Essential<br/><span class="text-cyan-500 font-extrabold">$99/user</span></th>
+                <th class="text-center px-4 py-4 font-extrabold text-white bg-navy-900 relative">
+                  <span class="block text-xs font-bold text-cyan-400 uppercase tracking-wider mb-0.5">Most Popular</span>
+                  Professional<br/><span class="text-cyan-400 font-extrabold">$149/user</span>
+                </th>
+                <th class="text-center px-4 py-4 font-bold text-slate-700 bg-slate-50">Advanced<br/><span class="text-cyan-500 font-extrabold">$199/user</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- HELPDESK -->
+              <tr class="bg-slate-50 border-b border-gray-200">
+                <td colspan="4" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">Helpdesk & Support</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Remote Helpdesk</td>
+                <td class="text-center px-4 py-3 text-slate-600">Mon–Fri 8am–6pm</td>
+                <td class="text-center px-4 py-3 font-semibold text-white bg-navy-900/5">24/7</td>
+                <td class="text-center px-4 py-3 font-semibold text-slate-900">24/7 Priority</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Response SLA (Critical)</td>
+                <td class="text-center px-4 py-3 text-slate-600">Same day</td>
+                <td class="text-center px-4 py-3 text-slate-700 bg-navy-900/5">2 hours</td>
+                <td class="text-center px-4 py-3 font-semibold text-slate-900">1 hour</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">On-Site Support</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-700 bg-navy-900/5">2 visits/month</td>
+                <td class="text-center px-4 py-3 font-semibold text-slate-900">Unlimited</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Dedicated Account Manager</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+
+              <!-- MONITORING & MAINTENANCE -->
+              <tr class="bg-slate-50 border-b border-gray-200">
+                <td colspan="4" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">Monitoring & Maintenance</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">24/7 Remote Monitoring</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Patch Management</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Asset & Inventory Management</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Quarterly Business Review</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Monthly Executive Reports</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-400 bg-navy-900/5">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+
+              <!-- SECURITY -->
+              <tr class="bg-slate-50 border-b border-gray-200">
+                <td colspan="4" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">Cybersecurity</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Endpoint Antivirus & Firewall</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Email Security & Spam Filtering</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Advanced EDR (Endpoint Detection)</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Security Awareness Training</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-600 bg-navy-900/5">Quarterly</td>
+                <td class="text-center px-4 py-3 text-slate-900 font-semibold">Quarterly+</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Managed Detection & Response (MDR)</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-400 bg-navy-900/5">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Cyber Insurance Documentation</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-400 bg-navy-900/5">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+
+              <!-- CLOUD & BACKUP -->
+              <tr class="bg-slate-50 border-b border-gray-200">
+                <td colspan="4" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">Cloud & Backup</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Cloud Backup (Daily)</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Disaster Recovery Planning</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">M365 / Google Workspace Admin</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500 bg-navy-900/5">✓</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+
+              <!-- COMPLIANCE & STRATEGY -->
+              <tr class="bg-slate-50 border-b border-gray-200">
+                <td colspan="4" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-400">Compliance & Strategy</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">Compliance Support (PHIPA, PIPEDA)</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-400 bg-navy-900/5">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+              <tr class="border-b border-gray-100 hover:bg-slate-50 transition">
+                <td class="px-5 py-3 text-slate-700">vCIO — IT Strategy & Roadmap</td>
+                <td class="text-center px-4 py-3 text-slate-400">—</td>
+                <td class="text-center px-4 py-3 text-slate-400 bg-navy-900/5">—</td>
+                <td class="text-center px-4 py-3 text-cyan-500">✓</td>
+              </tr>
+
+              <!-- PRICING FOOTER -->
+              <tr class="border-t-2 border-gray-200 bg-white">
+                <td class="px-5 py-5 font-bold text-slate-900">Monthly price (per user)</td>
+                <td class="text-center px-4 py-5">
+                  <div class="text-2xl font-extrabold text-slate-900">$99</div>
+                  <div class="text-xs text-slate-400 mt-0.5">min. 5 users</div>
+                </td>
+                <td class="text-center px-4 py-5 bg-navy-900">
+                  <div class="text-2xl font-extrabold text-white">$149</div>
+                  <div class="text-xs text-slate-400 mt-0.5">min. 5 users</div>
+                </td>
+                <td class="text-center px-4 py-5">
+                  <div class="text-2xl font-extrabold text-slate-900">$199</div>
+                  <div class="text-xs text-slate-400 mt-0.5">min. 5 users</div>
+                </td>
+              </tr>
+              <tr class="bg-white">
+                <td class="px-5 pb-5"></td>
+                <td class="text-center px-4 pb-5">
+                  <a href="/contact" class="inline-block bg-slate-100 text-slate-800 border border-gray-200 hover:bg-cyan-400 hover:text-navy-900 hover:border-cyan-400 font-bold rounded-md px-5 py-2.5 text-sm transition-colors">Get Started</a>
+                </td>
+                <td class="text-center px-4 pb-5 bg-navy-900">
+                  <a href="/contact" class="inline-block bg-cyan-400 text-navy-900 font-bold rounded-md px-5 py-2.5 text-sm hover:bg-cyan-300 transition-colors">Get Started</a>
+                </td>
+                <td class="text-center px-4 pb-5">
+                  <a href="/contact" class="inline-block bg-slate-100 text-slate-800 border border-gray-200 hover:bg-cyan-400 hover:text-navy-900 hover:border-cyan-400 font-bold rounded-md px-5 py-2.5 text-sm transition-colors">Get Started</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
