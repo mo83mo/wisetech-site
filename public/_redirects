@@ -1,43 +1,6 @@
 # WiseTech URL Redirects — Cloudflare Pages
-# Format: /source  /destination  status
-
-# -----------------------------------------------
-# TRAILING SLASH FIXES (most common 404 cause)
-# -----------------------------------------------
-/about/                                             /about                              301
-/pricing/                                           /pricing                            301
-/contact/                                           /contact                            301
-/blog/                                              /blog                               301
-/services/                                          /services                           301
-/industries/                                        /industries                         301
-/free-assessment/                                   /free-assessment                    301
-/signin/                                            /signin                             301
-/privacy/                                           /privacy                            301
-/terms/                                             /terms                              301
-
-# Service pages with trailing slash
-/services/managed-it/                               /services/managed-it                301
-/services/cybersecurity/                            /services/cybersecurity             301
-/services/backup-disaster-recovery/                 /services/backup-disaster-recovery  301
-/services/cloud-solutions/                          /services/cloud-solutions           301
-/services/network-infrastructure/                   /services/network-infrastructure    301
-/services/it-consulting/                            /services/it-consulting             301
-/services/voip-communications/                      /services/voip-communications       301
-/services/cctv-surveillance/                        /services/cctv-surveillance         301
-
-# Industry pages with trailing slash
-/industries/law-firms/                              /industries/law-firms               301
-/industries/dental-healthcare/                      /industries/dental-healthcare        301
-/industries/accounting-finance/                     /industries/accounting-finance       301
-/industries/real-estate/                            /industries/real-estate             301
-/industries/manufacturing/                          /industries/manufacturing           301
-/industries/hospitality/                            /industries/hospitality             301
-/industries/retail-ecommerce/                       /industries/retail-ecommerce        301
-/industries/education/                              /industries/education               301
-
-# -----------------------------------------------
-# OLD WIX URL REDIRECTS
-# -----------------------------------------------
+# Old Wix URLs → New site URLs
+# Cloudflare Pages handles trailing slashes automatically — do NOT add trailing slash rules here
 
 # Old "Who We Are" page
 /who-we-are                                         /about                              301
@@ -53,6 +16,7 @@
 /who-we-serve/healthcare                            /industries/dental-healthcare        301
 /who-we-serve/healthcare/                           /industries/dental-healthcare        301
 /who-we-serve/dental-and-healthcare                 /industries/dental-healthcare        301
+/who-we-serve/dental-and-healthcare/                /industries/dental-healthcare        301
 /who-we-serve/finance-and-banking                   /industries/accounting-finance       301
 /who-we-serve/finance-and-banking/                  /industries/accounting-finance       301
 /who-we-serve/real-estate-and-property-management  /industries/real-estate              301
@@ -86,7 +50,7 @@
 /services/cctv-and-surveillance                     /services/cctv-surveillance         301
 /services/cctv-and-surveillance/                    /services/cctv-surveillance         301
 
-# Other common old URLs
+# Other old URLs
 /contact-us                                         /contact                            301
 /contact-us/                                        /contact                            301
 /get-in-touch                                       /contact                            301
