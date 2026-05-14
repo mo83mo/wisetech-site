@@ -18,6 +18,21 @@ const {
   additionalSchema,
 } = Astro.props;
 
+const sitelinksSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WiseTech",
+  "url": "https://wisetech.ca",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://wisetech.ca/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -73,6 +88,9 @@ const localBusinessSchema = {
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-180.png" />
+
+  <!-- WebSite + Sitelinks Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(sitelinksSchema)} />
 
   <!-- LocalBusiness Schema -->
   <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
