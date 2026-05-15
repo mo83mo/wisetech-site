@@ -155,9 +155,36 @@ const sections = [
         <div id="score-bar-wrap" class="w-full bg-navy-800 rounded-full h-3 mb-4 overflow-hidden">
           <div id="score-bar" class="bg-cyan-400 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
         </div>
-        <p id="score-message" class="text-slate-400 text-sm mb-6">
+        <p id="score-message" class="text-slate-400 text-sm mb-4">
           Complete the checklist above to see your score.
         </p>
+
+        <!-- Email capture — shown after 3+ items checked -->
+        <div id="email-capture" class="hidden w-full max-w-sm mx-auto mb-6">
+          <p class="text-slate-300 text-sm mb-3 font-semibold">📧 Get your full results report by email</p>
+          <form id="capture-form" action="https://formspree.io/f/mgoddvyy" method="POST" class="flex flex-col gap-2">
+            <input type="hidden" name="_subject" value="WiseTech Free IT Assessment Results Request" />
+            <input type="hidden" name="source" value="Free Assessment Checklist" />
+            <input id="capture-score" type="hidden" name="assessment_score" value="" />
+            <div class="flex gap-2">
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="your@email.com"
+                class="flex-1 bg-navy-800 border border-navy-700 text-white placeholder-slate-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+              />
+              <button type="submit" class="bg-cyan-400 text-navy-900 font-bold rounded-lg px-4 py-2.5 text-sm hover:bg-cyan-300 transition whitespace-nowrap">
+                Send Report
+              </button>
+            </div>
+            <p class="text-slate-500 text-xs">No spam. We'll email your score and top recommendations.</p>
+          </form>
+          <div id="capture-success" class="hidden mt-2 text-cyan-400 text-sm font-semibold">
+            ✓ Check your inbox — your results report is on its way!
+          </div>
+        </div>
+
         <a href="/contact" class="btn-primary text-base px-8">
           Book Your Free Professional Assessment →
         </a>
@@ -191,6 +218,7 @@ const sections = [
     const bar = document.getElementById('score-bar');
     const msg = document.getElementById('score-message');
     if (totalEl) totalEl.textContent = String(total);
+    updateEmailCapture(total);
     if (bar) bar.style.width = `${Math.round((total / totalItems) * 100)}%`;
     if (msg) {
       const pct = total / totalItems;
@@ -216,5 +244,43 @@ const sections = [
   // Attach listeners to every checkbox — this replaces the broken inline onchange
   checkboxes.forEach(cb => {
     cb.addEventListener('change', () => updateScore(cb));
+  });
+
+  // Show email capture after 3+ items checked
+  function updateEmailCapture(total: number) {
+    const capture = document.getElementById('email-capture');
+    const scoreInput = document.getElementById('capture-score') as HTMLInputElement | null;
+    if (capture) {
+      if (total >= 3) {
+        capture.classList.remove('hidden');
+      } else {
+        capture.classList.add('hidden');
+      }
+    }
+    if (scoreInput) {
+      scoreInput.value = `${total} / ${totalItems}`;
+    }
+  }
+
+  // Handle email capture form submission
+  const captureForm = document.getElementById('capture-form');
+  const captureSuccess = document.getElementById('capture-success');
+  captureForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.classList.add('hidden');
+        captureSuccess?.classList.remove('hidden');
+      }
+    } catch {
+      // silently fail — don't block the user experience
+    }
   });
 </script>
