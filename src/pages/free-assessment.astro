@@ -162,9 +162,7 @@ const sections = [
         <!-- Email capture — shown after 3+ items checked -->
         <div id="email-capture" class="hidden w-full max-w-sm mx-auto mb-6">
           <p class="text-slate-300 text-sm mb-3 font-semibold">📧 Get your full results report by email</p>
-          <form id="capture-form" action="https://formspree.io/f/mgoddvyy" method="POST" class="flex flex-col gap-2">
-            <input type="hidden" name="_subject" value="WiseTech Free IT Assessment Results Request" />
-            <input type="hidden" name="source" value="Free Assessment Checklist" />
+          <form id="capture-form" action="/api/send-assessment" method="POST" class="flex flex-col gap-2">
             <input id="capture-score" type="hidden" name="assessment_score" value="" />
             <div class="flex gap-2">
               <input
