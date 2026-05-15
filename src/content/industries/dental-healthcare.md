@@ -45,6 +45,14 @@ Dental offices and healthcare clinics in Ontario are custodians of some of the m
 
 A data breach at a dental office can trigger a mandatory report to the Information and Privacy Commissioner of Ontario, notification to every affected patient, regulatory scrutiny, and significant reputational damage in the community. For a practice that depends on patient trust, the impact can be severe.
 
+## The Numbers Ontario Dental Offices Need to Know
+
+- **PHIPA** (Personal Health Information Protection Act) applies to every dental office in Ontario regardless of size
+- **$4.24 million** — average total cost of a healthcare data breach in Canada
+- **60%** of small healthcare practices that suffer a major data breach close within 12 months
+- Dental offices are legally required to notify the Information and Privacy Commissioner of Ontario and affected patients within a reasonable time following a breach
+- **43%** of all cyberattacks target small businesses — dental offices are a prime target due to the sensitivity of patient health data
+
 ### What PHIPA Requires from Your IT Systems
 
 PHIPA requires health information custodians to implement reasonable technical, administrative, and physical safeguards to protect personal health information. On the IT side, this translates to encrypted storage of all patient data, strict access controls limiting who can view records, audit logging that tracks who accessed what information and when, encrypted transmission of patient data over networks, and a documented plan for responding to security incidents.

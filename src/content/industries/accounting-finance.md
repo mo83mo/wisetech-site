@@ -45,6 +45,14 @@ Accounting and financial advisory practices handle some of the most sensitive da
 
 A security incident at an accounting firm does not just create financial and regulatory exposure — it destroys the client trust that the practice is built on. Clients who have shared their complete financial picture with you need absolute confidence that information is protected.
 
+## The Numbers Accounting Firms in Ontario Need to Know
+
+- **$4.24 million** — average cost of a data breach in Canada (IBM Security)
+- Business email compromise (BEC) cost Canadian businesses over **$35 million** in losses in a single recent year
+- Accounting firms are subject to **PIPEDA** federal privacy law and CPA Canada's information management guidance
+- **1 in 3** tax-related fraud cases involves stolen client data from a compromised accounting system
+- CRA (Canada Revenue Agency) data and Social Insurance Numbers are among the most valuable targets for identity thieves — making your client files high-value targets
+
 ### The Threat Landscape for Financial Professionals
 
 Accounting firms face two primary cyber threats that are distinct from most other industries.

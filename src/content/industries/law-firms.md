@@ -45,6 +45,14 @@ A law firm is not like other small businesses. The data you hold — client comm
 
 Most generalist IT companies do not understand these stakes. WiseTech works with legal practices in Mississauga and the GTA and understands the specific obligations and risks that lawyers and paralegals face.
 
+## The Numbers Law Firms in Ontario Need to Know
+
+- **$4.24 million** — average cost of a data breach in Canada (IBM Cost of a Data Breach Report)
+- **67%** of law firm cyberattacks start with a phishing email targeting staff
+- **Rule 3.3** of the Law Society of Ontario Rules of Professional Conduct requires lawyers to protect client confidentiality — including electronically stored information
+- **30 days** — PIPEDA mandatory breach notification deadline once a breach is identified
+- Legal sector ransomware attacks increased by **over 300%** in the past three years across North America
+
 ### The Legal Profession's IT Security Obligations
 
 The Law Society of Ontario's Rules of Professional Conduct require lawyers to maintain the confidentiality of client information and to take reasonable steps to protect it from unauthorised disclosure. In practice, this means implementing appropriate technical safeguards — encrypted email communications, access-controlled file storage, documented security policies, and a breach response plan.
