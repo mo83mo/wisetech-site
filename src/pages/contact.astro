@@ -1,9 +1,5 @@
 ---
 // src/pages/contact.astro
-// IMPORTANT: Replace FORMSPREE_ID with your actual Formspree form ID after creating
-// a free account at formspree.io. The ID looks like 'xpzgkdqr'.
-const FORMSPREE_ID = 'mgoddvyy';
-
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 
@@ -48,7 +44,7 @@ const businessHours = [
           <h2 class="text-2xl font-extrabold text-slate-900 mb-6">Send Us a Message</h2>
 
           <form
-            action={`https://formspree.io/f/${FORMSPREE_ID}`}
+            action="/api/send-contact"
             method="POST"
             id="contact-form"
             class="flex flex-col gap-5"
@@ -259,8 +255,48 @@ const businessHours = [
 </PageLayout>
 
 <script>
-  if (window.location.search.includes('success')) {
-    const successEl = document.getElementById('form-success');
-    if (successEl) successEl.classList.remove('hidden');
-  }
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const successMsg = document.getElementById('form-success');
+  const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+
+  // Handle async form submission
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !submitBtn) return;
+
+    const originalText = submitBtn.textContent || 'Send Message';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      const formData = new FormData(form);
+      const data: Record<string, string> = {};
+      formData.forEach((value, key) => { data[key] = value.toString(); });
+
+      const response = await fetch('/api/send-contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json() as { success: boolean; error?: string };
+
+      if (result.success) {
+        form.reset();
+        form.classList.add('hidden');
+        if (successMsg) {
+          successMsg.classList.remove('hidden');
+          successMsg.innerHTML = '<p class="text-green-800 font-semibold">✓ Message sent! Check your inbox — we\'ve sent you a confirmation. We\'ll be in touch within one business hour.</p>';
+        }
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        alert(result.error || 'Something went wrong. Please try again or call 888-445-9473.');
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Connection error. Please try again or call 888-445-9473.');
+    }
+  });
 </script>
