@@ -72,3 +72,11 @@ If you discover or suspect a breach of patient health information, the steps are
 WiseTech works with dental offices across Mississauga to implement PHIPA-compliant IT systems, conduct privacy risk assessments, and document the controls that regulators and cyber insurers require.
 
 [Book a free PHIPA IT assessment →](/contact)
+
+---
+
+## Related Posts
+
+- [The Cybersecurity Checklist Every Mississauga Small Business Needs](/blog/cybersecurity-checklist-mississauga-small-businesses/)
+- [Ransomware: What It Is and How to Protect Your Mississauga Business](/blog/ransomware-protect-mississauga-business/)
+- [Backup and Disaster Recovery: What Every Mississauga Small Business Needs to Know](/blog/backup-disaster-recovery-small-business/)
