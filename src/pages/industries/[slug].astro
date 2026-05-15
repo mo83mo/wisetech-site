@@ -18,11 +18,37 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await entry.render();
 const { data } = entry;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://wisetech.ca"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Industries",
+      "item": "https://wisetech.ca/industries"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": data.title,
+      "item": `https://wisetech.ca/industries/${entry.slug}`
+    }
+  ]
+};
 ---
 
 <PageLayout
   title={data.metaTitle}
   description={data.metaDescription}
+  additionalSchema={breadcrumbSchema}
 >
 
   <Hero

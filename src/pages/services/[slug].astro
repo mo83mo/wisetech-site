@@ -44,12 +44,40 @@ const serviceSchema = {
     { "@type": "City", "name": "Oakville" }
   ]
 };
+
+const combinedSchema = [
+  serviceSchema,
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://wisetech.ca"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://wisetech.ca/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": data.title,
+        "item": `https://wisetech.ca/services/${entry.slug}`
+      }
+    ]
+  }
+];
 ---
 
 <PageLayout
   title={data.metaTitle}
   description={data.metaDescription}
-  additionalSchema={serviceSchema}
+  additionalSchema={combinedSchema}
 >
 
   <Hero
