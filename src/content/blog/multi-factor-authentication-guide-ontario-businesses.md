@@ -1,7 +1,7 @@
 ---
 title: "Multi-Factor Authentication (MFA): A Complete Guide for Ontario Small Businesses"
 description: "Learn what multi-factor authentication is, why it blocks 99.9% of account attacks, and exactly how to enable it on Microsoft 365 and Google Workspace for your Ontario business."
-pubDate: 2026-05-08
+pubDate: 2026-05-15
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
