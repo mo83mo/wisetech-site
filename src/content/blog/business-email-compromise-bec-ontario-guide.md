@@ -5,7 +5,7 @@ pubDate: 2026-05-16
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1596526131083-e8c633064a05?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&h=630&fit=crop&auto=format"
 ---
 
 Imagine receiving an email from your CEO asking you to urgently wire $47,000 to a new supplier. The email address looks right, the tone sounds like them, and they mention a project you're actively working on. You process the transfer — and then find out your CEO never sent that message. By the time you realise what happened, the money is gone.
