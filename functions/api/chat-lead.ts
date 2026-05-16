@@ -30,8 +30,14 @@ function firstName(name: string): string {
   return name.trim().split(/\s+/)[0] ?? name;
 }
 
+function cleanTranscript(raw: string): string {
+  // Strip [LEAD:{...}] markers that the AI embeds — they should never appear in emails
+  return raw.replace(/\[LEAD:\{[^}]*\}\]/g, '').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 function buildLeadEmail(lead: LeadBody): string {
-  const transcriptHtml = lead.transcript
+  const cleanedTranscript = cleanTranscript(lead.transcript);
+  const transcriptHtml = cleanedTranscript
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
@@ -98,7 +104,7 @@ function buildLeadEmail(lead: LeadBody): string {
 }
 
 function buildTranscriptEmail(lead: LeadBody, date: string): string {
-  const transcriptHtml = lead.transcript
+  const transcriptHtml = cleanTranscript(lead.transcript)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
