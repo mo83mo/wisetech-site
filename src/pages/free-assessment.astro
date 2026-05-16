@@ -269,12 +269,41 @@ const sections = [
     }
   }
 
+  // Serialise full checklist state into JSON for the email report
+  function serializeChecklist(): string {
+    const result: Array<{ title: string; icon: string; checked: string[]; unchecked: string[] }> = [];
+    document.querySelectorAll<HTMLElement>('[id^="score-"]').forEach((_scoreEl, sIdx) => {
+      // Section header is the .bg-slate-50 sibling of the score badge's parent
+      const card = document.querySelectorAll<HTMLElement>('.border.border-gray-200.rounded-2xl')[sIdx];
+      const title = card?.querySelector<HTMLElement>('h2')?.textContent?.trim() ?? '';
+      const icon  = card?.querySelector<HTMLElement>('span.text-2xl')?.textContent?.trim() ?? '';
+      const cbs   = document.querySelectorAll<HTMLInputElement>(`input[data-section="${sIdx}"]`);
+      const checked: string[]   = [];
+      const unchecked: string[] = [];
+      cbs.forEach(cb => {
+        const text = cb.closest('label')?.querySelector('span')?.textContent?.trim() ?? '';
+        if (text) (cb.checked ? checked : unchecked).push(text);
+      });
+      result.push({ title, icon, checked, unchecked });
+    });
+    return JSON.stringify(result);
+  }
+
   // Handle email capture form submission
   const captureForm = document.getElementById('capture-form');
   const captureSuccess = document.getElementById('capture-success');
   captureForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
+
+    // Remove any previous checklist_data input, then add a fresh one
+    form.querySelector('input[name="checklist_data"]')?.remove();
+    const checklistInput = document.createElement('input');
+    checklistInput.type = 'hidden';
+    checklistInput.name = 'checklist_data';
+    checklistInput.value = serializeChecklist();
+    form.appendChild(checklistInput);
+
     const data = new FormData(form);
     try {
       const res = await fetch(form.action, {
