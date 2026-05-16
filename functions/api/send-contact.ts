@@ -25,20 +25,21 @@ function isSpam(fields: string[]): boolean {
   return false;
 }
 
-export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (context) => {
+export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SECRET_KEY: string }> = async (context) => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': 'https://wisetech.ca',
     'Content-Type': 'application/json',
   };
 
   const apiKey = context.env.RESEND_API_KEY;
+  const turnstileSecret = context.env.TURNSTILE_SECRET_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ success: false, error: 'Server configuration error' }), {
       status: 500, headers: corsHeaders,
     });
   }
 
-  let name = '', company = '', email = '', phone = '', service = '', message = '', honeypot = '';
+  let name = '', company = '', email = '', phone = '', service = '', message = '', honeypot = '', turnstileToken = '';
 
   try {
     const contentType = context.request.headers.get('Content-Type') || '';
@@ -51,6 +52,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
       service = body.service || '';
       message = body.message || '';
       honeypot = body.website || body._gotcha || '';
+      turnstileToken = body['cf-turnstile-response'] || '';
     } else {
       const formData = await context.request.formData();
       name = formData.get('name') as string || '';
@@ -60,6 +62,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
       service = formData.get('service') as string || '';
       message = formData.get('message') as string || '';
       honeypot = (formData.get('website') as string) || (formData.get('_gotcha') as string) || '';
+      turnstileToken = formData.get('cf-turnstile-response') as string || '';
     }
   } catch {
     return new Response(JSON.stringify({ success: false, error: 'Invalid request body' }), {
@@ -81,6 +84,35 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
   // Spam content check — silently drop, return 200 so bots don't retry
   if (isSpam([name, company, email, message])) {
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
+  }
+
+  // Cloudflare Turnstile verification
+  if (turnstileSecret) {
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ success: false, error: 'Please complete the security check.' }), {
+        status: 400, headers: corsHeaders,
+      });
+    }
+    try {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: turnstileSecret,
+          response: turnstileToken,
+          remoteip: context.request.headers.get('CF-Connecting-IP') || '',
+        }),
+      });
+      const verifyData = await verifyRes.json() as { success: boolean };
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ success: false, error: 'Security check failed. Please refresh and try again.' }), {
+          status: 400, headers: corsHeaders,
+        });
+      }
+    } catch {
+      // If Turnstile verification itself errors, allow the submission through
+      // (better to receive a spam occasionally than block real users)
+    }
   }
 
   // Notification email to owner (Info@wisetech.ca)

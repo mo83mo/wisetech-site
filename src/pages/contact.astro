@@ -127,6 +127,13 @@ const businessHours = [
             <!-- Honeypot anti-spam — hidden from real users, bots fill it in -->
             <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
+            <!-- Cloudflare Turnstile CAPTCHA -->
+            <div
+              class="cf-turnstile"
+              data-sitekey="0x4AAAAAADQm4rqIkwSB3i1I"
+              data-theme="light"
+            ></div>
+
             <div>
               <button
                 type="submit"
@@ -253,6 +260,9 @@ const businessHours = [
   </section>
 
 </PageLayout>
+
+<!-- Cloudflare Turnstile script — must load after DOM -->
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
