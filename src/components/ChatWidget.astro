@@ -191,6 +191,10 @@
     if (inUl) out += '</ul>';
     if (inOl) out += '</ol>';
 
+    // Markdown links [text](url)
+    out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">$1</a>');
+    // Bare URLs (not already inside an href)
+    out = out.replace(/(?<!href="|">)(https?:\/\/[^\s<"]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">$1</a>');
     // Bold **text** and __text__
     out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     out = out.replace(/__(.+?)__/g, '<strong>$1</strong>');
@@ -222,6 +226,46 @@
       bubble.style.color = '#0f172a';
       bubble.textContent = content; // user messages stay as plain text
     } else {
+      // Check for LEAD marker
+      var leadMatch = content.match(/\[LEAD:(\{[^}]+\})\]/);
+      if (leadMatch) {
+        content = content.replace(/\[LEAD:[^\]]+\]/, '').trim();
+        try {
+          var leadData = JSON.parse(leadMatch[1]);
+          // Build plain text transcript
+          var transcript = history.map(function(m) {
+            return (m.role === 'user' ? 'Visitor: ' : 'WiseTech AI: ') + m.content;
+          }).join('\n\n');
+          // POST to /api/chat-lead
+          fetch('/api/chat-lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: leadData.name || '',
+              email: leadData.email || '',
+              phone: leadData.phone || '',
+              company: leadData.company || '',
+              summary: leadData.summary || '',
+              transcript: transcript
+            })
+          }).catch(function() {}); // silent fail — don't block UX
+        } catch(e) {}
+      }
+
+      // Check for OPTIONS marker
+      var optionsMatch = content.match(/\[OPTIONS:\s*([^\]]+)\]/);
+      var optionsList = [];
+      if (optionsMatch) {
+        content = content.replace(/\[OPTIONS:[^\]]+\]/, '').trim();
+        // Parse quoted options: "Option 1","Option 2"
+        var optStr = optionsMatch[1];
+        var optRe = /"([^"]+)"/g;
+        var optM;
+        while ((optM = optRe.exec(optStr)) !== null) {
+          optionsList.push(optM[1]);
+        }
+      }
+
       bubble.style.background = '#fff';
       bubble.style.color = '#334155';
       bubble.style.border = '1px solid #e2e8f0';
@@ -229,6 +273,28 @@
     }
 
     wrapper.appendChild(bubble);
+
+    if (role === 'assistant' && optionsList && optionsList.length > 0) {
+      var btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;max-width:85%;';
+      optionsList.forEach(function(opt) {
+        var btn = document.createElement('button');
+        btn.textContent = opt;
+        btn.style.cssText = 'background:#fff;border:1.5px solid #22d3ee;color:#0f172a;border-radius:1rem;padding:5px 12px;font-size:0.78rem;cursor:pointer;transition:background 0.15s;white-space:nowrap;';
+        btn.onmouseenter = function() { btn.style.background='#22d3ee'; };
+        btn.onmouseleave = function() { btn.style.background='#fff'; };
+        btn.addEventListener('click', function() {
+          // Remove all option buttons after one is clicked
+          btnRow.remove();
+          // Send as if user typed it
+          inputEl.value = opt;
+          sendMessage();
+        });
+        btnRow.appendChild(btn);
+      });
+      wrapper.appendChild(btnRow);
+    }
+
     messagesEl.appendChild(wrapper);
     scrollToBottom();
   }
