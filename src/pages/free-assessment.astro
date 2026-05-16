@@ -176,6 +176,12 @@ const sections = [
                 Send Report
               </button>
             </div>
+            <!-- Cloudflare Turnstile — dark theme to match navy background -->
+            <div
+              class="cf-turnstile mt-1"
+              data-sitekey="0x4AAAAAADQm4rqIkwSB3i1I"
+              data-theme="dark"
+            ></div>
             <p class="text-slate-500 text-xs">No spam. We'll email your score and top recommendations.</p>
           </form>
           <div id="capture-success" class="hidden mt-2 text-cyan-400 text-sm font-semibold">
@@ -198,6 +204,9 @@ const sections = [
   />
 
 </PageLayout>
+
+<!-- Cloudflare Turnstile script -->
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
   const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-section]');

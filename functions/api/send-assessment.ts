@@ -2,13 +2,14 @@
 // Handles assessment email capture form submissions
 // Sends visitor their results + notifies Info@wisetech.ca of the lead
 
-export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (context) => {
+export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SECRET_KEY: string }> = async (context) => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': 'https://wisetech.ca',
     'Content-Type': 'application/json',
   };
 
   const apiKey = context.env.RESEND_API_KEY;
+  const turnstileSecret = context.env.TURNSTILE_SECRET_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ success: false, error: 'Server configuration error' }), {
       status: 500, headers: corsHeaders,
@@ -17,17 +18,20 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
 
   let email = '';
   let score = '';
+  let turnstileToken = '';
 
   try {
     const contentType = context.request.headers.get('Content-Type') || '';
     if (contentType.includes('application/json')) {
-      const body = await context.request.json() as { email?: string; assessment_score?: string };
+      const body = await context.request.json() as { email?: string; assessment_score?: string; 'cf-turnstile-response'?: string };
       email = body.email || '';
       score = body.assessment_score || '';
+      turnstileToken = body['cf-turnstile-response'] || '';
     } else {
       const formData = await context.request.formData();
       email = formData.get('email') as string || '';
       score = formData.get('assessment_score') as string || '';
+      turnstileToken = formData.get('cf-turnstile-response') as string || '';
     }
   } catch {
     return new Response(JSON.stringify({ success: false, error: 'Invalid request body' }), {
@@ -39,6 +43,34 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
     return new Response(JSON.stringify({ success: false, error: 'Valid email is required' }), {
       status: 400, headers: corsHeaders,
     });
+  }
+
+  // Cloudflare Turnstile verification
+  if (turnstileSecret) {
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ success: false, error: 'Please complete the security check.' }), {
+        status: 400, headers: corsHeaders,
+      });
+    }
+    try {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: turnstileSecret,
+          response: turnstileToken,
+          remoteip: context.request.headers.get('CF-Connecting-IP') || '',
+        }),
+      });
+      const verifyData = await verifyRes.json() as { success: boolean };
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ success: false, error: 'Security check failed. Please refresh and try again.' }), {
+          status: 400, headers: corsHeaders,
+        });
+      }
+    } catch {
+      // If Turnstile API itself errors, allow through to avoid blocking real users
+    }
   }
 
   const scoreDisplay = score || 'Not provided';
