@@ -8,7 +8,7 @@
 <!-- Assessment Popup -->
 <div
   id="assessment-popup"
-  class="hidden fixed bottom-6 right-6 z-50 max-w-sm w-full"
+  class="hidden fixed bottom-6 left-6 z-50 max-w-sm w-full"
   role="dialog"
   aria-label="Free IT Assessment offer"
 >
@@ -80,9 +80,11 @@
 
   function showPopup() {
     if (!popup) return;
+    // Mark as shown immediately so navigating away won't trigger it again
+    sessionStorage.setItem(STORAGE_KEY, '1');
     popup.classList.remove('hidden');
-    // Animate in from the right
-    popup.style.transform = 'translateX(120%)';
+    // Animate in from the left
+    popup.style.transform = 'translateX(-120%)';
     popup.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -93,7 +95,7 @@
 
   function hidePopup() {
     if (!popup) return;
-    popup.style.transform = 'translateX(120%)';
+    popup.style.transform = 'translateX(-120%)';
     setTimeout(() => popup.classList.add('hidden'), 400);
   }
 
