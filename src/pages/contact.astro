@@ -124,8 +124,8 @@ const businessHours = [
               ></textarea>
             </div>
 
-            <!-- Honeypot anti-spam -->
-            <input type="text" name="_gotcha" class="hidden" />
+            <!-- Honeypot anti-spam — hidden from real users, bots fill it in -->
+            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
             <div>
               <button

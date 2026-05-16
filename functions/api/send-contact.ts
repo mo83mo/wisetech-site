@@ -2,6 +2,29 @@
 // Handles contact form submissions
 // Sends notification to Info@wisetech.ca and confirmation to the visitor
 
+// --- Spam detection helpers ---
+const CYRILLIC = /[Ѐ-ӿ]/;
+const URL_PATTERN = /https?:\/\/[^\s]+|\.onion\b|\.ru\b|\.at\b[^a-z]/gi;
+const SPAM_KEYWORDS = [
+  'blacksprut', 'blsp', 'bs2best', 'bs2web', 'marketplace',
+  'марихуан', 'наркот', 'кокаин', 'героин', 'грибов',
+  'casino', 'viagra', 'cialis', 'crypto', 'bitcoin investment',
+  'xrumer', 'seo promotion', 'backlinks',
+];
+
+function isSpam(fields: string[]): boolean {
+  const combined = fields.join(' ').toLowerCase();
+  // Cyrillic text in any field
+  if (CYRILLIC.test(combined)) return true;
+  // More than one URL in message
+  const urls = combined.match(URL_PATTERN) || [];
+  if (urls.length > 1) return true;
+  // Known spam keywords
+  if (SPAM_KEYWORDS.some(kw => combined.includes(kw))) return true;
+  // Phone number that's suspiciously long (bots often submit 11+ digit numbers with no formatting)
+  return false;
+}
+
 export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (context) => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': 'https://wisetech.ca',
@@ -15,7 +38,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
     });
   }
 
-  let name = '', company = '', email = '', phone = '', service = '', message = '', gotcha = '';
+  let name = '', company = '', email = '', phone = '', service = '', message = '', honeypot = '';
 
   try {
     const contentType = context.request.headers.get('Content-Type') || '';
@@ -27,7 +50,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
       phone = body.phone || '';
       service = body.service || '';
       message = body.message || '';
-      gotcha = body._gotcha || '';
+      honeypot = body.website || body._gotcha || '';
     } else {
       const formData = await context.request.formData();
       name = formData.get('name') as string || '';
@@ -36,7 +59,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
       phone = formData.get('phone') as string || '';
       service = formData.get('service') as string || '';
       message = formData.get('message') as string || '';
-      gotcha = formData.get('_gotcha') as string || '';
+      honeypot = (formData.get('website') as string) || (formData.get('_gotcha') as string) || '';
     }
   } catch {
     return new Response(JSON.stringify({ success: false, error: 'Invalid request body' }), {
@@ -44,8 +67,8 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
     });
   }
 
-  // Honeypot check — bots fill this field
-  if (gotcha) {
+  // Honeypot check — bots fill hidden fields
+  if (honeypot) {
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
   }
 
@@ -53,6 +76,11 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string }> = async (c
     return new Response(JSON.stringify({ success: false, error: 'Name, email, and message are required' }), {
       status: 400, headers: corsHeaders,
     });
+  }
+
+  // Spam content check — silently drop, return 200 so bots don't retry
+  if (isSpam([name, company, email, message])) {
+    return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
   }
 
   // Notification email to owner (Info@wisetech.ca)
