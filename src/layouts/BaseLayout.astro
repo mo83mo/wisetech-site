@@ -1,6 +1,7 @@
 ---
 // src/layouts/BaseLayout.astro
 import '../styles/global.css';
+import ChatWidget from '../components/ChatWidget.astro';
 
 interface Props {
   title: string;
@@ -114,5 +115,6 @@ const localBusinessSchema = {
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <slot />
+  <ChatWidget />
 </body>
 </html>
