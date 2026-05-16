@@ -158,6 +158,51 @@
     if (e.key === 'Escape' && isOpen) { closePanel(); }
   });
 
+  // Lightweight markdown → HTML renderer for chat bubbles
+  function renderMarkdown(text) {
+    // Escape HTML entities first
+    var s = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    // Process line by line to handle lists
+    var lines = s.split('\n');
+    var out = '';
+    var inUl = false, inOl = false;
+
+    lines.forEach(function(line) {
+      var ulM = line.match(/^[\-\*•]\s+(.+)/);
+      var olM = line.match(/^(\d+)\.\s+(.+)/);
+      if (ulM) {
+        if (inOl) { out += '</ol>'; inOl = false; }
+        if (!inUl) { out += '<ul style="margin:4px 0 4px 16px;padding:0;">'; inUl = true; }
+        out += '<li style="margin:2px 0;">' + ulM[1] + '</li>';
+      } else if (olM) {
+        if (inUl) { out += '</ul>'; inUl = false; }
+        if (!inOl) { out += '<ol style="margin:4px 0 4px 16px;padding:0;">'; inOl = true; }
+        out += '<li style="margin:2px 0;">' + olM[2] + '</li>';
+      } else {
+        if (inUl) { out += '</ul>'; inUl = false; }
+        if (inOl) { out += '</ol>'; inOl = false; }
+        out += line === '' ? '<br>' : line + '<br>';
+      }
+    });
+    if (inUl) out += '</ul>';
+    if (inOl) out += '</ol>';
+
+    // Bold **text** and __text__
+    out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    out = out.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    // Italic *text* (single, not double)
+    out = out.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+    // Inline code
+    out = out.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:1px 4px;border-radius:3px;font-size:0.8em;">$1</code>');
+    // Strip trailing line breaks
+    out = out.replace(/(<br>\s*)+$/, '');
+    return out;
+  }
+
   function appendMessage(role, content) {
     var wrapper = document.createElement('div');
     wrapper.style.display = 'flex';
@@ -165,23 +210,24 @@
     wrapper.style.alignItems = role === 'user' ? 'flex-end' : 'flex-start';
 
     var bubble = document.createElement('div');
-    bubble.style.maxWidth = '82%';
-    bubble.style.padding = '0.5rem 0.85rem';
+    bubble.style.maxWidth = '85%';
+    bubble.style.padding = '0.55rem 0.9rem';
     bubble.style.borderRadius = role === 'user' ? '1rem 1rem 0.25rem 1rem' : '1rem 1rem 1rem 0.25rem';
-    bubble.style.fontSize = '0.875rem';
-    bubble.style.lineHeight = '1.5';
+    bubble.style.fontSize = '0.85rem';
+    bubble.style.lineHeight = '1.6';
     bubble.style.wordBreak = 'break-word';
 
     if (role === 'user') {
       bubble.style.background = '#22d3ee';
       bubble.style.color = '#0f172a';
+      bubble.textContent = content; // user messages stay as plain text
     } else {
       bubble.style.background = '#fff';
       bubble.style.color = '#334155';
       bubble.style.border = '1px solid #e2e8f0';
+      bubble.innerHTML = renderMarkdown(content); // bot messages render markdown
     }
 
-    bubble.textContent = content;
     wrapper.appendChild(bubble);
     messagesEl.appendChild(wrapper);
     scrollToBottom();
