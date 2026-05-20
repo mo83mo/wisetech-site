@@ -5,7 +5,7 @@ pubDate: 2026-05-19
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=630&fit=crop&auto=format"
 ---
 
 A ransomware attack hits your Mississauga office on a Tuesday morning. Files are encrypted, staff are locked out, and a criminal is demanding $85,000 CAD. You file a claim with your cyber insurer — and two weeks later, you receive a denial letter.
