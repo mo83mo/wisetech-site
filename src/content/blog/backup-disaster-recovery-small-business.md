@@ -1,5 +1,6 @@
 ---
 title: "Backup and Disaster Recovery: What Every Mississauga Small Business Needs to Know"
+metaTitle: "Backup & DR Guide for Mississauga SMBs | WiseTech"
 description: "A practical guide to business backup and disaster recovery for Mississauga SMBs — covering what to back up, how often, where to store it, and how to test that it actually works."
 pubDate: 2026-03-08
 category: "IT Tips"

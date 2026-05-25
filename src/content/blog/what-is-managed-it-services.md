@@ -1,5 +1,6 @@
 ---
 title: "What Is Managed IT Services — And Does Your Business Need It?"
+metaTitle: "What Is Managed IT Services? | WiseTech"
 description: "Learn what managed IT services are, how they differ from break-fix support, and how to know if your Mississauga business is ready to make the switch."
 pubDate: 2026-05-03
 category: "IT Tips"
@@ -80,7 +81,7 @@ Not all managed IT providers are equal. When evaluating providers, ask:
 
 A local Mississauga MSP will be able to provide on-site support faster than a provider based in another city. That matters when an issue can't be resolved remotely.
 
-[Book a free IT assessment with WiseTech →](/contact)
+[Book a free IT assessment with WiseTech →](/contact/)
 
 ---
 

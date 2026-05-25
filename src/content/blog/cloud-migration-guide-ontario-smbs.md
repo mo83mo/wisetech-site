@@ -1,5 +1,6 @@
 ---
 title: "Cloud Migration Guide for Ontario Small Businesses (2026)"
+metaTitle: "Cloud Migration for Ontario SMBs 2026 | WiseTech"
 description: "Everything Mississauga and GTA small businesses need to know about moving to the cloud — what to migrate, how long it takes, what it costs, and how to avoid common mistakes."
 pubDate: 2026-03-22
 category: "Cloud"

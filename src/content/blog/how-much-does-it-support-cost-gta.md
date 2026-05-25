@@ -1,5 +1,6 @@
 ---
 title: "How Much Does IT Support Cost in Toronto and the GTA? (2026 Guide)"
+metaTitle: "IT Support Costs in Toronto & GTA 2026 | WiseTech"
 description: "A transparent breakdown of IT support and managed IT service costs for small businesses in Toronto, Mississauga, and the GTA in 2026."
 pubDate: 2026-04-19
 category: "IT Tips"
@@ -108,7 +109,7 @@ WiseTech publishes transparent, flat-rate pricing with no hidden fees:
 
 Annual billing saves clients two months per year. Minimum five users on all plans.
 
-[See full pricing and compare plans →](/pricing)
+[See full pricing and compare plans →](/pricing/)
 
 ---
 

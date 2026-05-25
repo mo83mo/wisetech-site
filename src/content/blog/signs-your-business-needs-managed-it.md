@@ -1,5 +1,6 @@
 ---
 title: "7 Signs Your Mississauga Business Needs a Managed IT Provider"
+metaTitle: "7 Signs You Need Managed IT in Mississauga | WiseTech"
 description: "Not sure if managed IT services are right for your business? These seven warning signs tell you it is time to stop managing IT yourself."
 pubDate: 2026-04-05
 category: "IT Tips"
@@ -71,7 +72,7 @@ If you recognised your business in three or more of these signs, the next step i
 
 WiseTech offers a free IT assessment for Mississauga and GTA businesses. No obligation. No sales pressure. Just an honest look at your IT so you can make an informed decision.
 
-[Book a free IT assessment with WiseTech →](/contact)
+[Book a free IT assessment with WiseTech →](/contact/)
 
 ---
 

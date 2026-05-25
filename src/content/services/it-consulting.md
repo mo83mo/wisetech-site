@@ -1,6 +1,6 @@
 ---
 title: "IT Consulting & Strategy"
-metaTitle: "IT Consulting Mississauga | WiseTech"
+metaTitle: "IT Consulting & vCIO Services Mississauga | WiseTech"
 metaDescription: "Strategic IT consulting and vCIO services for Mississauga small businesses. Align your technology with your business goals. Call WiseTech: 888-445-9473."
 hero:
   headline: "IT Consulting & Strategy in Mississauga"

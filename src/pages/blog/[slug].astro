@@ -56,7 +56,7 @@ const articleSchema = {
 ---
 
 <PageLayout
-  title={`${data.title} | WiseTech Blog`}
+  title={data.metaTitle ?? `${data.title} | WiseTech Blog`}
   description={data.description}
   ogImage={data.heroImage}
   additionalSchema={articleSchema}
@@ -90,6 +90,8 @@ const articleSchema = {
         <img
           src={data.heroImage}
           alt={data.title}
+          width="1200"
+          height="630"
           class="w-full rounded-t-xl object-cover h-64 md:h-80"
           loading="eager"
         />

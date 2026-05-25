@@ -1,5 +1,6 @@
 ---
 title: "IT Support for Law Firms in Ontario: Compliance, Security, and What to Expect"
+metaTitle: "IT Support for Ontario Law Firms | WiseTech"
 description: "What Ontario law firms need to know about IT compliance, cybersecurity obligations under the Law Society of Ontario, and how to choose the right IT provider for a legal practice."
 pubDate: 2026-03-15
 category: "Industry News"

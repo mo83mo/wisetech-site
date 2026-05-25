@@ -1,6 +1,6 @@
 ---
 title: "CCTV & Surveillance"
-metaTitle: "CCTV Installation Mississauga | WiseTech"
+metaTitle: "CCTV & Security Camera Installation Mississauga | WiseTech"
 metaDescription: "Professional CCTV and security camera installation for Mississauga businesses. Remote monitoring, IP cameras, access control. Call WiseTech: 888-445-9473."
 hero:
   headline: "CCTV & Surveillance in Mississauga"

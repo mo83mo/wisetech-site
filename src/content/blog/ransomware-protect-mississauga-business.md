@@ -1,5 +1,6 @@
 ---
 title: "Ransomware: What It Is and How to Protect Your Mississauga Business"
+metaTitle: "Ransomware Protection for Mississauga Business | WiseTech"
 description: "A plain-language guide to ransomware for Mississauga small business owners — what it is, how attacks happen, what they cost, and how to protect your business."
 pubDate: 2026-03-29
 category: "Cybersecurity"
@@ -84,7 +85,7 @@ The faster you disconnect infected systems, the less damage ransomware can do.
 
 WiseTech helps Mississauga businesses implement the layered defences that prevent ransomware from succeeding — and the backup strategy that makes paying never necessary.
 
-[Talk to WiseTech about ransomware protection →](/contact)
+[Talk to WiseTech about ransomware protection →](/contact/)
 
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "Business Email Compromise: How It Works and How to Stop It"
+metaTitle: "Business Email Compromise Guide Ontario | WiseTech"
 description: "Business email compromise costs Canadian businesses millions each year. Learn how BEC attacks work, why Ontario SMBs are prime targets, and how to protect your business."
 pubDate: 2026-05-16
 category: "Cybersecurity"

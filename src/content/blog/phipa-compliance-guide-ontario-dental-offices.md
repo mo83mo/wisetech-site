@@ -1,5 +1,6 @@
 ---
 title: "PHIPA Compliance for Ontario Dental Offices: A Practical IT Guide"
+metaTitle: "PHIPA Compliance for Ontario Dental Offices | WiseTech"
 description: "What Ontario's Personal Health Information Protection Act requires from your dental office's IT systems — and how to meet those requirements without disrupting clinical operations."
 pubDate: 2026-04-12
 category: "Industry News"
@@ -71,7 +72,7 @@ If you discover or suspect a breach of patient health information, the steps are
 
 WiseTech works with dental offices across Mississauga to implement PHIPA-compliant IT systems, conduct privacy risk assessments, and document the controls that regulators and cyber insurers require.
 
-[Book a free PHIPA IT assessment →](/contact)
+[Book a free PHIPA IT assessment →](/contact/)
 
 ---
 

@@ -19,6 +19,31 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const { data } = entry;
 
+const industryServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": `IT Support for ${data.title.replace('IT Support for ', '')}`,
+  "description": data.metaDescription,
+  "provider": {
+    "@type": ["LocalBusiness", "ProfessionalService"],
+    "name": "WiseTech",
+    "url": "https://wisetech.ca",
+    "telephone": "888-445-9473",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Mississauga",
+      "addressRegion": "ON",
+      "addressCountry": "CA"
+    }
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Mississauga" },
+    { "@type": "City", "name": "Toronto" },
+    { "@type": "City", "name": "Brampton" },
+    { "@type": "City", "name": "Oakville" }
+  ]
+};
+
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -43,12 +68,14 @@ const breadcrumbSchema = {
     }
   ]
 };
+
+const combinedSchema = [industryServiceSchema, breadcrumbSchema];
 ---
 
 <PageLayout
   title={data.metaTitle}
   description={data.metaDescription}
-  additionalSchema={breadcrumbSchema}
+  additionalSchema={combinedSchema}
 >
 
   <Hero

@@ -1,6 +1,6 @@
 ---
 title: "IT Support for Manufacturing"
-metaTitle: "IT Support for Manufacturing Companies Mississauga | WiseTech"
+metaTitle: "IT Support for Manufacturers Mississauga | WiseTech"
 metaDescription: "Managed IT and network security for manufacturing companies in Mississauga. OT/IT convergence, production floor networking, and cybersecurity. Call 888-445-9473."
 hero:
   headline: "IT Support for Manufacturing in Mississauga"

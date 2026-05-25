@@ -1,5 +1,6 @@
 ---
 title: "Microsoft 365 vs Google Workspace: Which Is Right for Your Business?"
+metaTitle: "Microsoft 365 vs Google Workspace for SMBs | WiseTech"
 description: "An honest comparison of Microsoft 365 and Google Workspace for small businesses in Mississauga and the GTA — features, pricing, and how to decide."
 pubDate: 2026-04-26
 category: "Cloud"

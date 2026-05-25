@@ -1,5 +1,6 @@
 ---
 title: "Cyber Insurance for Ontario Small Businesses: The Complete Guide"
+metaTitle: "Cyber Insurance for Ontario SMBs | WiseTech"
 description: "Learn what cyber insurance covers, what Ontario SMBs must do to qualify, why claims get denied, and how to protect your Mississauga business in 2026."
 pubDate: 2026-05-19
 category: "Cybersecurity"
@@ -78,7 +79,7 @@ Cyber insurance is not a substitute for good security — it's a financial backs
 
 The good news: the controls insurers require are the same ones that actually reduce your breach risk. MFA, EDR, tested backups, network segmentation, and documented procedures don't just help you qualify for coverage — they make an attack far less likely, and far less damaging if one occurs.
 
-If you're not sure whether your current IT setup would satisfy a cyber insurer — or if you've never reviewed your policy exclusions closely — it's worth having a conversation before you need to file a claim. [Reach out to the WiseTech team](/contact) for a no-pressure review of your cybersecurity posture and how it aligns with what insurers actually require in 2026.
+If you're not sure whether your current IT setup would satisfy a cyber insurer — or if you've never reviewed your policy exclusions closely — it's worth having a conversation before you need to file a claim. [Reach out to the WiseTech team](/contact/) for a no-pressure review of your cybersecurity posture and how it aligns with what insurers actually require in 2026.
 
 ---
 

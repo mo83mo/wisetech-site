@@ -1,5 +1,6 @@
 ---
 title: "The Cybersecurity Checklist Every Mississauga Small Business Needs in 2026"
+metaTitle: "Cybersecurity Checklist Mississauga 2026 | WiseTech"
 description: "A practical cybersecurity checklist for small businesses in Mississauga and the GTA — covering the essential controls that protect against ransomware, phishing, and data breaches."
 pubDate: 2026-05-10
 category: "Cybersecurity"
@@ -148,7 +149,7 @@ These three controls address the majority of the attack vectors that result in s
 
 If you would like a professional assessment of your business's current cybersecurity posture, WiseTech offers a free IT security assessment for Mississauga and GTA businesses. We will review your current controls, identify your highest-risk gaps, and give you a prioritised action plan — with no obligation to proceed.
 
-[Book your free assessment →](/contact)
+[Book your free assessment →](/contact/)
 
 ---
 

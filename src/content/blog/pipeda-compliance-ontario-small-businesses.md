@@ -1,5 +1,6 @@
 ---
 title: "PIPEDA Compliance for Ontario Small Businesses: What You Need to Know"
+metaTitle: "PIPEDA Compliance Guide for Ontario SMBs | WiseTech"
 description: "A practical guide to PIPEDA compliance for Ontario small businesses — covering breach reporting, the 10 principles, common gaps, and penalties up to $100,000."
 pubDate: 2026-05-22
 category: "Cybersecurity"
@@ -50,7 +51,7 @@ A 2024 breach involving a managed services provider serving Ontario and Quebec a
 
 ---
 
-If you are unsure whether your business meets its PIPEDA obligations, the honest answer is that most Ontario small businesses don't — and most are not aware of the gap until something goes wrong. WiseTech offers a free IT and security assessment for GTA businesses that covers technical controls and policy gaps side by side. [Book your free assessment](/free-assessment) or [contact our team](/contact) to discuss what a practical, affordable privacy framework looks like for your organisation.
+If you are unsure whether your business meets its PIPEDA obligations, the honest answer is that most Ontario small businesses don't — and most are not aware of the gap until something goes wrong. WiseTech offers a free IT and security assessment for GTA businesses that covers technical controls and policy gaps side by side. [Book your free assessment](/free-assessment/) or [contact our team](/contact/) to discuss what a practical, affordable privacy framework looks like for your organisation.
 
 ---
 

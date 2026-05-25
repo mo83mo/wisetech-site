@@ -1,5 +1,6 @@
 ---
 title: "Multi-Factor Authentication (MFA): A Complete Guide for Ontario Small Businesses"
+metaTitle: "MFA Setup Guide for Ontario Businesses | WiseTech"
 description: "Learn what multi-factor authentication is, why it blocks 99.9% of account attacks, and exactly how to enable it on Microsoft 365 and Google Workspace for your Ontario business."
 pubDate: 2026-05-15
 category: "Cybersecurity"
@@ -116,7 +117,7 @@ If your business email, remote access, and cloud applications are not protected 
 
 WiseTech helps Mississauga and GTA businesses configure MFA correctly — including Conditional Access policies, admin account hardening, and staff enrolment guidance — as part of our managed IT service.
 
-[Book a free assessment to review your account security →](/contact)
+[Book a free assessment to review your account security →](/contact/)
 
 ---
 
