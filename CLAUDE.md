@@ -105,17 +105,28 @@ heroImage: "https://images.unsplash.com/photo-XXXXXXXXXX?w=1200&h=630&fit=crop&a
 
 ## Approved Unsplash Hero Images (verified working)
 
-Use these for blog posts — never invent random photo IDs:
+Use these for blog posts — never invent random photo IDs.
+
+**IMPORTANT — no duplicate hero images:** Before picking one, run:
+`grep -h 'heroImage:' src/content/blog/*.md`
+Do NOT use any photo ID that already appears in the results.
+
 - Cybersecurity/lock: `photo-1614064641938-3bbee52942c7`
 - Hacker/threat: `photo-1563986768494-4dee2763ff3f`
 - Laptop/security: `photo-1555949963-ff9fe0c870eb`
 - Network/servers: `photo-1558494949-ef010cbdcc31`
-- Cloud/technology: `photo-1451187580459-43490279c0fa`
+- Cloud/technology (earth): `photo-1451187580459-43490279c0fa`
 - Business/office: `photo-1497366216548-37526070297c`
 - Password/login: `photo-1526374965328-7f61d4dc18c5`
 - Mobile/phone: `photo-1512941937669-90a1b58e7e9c`
 - Backup/data: `photo-1544197150-b99a580bb7a8`
 - Team/meeting: `photo-1552664730-d307ca884978`
+- Code/glasses reflection: `photo-1504639725590-34d0984388bd`
+- Business consulting/laptops: `photo-1454165804606-c3d57bc86b40`
+- IT support/pointing at screen: `photo-1516321318423-f06f85e504b3`
+- Business team celebration: `photo-1600880292203-757bb62b4baf`
+- Analytics dashboard (dark): `photo-1551288049-bebda4e38f71`
+- Digital/data rain abstract: `photo-1568952433726-3896e3881c65`
 
 ---
 

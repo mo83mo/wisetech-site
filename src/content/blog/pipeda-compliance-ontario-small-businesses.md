@@ -6,7 +6,7 @@ pubDate: 2026-05-22
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=630&fit=crop&auto=format"
 ---
 
 Most Ontario small business owners have heard of PIPEDA but assume it only applies to large corporations. That assumption is costing businesses dearly. In 2025, over 680 breach reports submitted to Canada's Office of the Privacy Commissioner came from organisations with fewer than 500 employees. PIPEDA applies to virtually every commercial organisation in Ontario that collects personal information, and when things go wrong, the average total cost to a Canadian small or medium-sized business — including forensics, legal fees, notification, and downtime — reaches approximately $190,000 CAD.
