@@ -23,20 +23,12 @@ const sitelinksSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "WiseTech",
-  "url": "https://wisetech.ca",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://wisetech.ca/?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "url": "https://wisetech.ca"
 };
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "ProfessionalService"],
   "name": "WiseTech",
   "url": "https://wisetech.ca",
   "telephone": "888-445-9473",
@@ -56,7 +48,15 @@ const localBusinessSchema = {
     { "@type": "City", "name": "Brampton" },
     { "@type": "City", "name": "Oakville" }
   ],
-  "priceRange": "$$"
+  "priceRange": "$$",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    }
+  ]
 };
 ---
 
@@ -79,6 +79,7 @@ const localBusinessSchema = {
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="WiseTech" />
+  <meta property="og:locale" content="en_CA" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
