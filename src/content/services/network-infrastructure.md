@@ -5,7 +5,7 @@ metaDescription: "Business network setup, management, and monitoring for Mississ
 hero:
   headline: "Network & Infrastructure in Mississauga"
   subheadline: "Your network is the foundation of your business. WiseTech designs, deploys, and manages reliable, secure network infrastructure for small businesses across Mississauga and the GTA."
-  photo: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Business network infrastructure installation in Mississauga"
 trustBar:
   - "🌐 Reliable Network Design"

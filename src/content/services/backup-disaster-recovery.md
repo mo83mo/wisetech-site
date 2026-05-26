@@ -5,7 +5,7 @@ metaDescription: "Protect your business data with automated backup and disaster 
 hero:
   headline: "Backup & Disaster Recovery in Mississauga"
   subheadline: "60% of small businesses that suffer a major data loss shut down within six months. WiseTech's backup and disaster recovery solutions ensure your Mississauga business can recover from any incident — fast."
-  photo: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Server room backup and disaster recovery infrastructure"
 trustBar:
   - "💾 Automated Daily Backups"

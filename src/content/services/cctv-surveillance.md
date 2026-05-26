@@ -5,7 +5,7 @@ metaDescription: "Professional CCTV and security camera installation for Mississ
 hero:
   headline: "CCTV & Surveillance in Mississauga"
   subheadline: "Protect your Mississauga business with a professionally installed CCTV and surveillance system. WiseTech designs, installs, and supports custom camera solutions for offices, retail spaces, and commercial properties."
-  photo: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "CCTV security camera installation for Mississauga business"
 trustBar:
   - "📷 IP Camera Systems"

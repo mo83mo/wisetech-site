@@ -6,7 +6,7 @@ pubDate: 2026-03-22
 category: "Cloud"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 "Moving to the cloud" has become standard advice for small businesses — but what does it actually mean, what is involved, and is it right for your Mississauga business right now?

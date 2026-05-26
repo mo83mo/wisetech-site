@@ -5,7 +5,7 @@ metaDescription: "WiseTech provides fully managed IT services for small business
 hero:
   headline: "Managed IT Services in Mississauga"
   subheadline: "Stop reacting to IT problems and start preventing them. WiseTech's managed IT services keep your Mississauga business running smoothly with proactive monitoring, unlimited helpdesk support, and flat monthly pricing."
-  photo: "https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "IT support technician helping a small business in Mississauga"
 trustBar:
   - "⚡ Unlimited Helpdesk Support"

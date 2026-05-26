@@ -5,7 +5,7 @@ metaDescription: "Managed IT for hotels, restaurants, and hospitality businesses
 hero:
   headline: "IT Support for Hospitality in Mississauga"
   subheadline: "In hospitality, technology failures are guest experience failures. WiseTech provides reliable managed IT for hotels, restaurants, and event venues across Mississauga — keeping your POS, Wi-Fi, and booking systems running when your guests need them."
-  photo: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Hotel and hospitality IT support in Mississauga"
 trustBar:
   - "🏨 Hospitality IT Experts"

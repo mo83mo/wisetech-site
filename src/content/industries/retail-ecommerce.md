@@ -5,7 +5,7 @@ metaDescription: "Managed IT for retail stores and e-commerce businesses in Miss
 hero:
   headline: "IT Support for Retail & E-Commerce in Mississauga"
   subheadline: "Retail depends on technology that works every moment your doors are open. WiseTech provides managed IT for Mississauga retail stores and e-commerce businesses — keeping your POS, network, and e-commerce platforms running without interruption."
-  photo: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Retail store IT support and POS systems in Mississauga"
 trustBar:
   - "🛍️ Retail IT Experts"

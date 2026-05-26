@@ -6,7 +6,7 @@ pubDate: 2026-04-12
 category: "Industry News"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Every dental office in Ontario is a health information custodian under the Personal Health Information Protection Act (PHIPA). This means your practice has legal obligations around how patient health information is collected, stored, accessed, and protected — obligations that extend directly to your IT systems.

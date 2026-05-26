@@ -5,7 +5,7 @@ metaDescription: "Managed IT and network security for manufacturing companies in
 hero:
   headline: "IT Support for Manufacturing in Mississauga"
   subheadline: "Modern manufacturing depends on reliable IT — from production floor networks to ERP systems and remote monitoring. WiseTech delivers managed IT and cybersecurity for manufacturing companies across Mississauga and the GTA."
-  photo: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Manufacturing facility IT infrastructure in Mississauga"
 trustBar:
   - "🏭 Manufacturing IT Experts"

@@ -5,7 +5,7 @@ metaDescription: "PHIPA-compliant managed IT for dental offices and healthcare c
 hero:
   headline: "IT Support for Dental & Healthcare in Mississauga"
   subheadline: "Patient data is among the most sensitive information an organisation can hold. WiseTech delivers PHIPA-compliant managed IT and cybersecurity for dental offices and healthcare clinics across Mississauga and the GTA."
-  photo: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Dental office IT support in Mississauga"
 trustBar:
   - "🏥 PHIPA Compliant"

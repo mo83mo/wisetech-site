@@ -6,7 +6,7 @@ pubDate: 2026-04-19
 category: "IT Tips"
 author: "WiseTech Team"
 readTime: 6
-heroImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 One of the most common questions we hear from Mississauga small business owners is: "How much should I be paying for IT support?"

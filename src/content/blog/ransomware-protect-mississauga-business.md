@@ -6,7 +6,7 @@ pubDate: 2026-03-29
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 7
-heroImage: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Ransomware is the most financially damaging cyber threat facing Canadian small businesses today. The Canadian Centre for Cyber Security reports that ransomware incidents cost Canadian organisations billions annually in ransom payments, recovery costs, and lost productivity. Small businesses — including many in Mississauga and the GTA — account for a significant share of that number.

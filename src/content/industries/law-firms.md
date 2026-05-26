@@ -5,7 +5,7 @@ metaDescription: "Managed IT and cybersecurity for law firms in Mississauga and 
 hero:
   headline: "IT Support for Law Firms in Mississauga"
   subheadline: "Law firms handle highly sensitive client data and face strict professional obligations around confidentiality and data security. WiseTech delivers managed IT and cybersecurity built specifically for legal practices in Mississauga and the GTA."
-  photo: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Law firm office IT support in Mississauga"
 trustBar:
   - "⚖️ Legal Compliance Aware"

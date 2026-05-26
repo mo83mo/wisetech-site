@@ -5,7 +5,7 @@ metaDescription: "Microsoft 365 and Google Workspace migration, setup, and manag
 hero:
   headline: "Cloud Solutions & Migration in Mississauga"
   subheadline: "Move to the cloud with confidence. WiseTech manages Microsoft 365 and Google Workspace migrations for Mississauga SMBs — with zero data loss and minimal downtime."
-  photo: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Cloud computing migration for Mississauga businesses"
 trustBar:
   - "☁️ Microsoft 365 & Google Workspace"

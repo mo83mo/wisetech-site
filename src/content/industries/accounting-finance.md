@@ -5,7 +5,7 @@ metaDescription: "Managed IT and cybersecurity for accounting firms and financia
 hero:
   headline: "IT Support for Accounting & Finance in Mississauga"
   subheadline: "Accounting firms and financial advisors hold sensitive client financial data and face strict regulatory obligations. WiseTech delivers secure, compliant managed IT for finance professionals across Mississauga and the GTA."
-  photo: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Accounting firm IT support in Mississauga"
 trustBar:
   - "📊 PIPEDA Compliant"

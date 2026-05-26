@@ -5,7 +5,7 @@ metaDescription: "Business VoIP phone systems and unified communications for Mis
 hero:
   headline: "VoIP & Unified Communications in Mississauga"
   subheadline: "Replace your old phone system with a modern, cloud-based VoIP solution. WiseTech deploys and manages business phone systems for Mississauga SMBs — with better features at a fraction of the cost."
-  photo: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Modern VoIP phone system for Mississauga business"
 trustBar:
   - "📞 Cloud-Based Phone System"

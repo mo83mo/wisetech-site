@@ -6,7 +6,7 @@ pubDate: 2026-05-10
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 7
-heroImage: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Cybersecurity is no longer something that only large enterprises need to worry about. Small businesses in Mississauga and across the GTA are increasingly targeted by ransomware, phishing attacks, and data breaches — not despite their size, but because of it. Attackers know that smaller businesses tend to have fewer defences than large corporations, making them easier and often more profitable targets.

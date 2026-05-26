@@ -5,7 +5,7 @@ metaDescription: "Managed IT for real estate agents, brokerages, and property ma
 hero:
   headline: "IT Support for Real Estate in Mississauga"
   subheadline: "Real estate professionals are mobile, deal-driven, and rely on technology every moment. WiseTech keeps Mississauga real estate agents, brokerages, and property management companies connected, secure, and productive."
-  photo: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Real estate office IT support in Mississauga"
 trustBar:
   - "🏠 Real Estate IT Experts"

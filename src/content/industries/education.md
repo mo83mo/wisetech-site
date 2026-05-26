@@ -5,7 +5,7 @@ metaDescription: "Managed IT for private schools, tutoring centres, and educatio
 hero:
   headline: "IT Support for Education in Mississauga"
   subheadline: "Educational institutions handle sensitive student and family data and depend on reliable technology for both administration and instruction. WiseTech provides managed IT for private schools, tutoring centres, and educational businesses across Mississauga."
-  photo: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "School IT support and classroom technology in Mississauga"
 trustBar:
   - "🎓 Education IT Experts"

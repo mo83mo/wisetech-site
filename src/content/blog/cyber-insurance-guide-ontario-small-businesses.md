@@ -6,7 +6,7 @@ pubDate: 2026-05-19
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 A ransomware attack hits your Mississauga office on a Tuesday morning. Files are encrypted, staff are locked out, and a criminal is demanding $85,000 CAD. You file a claim with your cyber insurer — and two weeks later, you receive a denial letter.
@@ -31,7 +31,7 @@ A well-structured cyber liability policy typically includes two categories of co
 
 What policies often *don't* cover is just as important: social engineering and funds-transfer fraud are frequently excluded unless purchased as add-ons. State-sponsored attacks may be excluded under "war exclusions." And any attack involving a vulnerability you knew about and failed to patch can be grounds for denial. Read the exclusions carefully.
 
-![Laptop showing cybersecurity dashboard with lock icons](https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=630&fit=crop&auto=format)
+![Laptop showing cybersecurity dashboard with lock icons](https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=630&fit=crop&auto=format&fm=webp)
 
 ## What Insurers Actually Require in 2026
 

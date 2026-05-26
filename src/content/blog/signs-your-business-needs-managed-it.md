@@ -6,7 +6,7 @@ pubDate: 2026-04-05
 category: "IT Tips"
 author: "WiseTech Team"
 readTime: 5
-heroImage: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Most Mississauga small businesses reach the same tipping point eventually. IT starts as something the owner or a part-time contractor handles on an ad hoc basis. Then the business grows. The team gets bigger. The systems get more complex. And suddenly, IT is consuming time, money, and mental energy that should be going into the business.

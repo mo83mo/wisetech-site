@@ -5,7 +5,7 @@ metaDescription: "Protect your Mississauga business from ransomware, phishing, a
 hero:
   headline: "Cybersecurity Services in Mississauga"
   subheadline: "43% of cyberattacks target small businesses — yet most aren't prepared. WiseTech provides enterprise-grade cybersecurity protection scaled for Mississauga SMBs, without the enterprise price tag."
-  photo: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "Cybersecurity protection for Mississauga small businesses"
 trustBar:
   - "🔒 Multi-Layer Protection"

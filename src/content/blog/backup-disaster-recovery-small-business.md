@@ -6,7 +6,7 @@ pubDate: 2026-03-08
 category: "IT Tips"
 author: "WiseTech Team"
 readTime: 6
-heroImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Ask most small business owners whether they have backups, and they will say yes. Ask them when they last tested those backups, and the answer is usually silence.

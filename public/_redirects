@@ -2,6 +2,9 @@
 # Old Wix URLs → New site URLs
 # Cloudflare Pages handles trailing slashes automatically — do NOT add trailing slash rules here
 
+# www → non-www canonicalization (fixes URL canonicalization SEO issue)
+https://www.wisetech.ca/*   https://wisetech.ca/:splat  301
+
 # Old "Who We Are" page
 /who-we-are                                         /about                              301
 /who-we-are/                                        /about                              301

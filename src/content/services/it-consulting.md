@@ -5,7 +5,7 @@ metaDescription: "Strategic IT consulting and vCIO services for Mississauga smal
 hero:
   headline: "IT Consulting & Strategy in Mississauga"
   subheadline: "Technology should drive your business forward — not hold it back. WiseTech provides strategic IT consulting and virtual CIO services that help Mississauga SMBs make smarter technology decisions."
-  photo: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format"
+  photo: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format&fm=webp"
   photoAlt: "IT consultant meeting with Mississauga business owner"
 trustBar:
   - "🗺️ Technology Roadmapping"

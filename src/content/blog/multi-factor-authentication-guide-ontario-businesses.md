@@ -6,7 +6,7 @@ pubDate: 2026-05-15
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 In February 2024, attackers broke into Change Healthcare — one of the largest health data processors in North America — without writing a single line of malicious code. They simply logged in. The credential they used was valid. The one thing that would have stopped them was not in place: multi-factor authentication. The breach ultimately cost over $3 billion.
@@ -37,7 +37,7 @@ The cost of getting this wrong is significant. The average data breach in Canada
 
 Cyber insurers have taken notice. Many are now **refusing to pay claims** when MFA was not in place at the time of the incident. It is no longer just a best practice — it is a condition of coverage.
 
-![A smartphone displaying an authentication app prompt — the second factor that stops account takeovers.](https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=450&fit=crop&auto=format)
+![A smartphone displaying an authentication app prompt — the second factor that stops account takeovers.](https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=450&fit=crop&auto=format&fm=webp)
 
 ## The Three Types of MFA: Which Is Right for Your Business?
 
@@ -89,7 +89,7 @@ If your business uses Google Workspace, the process is equally straightforward.
 
 Google's research found that adding a second factor blocks 100% of automated bot attacks and 99% of bulk phishing attacks on Google accounts.
 
-![Network security monitoring — MFA is one layer of a complete cybersecurity stack for Ontario businesses.](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=450&fit=crop&auto=format)
+![Network security monitoring — MFA is one layer of a complete cybersecurity stack for Ontario businesses.](https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&h=450&fit=crop&auto=format&fm=webp)
 
 ## Common Objections — and Why They Don't Hold Up
 

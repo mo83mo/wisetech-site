@@ -6,7 +6,7 @@ pubDate: 2026-05-16
 category: "Cybersecurity"
 author: "WiseTech Team"
 readTime: 8
-heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=630&fit=crop&auto=format"
+heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&h=630&fit=crop&auto=format&fm=webp"
 ---
 
 Imagine receiving an email from your CEO asking you to urgently wire $47,000 to a new supplier. The email address looks right, the tone sounds like them, and they mention a project you're actively working on. You process the transfer — and then find out your CEO never sent that message. By the time you realise what happened, the money is gone.
@@ -29,7 +29,7 @@ First, smaller teams mean shorter approval chains. A request to process an urgen
 
 There is also a supply chain dimension. A 2024 breach of a major Canadian managed services platform affected over 1,200 small businesses across Ontario and Quebec in a single incident. When a trusted vendor's email account is compromised, the fraudulent invoice that arrives looks indistinguishable from a legitimate one.
 
-![A business professional reviewing emails on a laptop, representing the need for vigilance against BEC scams](https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop&auto=format)
+![A business professional reviewing emails on a laptop, representing the need for vigilance against BEC scams](https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop&auto=format&fm=webp)
 
 ## How Attackers Pull It Off
 
