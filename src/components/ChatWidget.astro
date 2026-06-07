@@ -149,9 +149,52 @@
   }
 
   toggleBtn.addEventListener('click', function () {
+    stopPulse();
     if (isOpen) { closePanel(); } else { openPanel(); }
   });
   closeBtn.addEventListener('click', closePanel);
+
+  // ---- Auto-expand after 1 minute on page ----
+  var AUTO_OPEN_KEY = 'wt_chat_auto_opened';
+  var pulseInterval = null;
+
+  function startPulse() {
+    // Gentle glowing ring around the toggle button to draw the eye
+    // before the panel opens on its own.
+    var on = false;
+    pulseInterval = setInterval(function () {
+      on = !on;
+      toggleBtn.style.boxShadow = on
+        ? '0 0 0 6px rgba(34,211,238,0.35),0 4px 14px rgba(0,0,0,0.35)'
+        : '0 4px 14px rgba(0,0,0,0.35)';
+    }, 700);
+  }
+
+  function stopPulse() {
+    if (pulseInterval) {
+      clearInterval(pulseInterval);
+      pulseInterval = null;
+      toggleBtn.style.boxShadow = '0 4px 14px rgba(0,0,0,0.35)';
+    }
+  }
+
+  try {
+    if (!sessionStorage.getItem(AUTO_OPEN_KEY)) {
+      // Start a subtle pulse ~5 seconds before the auto-open so the
+      // widget feels inviting rather than sudden.
+      setTimeout(function () {
+        if (!isOpen) { startPulse(); }
+      }, 55000);
+
+      setTimeout(function () {
+        sessionStorage.setItem(AUTO_OPEN_KEY, '1');
+        stopPulse();
+        if (!isOpen) { openPanel(); }
+      }, 60000);
+    }
+  } catch (e) {
+    // sessionStorage unavailable (privacy mode etc.) — skip auto-open gracefully
+  }
 
   // Close on Escape key
   document.addEventListener('keydown', function (e) {
