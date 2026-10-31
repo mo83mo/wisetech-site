@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import CTABanner from '../../components/CTABanner.astro';
+import { contactHref } from '../../data/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -29,6 +30,30 @@ const categoryColors: Record<string, string> = {
   'Cloud': 'bg-blue-50 text-blue-700 border-blue-200',
   'IT Tips': 'bg-green-50 text-green-700 border-green-200',
   'Industry News': 'bg-purple-50 text-purple-700 border-purple-200',
+};
+
+// End-of-post offer matched to what the reader was just reading about
+const categoryCTA: Record<string, { headline: string; subtext: string; topic: string }> = {
+  'Cybersecurity': {
+    headline: 'Not Sure How Exposed Your Business Is?',
+    subtext: 'Book a free assessment — we review your security setup and send you a prioritised list of fixes. No obligation.',
+    topic: 'cybersecurity',
+  },
+  'Cloud': {
+    headline: 'Planning a Move to Microsoft 365 or Google Workspace?',
+    subtext: 'Get a free assessment of your current setup and a clear migration plan before you commit to anything.',
+    topic: 'cloud-solutions',
+  },
+  'IT Tips': {
+    headline: 'Rather Have This Handled for You?',
+    subtext: 'Book a free assessment and see what flat-rate managed IT would look like for your business.',
+    topic: 'managed-it',
+  },
+};
+const cta = categoryCTA[data.category] ?? {
+  headline: 'Have Questions About Your Business IT?',
+  subtext: 'Book a free assessment with WiseTech — personalised advice for your Mississauga business, no obligation.',
+  topic: '',
 };
 
 const postURL = `https://wisetech.ca/blog/${entry.slug}/`;
@@ -148,8 +173,9 @@ const breadcrumbSchema = {
   </section>
 
   <CTABanner
-    headline="Have Questions About Your Business IT?"
-    subtext="Book a free assessment with WiseTech — personalised advice for your Mississauga business, no obligation."
+    headline={cta.headline}
+    subtext={cta.subtext}
+    ctaHref={contactHref(cta.topic)}
   />
 
 </PageLayout>

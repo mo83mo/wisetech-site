@@ -1,0 +1,63 @@
+---
+// src/components/HowItWorks.astro
+// What happens after someone gets in touch, plus commitments already stated elsewhere on the site
+// (response time, contract terms, published pricing, written quote).
+import { site, contactHref } from '../data/site';
+
+const steps = [
+  {
+    title: 'Free IT Assessment',
+    body: 'A short call about your business, then a no-obligation review of your security, backups, network, and Microsoft 365 or Google Workspace setup.',
+  },
+  {
+    title: 'Plain-English Report',
+    body: 'You get a written summary of what we found and a prioritised list of fixes — no jargon, no sales pressure.',
+  },
+  {
+    title: 'Clear, Written Quote',
+    body: 'A flat monthly price based on your users and plan, plus any one-time onboarding cost, before you sign anything.',
+  },
+  {
+    title: 'Onboarding & Ongoing Care',
+    body: 'We document your environment, set up monitoring and security, and look after it from there.',
+  },
+];
+
+const commitments = [
+  'Reply within 1 business hour',
+  'Month-to-month on monthly billing',
+  'Published, flat monthly pricing',
+  'Written quote before you sign',
+];
+
+const bookHref = site.bookingUrl || contactHref();
+---
+
+<section class="section-white">
+  <div class="container-lg">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">How It Works</h2>
+      <p class="text-slate-600 max-w-xl mx-auto">From first call to fully managed — no surprises along the way.</p>
+    </div>
+
+    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {steps.map((step, i) => (
+        <li class="card p-6">
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-cyan-400 text-navy-900 font-extrabold mb-4">{i + 1}</span>
+          <h3 class="font-bold text-slate-900 mb-2">{step.title}</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">{step.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <ul class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold text-slate-700">
+      {commitments.map(c => (
+        <li class="flex items-center gap-2"><span class="text-cyan-500">✓</span>{c}</li>
+      ))}
+    </ul>
+
+    <div class="text-center mt-10">
+      <a href={bookHref} class="btn-primary text-base px-8 py-3" data-track="cta_click" data-track-label="how_it_works">Book Your Free Assessment</a>
+    </div>
+  </div>
+</section>

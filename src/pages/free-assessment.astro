@@ -312,6 +312,7 @@ const sections = [
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
+        window.wtTrack?.('generate_lead', { lead_source: 'checklist' });
         form.classList.add('hidden');
         captureSuccess?.classList.remove('hidden');
       }

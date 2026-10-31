@@ -2,7 +2,7 @@
 // src/components/AssessmentPopup.astro
 // Shows a popup after 30 seconds offering the free IT assessment checklist.
 // Uses sessionStorage so it only appears once per browser session.
-// Does NOT show on the /free-assessment or /contact pages.
+// Does NOT show on the /free-assessment, /contact or /support pages, or on phones.
 ---
 
 <!-- Assessment Popup -->
@@ -72,8 +72,10 @@
 
   // Don't show on the free-assessment or contact pages
   const currentPath = window.location.pathname;
-  const suppressedPaths = ['/free-assessment', '/contact', '/signin'];
-  const isSuppressed = suppressedPaths.some(p => currentPath.startsWith(p));
+  const suppressedPaths = ['/free-assessment', '/contact', '/support'];
+  // Phones get the sticky Call / Book bar instead of a pop-up
+  const isPhone = window.matchMedia('(max-width: 767px)').matches;
+  const isSuppressed = isPhone || suppressedPaths.some(p => currentPath.startsWith(p));
 
   // Only show once per session
   const alreadyShown = sessionStorage.getItem(STORAGE_KEY);

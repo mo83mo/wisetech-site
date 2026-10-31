@@ -189,7 +189,11 @@
       setTimeout(function () {
         sessionStorage.setItem(AUTO_OPEN_KEY, '1');
         stopPulse();
-        if (!isOpen) { openPanel(); }
+        // Don't stack on top of the assessment pop-up, and don't cover most of a phone screen
+        var popup = document.getElementById('assessment-popup');
+        var popupVisible = popup && !popup.classList.contains('hidden');
+        var isPhone = window.matchMedia('(max-width: 767px)').matches;
+        if (!isOpen && !popupVisible && !isPhone) { openPanel(); }
       }, 60000);
     }
   } catch (e) {
@@ -275,6 +279,7 @@
         content = content.replace(/\[LEAD:[^\]]+\]/, '').trim();
         try {
           var leadData = JSON.parse(leadMatch[1]);
+          if (window.wtTrack) window.wtTrack('generate_lead', { lead_source: 'chat' });
           // Build plain text transcript
           var transcript = history.map(function(m) {
             return (m.role === 'user' ? 'Visitor: ' : 'WiseTech AI: ') + m.content;

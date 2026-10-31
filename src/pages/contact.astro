@@ -2,17 +2,12 @@
 // src/pages/contact.astro
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
+import { site, contactTopics } from '../data/site';
 
-const services = [
-  'Managed IT Services',
-  'Cybersecurity',
-  'Backup & Disaster Recovery',
-  'Cloud Solutions (M365 / Google Workspace)',
-  'Network & Infrastructure',
-  'IT Consulting & Strategy',
-  'VoIP & Communications',
-  'CCTV & Surveillance',
-  'Not sure — just want advice',
+const nextSteps = [
+  { title: 'We reply within 1 business hour', body: 'Monday–Friday, 8am–6pm. Outside those hours, first thing next business day.' },
+  { title: 'A short call', body: 'We learn how your business runs, what is working, and what is not.' },
+  { title: 'Your free assessment', body: 'A written, prioritised plan for your IT and security. No obligation, no sales pressure.' },
 ];
 
 const businessHours = [
@@ -28,8 +23,8 @@ const businessHours = [
 >
 
   <Hero
-    headline="Get in Touch with WiseTech"
-    subheadline="Ready to talk about your IT needs? Fill out the form below or give us a call. We respond to all inquiries within one business hour during business hours."
+    headline="Let's Talk About Your IT"
+    subheadline="Book a free, no-obligation IT assessment or just ask a question. It takes about a minute, and we reply within one business hour during business hours."
     ctaText="Call Us Now"
     ctaHref="tel:8884459473"
     showPhone={false}
@@ -41,7 +36,22 @@ const businessHours = [
 
         <!-- Contact Form -->
         <div class="lg:col-span-2">
-          <h2 class="text-2xl font-extrabold text-slate-900 mb-6">Send Us a Message</h2>
+          <h2 class="text-2xl font-extrabold text-slate-900 mb-2">Request a Free Assessment</h2>
+          <p class="text-slate-500 text-sm mb-6">Or ask us anything — only your name and email are required.</p>
+
+          {site.bookingUrl && (
+            <a
+              href={site.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between gap-4 bg-cyan-50 border border-cyan-200 rounded-lg px-5 py-4 mb-6 hover:border-cyan-400 transition"
+              data-track="booking_click"
+              data-track-label="contact_page"
+            >
+              <span class="text-slate-800 font-semibold text-sm">Prefer to pick a time? Book a call directly.</span>
+              <span class="text-cyan-600 font-bold text-sm whitespace-nowrap">Choose a time →</span>
+            </a>
+          )}
 
           <form
             action="/api/send-contact"
@@ -98,28 +108,26 @@ const businessHours = [
             </div>
 
             <div>
-              <label for="service" class="block text-sm font-semibold text-slate-700 mb-1.5">How Can We Help? *</label>
+              <label for="service" class="block text-sm font-semibold text-slate-700 mb-1.5">How Can We Help?</label>
               <select
                 id="service"
                 name="service"
-                required
                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent bg-white"
               >
                 <option value="" disabled selected>Select a service...</option>
-                {services.map(s => (
-                  <option value={s}>{s}</option>
+                {contactTopics.map(t => (
+                  <option value={t.label} data-slug={t.slug}>{t.label}</option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label for="message" class="block text-sm font-semibold text-slate-700 mb-1.5">Message *</label>
+              <label for="message" class="block text-sm font-semibold text-slate-700 mb-1.5">Anything we should know? <span class="font-normal text-slate-400">(optional)</span></label>
               <textarea
                 id="message"
                 name="message"
-                required
-                rows={5}
-                placeholder="Tell us about your business, your current IT setup, and what you need help with..."
+                rows={4}
+                placeholder="A sentence or two is plenty — e.g. 12 staff, Microsoft 365, not sure our backups work."
                 class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent resize-none"
               ></textarea>
             </div>
@@ -152,6 +160,21 @@ const businessHours = [
 
         <!-- Sidebar -->
         <div class="flex flex-col gap-6">
+
+          <div class="card p-6 border-cyan-200">
+            <h3 class="font-bold text-slate-900 mb-4">What Happens Next</h3>
+            <ol class="flex flex-col gap-4">
+              {nextSteps.map((step, i) => (
+                <li class="flex gap-3">
+                  <span class="flex-shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-full bg-cyan-400 text-navy-900 font-extrabold text-sm">{i + 1}</span>
+                  <div>
+                    <p class="font-semibold text-slate-900 text-sm">{step.title}</p>
+                    <p class="text-slate-600 text-sm leading-relaxed">{step.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
 
           <div class="card p-6">
             <h3 class="font-bold text-slate-900 mb-4">Contact Details</h3>
@@ -269,6 +292,12 @@ const businessHours = [
   const successMsg = document.getElementById('form-success');
   const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 
+  // Pre-select the service when arriving from /contact/?service=<slug> (service pages, blog posts)
+  const serviceSlug = new URLSearchParams(window.location.search).get('service');
+  const serviceSelect = document.getElementById('service') as HTMLSelectElement | null;
+  const presetOption = serviceSlug ? serviceSelect?.querySelector(`option[data-slug="${CSS.escape(serviceSlug)}"]`) as HTMLOptionElement | null : null;
+  if (serviceSelect && presetOption) serviceSelect.value = presetOption.value;
+
   // Handle async form submission
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -292,6 +321,7 @@ const businessHours = [
       const result = await response.json() as { success: boolean; error?: string };
 
       if (result.success) {
+        window.wtTrack?.('generate_lead', { lead_source: 'contact_form', service: data.service || '' });
         form.reset();
         form.classList.add('hidden');
         if (successMsg) {

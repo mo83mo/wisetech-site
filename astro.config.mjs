@@ -7,10 +7,7 @@ export default defineConfig({
   site: 'https://wisetech.ca',
   integrations: [
     tailwind(),
-    sitemap({
-      // Keep noindex pages out of the sitemap
-      filter: (page) => !page.includes('/signin'),
-    }),
+    sitemap(),
   ],
   output: 'static',
 });

@@ -1,0 +1,79 @@
+---
+// src/pages/support.astro
+// How existing clients get help. Replaces the placeholder /signin page until a client portal exists.
+import PageLayout from '../layouts/PageLayout.astro';
+import Hero from '../components/Hero.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { site } from '../data/site';
+
+const channels = [
+  {
+    icon: '📞',
+    title: 'Call',
+    detail: site.phone,
+    href: site.phoneHref,
+    body: 'Fastest for anything urgent — something is down, or someone can\'t work.',
+  },
+  {
+    icon: '✉️',
+    title: 'Email',
+    detail: site.email,
+    href: `mailto:${site.email}?subject=Support%20request`,
+    body: 'Best for non-urgent requests. Include your name, company, what is happening, and a screenshot if you can.',
+  },
+  {
+    icon: '🟢',
+    title: 'System Status',
+    detail: 'status.wisetech.ca',
+    href: 'https://status.wisetech.ca',
+    body: 'Check whether a service we monitor is having a known issue before you call.',
+  },
+];
+---
+
+<PageLayout
+  title="Client Support | WiseTech Managed IT Mississauga"
+  description="Existing WiseTech clients: how to reach support by phone or email, business hours, after-hours emergency coverage, and live system status."
+>
+
+  <Hero
+    headline="Client Support"
+    subheadline="Already a WiseTech client? Here is the fastest way to get help. You will always reach someone who knows your setup."
+    ctaText={`Call ${site.phone}`}
+    ctaHref={site.phoneHref}
+    showPhone={false}
+  />
+
+  <section class="section-white">
+    <div class="container-lg">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {channels.map(c => (
+          <a
+            href={c.href}
+            class="card p-6 flex flex-col hover:shadow-md hover:border-cyan-400 transition-all group"
+            {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            <div class="text-3xl mb-3" aria-hidden="true">{c.icon}</div>
+            <h2 class="font-bold text-slate-900 text-lg">{c.title}</h2>
+            <p class="text-cyan-600 font-semibold mb-3 group-hover:text-cyan-500">{c.detail}</p>
+            <p class="text-slate-600 text-sm leading-relaxed">{c.body}</p>
+          </a>
+        ))}
+      </div>
+
+      <div class="card p-6 mt-8 max-w-3xl mx-auto">
+        <h2 class="font-bold text-slate-900 mb-3">Hours</h2>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Monday to Friday, 8:00 AM – 6:00 PM. 24/7 monitoring stays active outside business hours, and
+          emergency support is available on Professional and Advanced plans.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    headline="Not a Client Yet?"
+    subtext="Book a free IT assessment — a no-obligation review of your setup and a prioritised plan you can keep."
+  />
+
+</PageLayout>

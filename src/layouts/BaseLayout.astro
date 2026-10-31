@@ -121,6 +121,24 @@ const localBusinessSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(additionalSchema)} />
   )}
 
+  <!-- Conversion events for GTM/GA4: window.wtTrack(name, params) plus automatic phone, email and [data-track] clicks -->
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    window.wtTrack = function (event, params) {
+      window.dataLayer.push(Object.assign({ event: event }, params || {}));
+    };
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest && e.target.closest('a[href^="tel:"], a[href^="mailto:"], [data-track]');
+      if (!el) return;
+      var href = el.getAttribute('href') || '';
+      if (el.dataset.track) {
+        window.wtTrack(el.dataset.track, { label: el.dataset.trackLabel || '', link_url: href });
+      } else {
+        window.wtTrack(href.indexOf('tel:') === 0 ? 'phone_click' : 'email_click', { link_url: href });
+      }
+    });
+  </script>
+
   <!-- Google Tag Manager — production domain only, so pages.dev previews and localhost don't pollute GA4 -->
   <script is:inline>if(/(^|\.)wisetech\.ca$/.test(location.hostname)){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

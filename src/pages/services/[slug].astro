@@ -7,6 +7,7 @@ import TrustBar from '../../components/TrustBar.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTABanner from '../../components/CTABanner.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
+import { contactHref } from '../../data/site';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
@@ -87,8 +88,8 @@ const combinedSchema = [
     breadcrumb={`Services / ${data.title}`}
     headline={data.hero.headline}
     subheadline={data.hero.subheadline}
-    ctaText="Get a Free Assessment"
-    ctaHref="/contact/"
+    ctaText="Book a Free Assessment"
+    ctaHref={contactHref(entry.slug)}
     photo={data.hero.photo}
     photoAlt={data.hero.photoAlt}
   />
@@ -130,6 +131,7 @@ const combinedSchema = [
   <CTABanner
     headline={data.ctaHeadline}
     subtext={data.ctaSubtext}
+    ctaHref={contactHref(entry.slug)}
   />
 
 </PageLayout>

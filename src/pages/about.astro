@@ -4,6 +4,8 @@ import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
 import CTABanner from '../components/CTABanner.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import { site } from '../data/site';
 
 const values = [
   {
@@ -19,7 +21,7 @@ const values = [
   {
     icon: '🧠',
     name: 'Knowledge',
-    description: 'Our team stays current with the latest technology and threats so you benefit from expertise, not guesswork.',
+    description: 'We stay current with the latest technology and threats so you benefit from expertise, not guesswork.',
   },
   {
     icon: '💪',
@@ -36,8 +38,8 @@ const values = [
 const differentiators = [
   {
     icon: '📍',
-    title: 'Local Mississauga Team',
-    description: 'We are based in Mississauga. When you need someone on-site, we are there — not hours away. We understand the GTA business environment and the specific challenges facing local SMBs.',
+    title: 'Local and Owner-Led',
+    description: 'We are based in Mississauga and you deal directly with the owner. When you need someone on-site, we are there — not hours away. We understand the GTA business environment and the specific challenges facing local SMBs.',
   },
   {
     icon: '💰',
@@ -91,7 +93,7 @@ const serviceAreas = [
     ctaHref="/contact/"
     secondaryCta={{ text: 'View Our Services', href: '/services/' }}
     photo="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format&fm=webp"
-    photoAlt="WiseTech IT team serving Mississauga businesses"
+    photoAlt="Small business team working together on laptops in an office"
   />
 
   <TrustBar />
@@ -115,17 +117,27 @@ const serviceAreas = [
     <div class="container-lg max-w-4xl">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-5">Why We Started WiseTech</h2>
+          <p class="text-cyan-500 text-xs font-bold uppercase tracking-widest mb-2">From the Founder</p>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-5">Why I Started WiseTech</h2>
           <div class="flex flex-col gap-4 text-slate-600 leading-relaxed">
             <p>
               Most small businesses in Mississauga have had the same experience with IT: something breaks, they call someone, pay an hourly rate, and hope it does not happen again. It usually does.
             </p>
             <p>
-              WiseTech was founded to change that model. We believe small businesses deserve the same proactive, strategic IT support that enterprise companies take for granted — delivered by a local team that understands the Mississauga business community.
+              I started WiseTech to change that model. Small businesses deserve the same proactive, strategic IT support that large companies take for granted — delivered locally, by someone who understands the Mississauga business community.
             </p>
             <p>
-              We focus on relationships, not transactions. When you work with WiseTech, you have a dedicated team that knows your environment, understands your business, and is invested in keeping your technology running — not waiting for it to break.
+              WiseTech is small on purpose. When you work with us, you deal directly with the person who knows your environment and is invested in keeping your technology running — not a call centre reading from a script.
             </p>
+          </div>
+          <div class="flex items-center gap-4 mt-6">
+            <div class="w-12 h-12 rounded-full bg-cyan-400 text-navy-900 font-extrabold text-xl flex items-center justify-center flex-shrink-0" aria-hidden="true">
+              {site.founderName.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p class="font-bold text-slate-900">{site.founderName}</p>
+              <p class="text-sm text-slate-500">{site.founderTitle}</p>
+            </div>
           </div>
         </div>
         <div class="grid grid-cols-1 gap-4">
@@ -233,6 +245,8 @@ const serviceAreas = [
       </div>
     </div>
   </section>
+
+  <HowItWorks />
 
   <CTABanner
     headline="Ready to Work With a Local IT Partner?"

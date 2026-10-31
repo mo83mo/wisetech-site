@@ -59,6 +59,10 @@
 /get-in-touch                                       /contact                            301
 /get-in-touch/                                      /contact                            301
 
+# Placeholder client sign-in page was removed — send visitors to support info instead
+/signin                                             /support                            301
+/signin/                                            /support                            301
+
 # Old static site (.html pages, previously deployed as wisetechinc.pages.dev)
 /about.html                                         /about                              301
 /contact.html                                       /contact                            301

@@ -1,0 +1,32 @@
+---
+// src/components/MobileActionBar.astro
+// Sticky Call / Book bar on phones. Lifts the chat button above it so they don't overlap.
+import { site, contactHref } from '../data/site';
+
+const bookHref = site.bookingUrl || contactHref();
+---
+
+<div class="h-16 md:hidden" aria-hidden="true"></div>
+<div class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-navy-900 border-t border-navy-800 px-3 py-2.5 flex gap-2">
+  <a
+    href={site.phoneHref}
+    class="flex-1 text-center border border-cyan-400 text-cyan-400 font-semibold rounded-md py-2.5 text-sm"
+  >
+    📞 Call Us
+  </a>
+  <a
+    href={bookHref}
+    class="flex-[1.6] text-center bg-cyan-400 text-navy-900 font-bold rounded-md py-2.5 text-sm"
+    data-track="cta_click"
+    data-track-label="mobile_bar"
+  >
+    Book Free Assessment
+  </a>
+</div>
+
+<style is:global>
+  @media (max-width: 767px) {
+    #chat-toggle { bottom: 5rem !important; }
+    #chat-panel { bottom: 9rem !important; max-height: calc(100vh - 11rem) !important; }
+  }
+</style>

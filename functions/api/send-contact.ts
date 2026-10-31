@@ -75,8 +75,9 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SE
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
   }
 
-  if (!name || !email || !email.includes('@') || !message) {
-    return new Response(JSON.stringify({ success: false, error: 'Name, email, and message are required' }), {
+  // Message is optional on the website form; name and email are what we need to follow up
+  if (!name || !email || !email.includes('@')) {
+    return new Response(JSON.stringify({ success: false, error: 'Name and email are required' }), {
       status: 400, headers: corsHeaders,
     });
   }
@@ -144,7 +145,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SE
             </tr>
             <tr>
               <td style="padding: 10px 0; color: #64748b; font-size: 14px; vertical-align: top;">Message</td>
-              <td style="padding: 10px 0; font-size: 14px; color: #0f172a; line-height: 1.6;">${message.replace(/\n/g, '<br/>')}</td>
+              <td style="padding: 10px 0; font-size: 14px; color: #0f172a; line-height: 1.6;">${message ? message.replace(/\n/g, '<br/>') : '<em style="color: #94a3b8;">(No message — follow up by email or phone)</em>'}</td>
             </tr>
           </table>
           <div style="margin-top: 20px;">
@@ -183,7 +184,7 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SE
           <div style="background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 0 0 28px;">
             <p style="color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 12px;">Your message summary</p>
             <p style="color: #475569; font-size: 14px; margin: 0 0 8px;"><strong style="color: #0f172a;">Service:</strong> ${service || 'General inquiry'}</p>
-            <p style="color: #475569; font-size: 14px; margin: 0; line-height: 1.6;"><strong style="color: #0f172a;">Message:</strong> ${message.length > 120 ? message.substring(0, 120) + '...' : message}</p>
+            ${message ? `<p style="color: #475569; font-size: 14px; margin: 0; line-height: 1.6;"><strong style="color: #0f172a;">Message:</strong> ${message.length > 120 ? message.substring(0, 120) + '...' : message}</p>` : ''}
           </div>
 
           <p style="color: #475569; line-height: 1.6; margin: 0 0 28px;">
