@@ -1,28 +1,29 @@
 ---
 // src/components/Nav.astro
 const services = [
-  { label: 'Managed IT Services', href: '/services/managed-it' },
-  { label: 'Cybersecurity', href: '/services/cybersecurity' },
-  { label: 'Backup & Disaster Recovery', href: '/services/backup-disaster-recovery' },
-  { label: 'Cloud Solutions', href: '/services/cloud-solutions' },
-  { label: 'Network & Infrastructure', href: '/services/network-infrastructure' },
-  { label: 'IT Consulting & Strategy', href: '/services/it-consulting' },
-  { label: 'VoIP & Communications', href: '/services/voip-communications' },
-  { label: 'CCTV & Surveillance', href: '/services/cctv-surveillance' },
+  { label: 'Managed IT Services', href: '/services/managed-it/' },
+  { label: 'Cybersecurity', href: '/services/cybersecurity/' },
+  { label: 'Backup & Disaster Recovery', href: '/services/backup-disaster-recovery/' },
+  { label: 'Cloud Solutions', href: '/services/cloud-solutions/' },
+  { label: 'Network & Infrastructure', href: '/services/network-infrastructure/' },
+  { label: 'IT Consulting & Strategy', href: '/services/it-consulting/' },
+  { label: 'VoIP & Communications', href: '/services/voip-communications/' },
+  { label: 'CCTV & Surveillance', href: '/services/cctv-surveillance/' },
 ];
 
 const industries = [
-  { label: 'Law Firms', href: '/industries/law-firms' },
-  { label: 'Dental & Healthcare', href: '/industries/dental-healthcare' },
-  { label: 'Accounting & Finance', href: '/industries/accounting-finance' },
-  { label: 'Real Estate', href: '/industries/real-estate' },
-  { label: 'Manufacturing', href: '/industries/manufacturing' },
-  { label: 'Hospitality', href: '/industries/hospitality' },
-  { label: 'Retail & E-Commerce', href: '/industries/retail-ecommerce' },
-  { label: 'Education', href: '/industries/education' },
+  { label: 'Law Firms', href: '/industries/law-firms/' },
+  { label: 'Dental & Healthcare', href: '/industries/dental-healthcare/' },
+  { label: 'Accounting & Finance', href: '/industries/accounting-finance/' },
+  { label: 'Real Estate', href: '/industries/real-estate/' },
+  { label: 'Manufacturing', href: '/industries/manufacturing/' },
+  { label: 'Hospitality', href: '/industries/hospitality/' },
+  { label: 'Retail & E-Commerce', href: '/industries/retail-ecommerce/' },
+  { label: 'Education', href: '/industries/education/' },
 ];
 
-const currentPath = Astro.url.pathname;
+// Strip the trailing slash (except on "/") so active-link checks match built URLs like /pricing/
+const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
 ---
 
 <nav class="bg-navy-900 sticky top-0 z-50 shadow-lg">
@@ -53,7 +54,7 @@ const currentPath = Astro.url.pathname;
             </a>
           ))}
           <div class="border-t border-gray-100 mt-1 pt-1">
-            <a href="/services" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
+            <a href="/services/" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
               View All Services →
             </a>
           </div>
@@ -75,20 +76,20 @@ const currentPath = Astro.url.pathname;
             </a>
           ))}
           <div class="border-t border-gray-100 mt-1 pt-1">
-            <a href="/industries" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
+            <a href="/industries/" class="block px-4 py-2.5 text-sm font-semibold text-cyan-500 hover:bg-slate-50 transition-colors">
               View All Industries →
             </a>
           </div>
         </div>
       </div>
 
-      <a href="/pricing" class={`text-sm font-medium ${currentPath === '/pricing' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Pricing</a>
-      <a href="/about" class={`text-sm font-medium ${currentPath === '/about' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>About</a>
-      <a href="/blog" class={`text-sm font-medium ${currentPath.startsWith('/blog') ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Blog</a>
-      <a href="/free-assessment" class={`text-sm font-medium ${currentPath === '/free-assessment' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Free Checklist</a>
+      <a href="/pricing/" class={`text-sm font-medium ${currentPath === '/pricing' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Pricing</a>
+      <a href="/about/" class={`text-sm font-medium ${currentPath === '/about' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>About</a>
+      <a href="/blog/" class={`text-sm font-medium ${currentPath.startsWith('/blog') ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Blog</a>
+      <a href="/free-assessment/" class={`text-sm font-medium ${currentPath === '/free-assessment' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Free Checklist</a>
 
-      <a href="/contact" class="btn-primary ml-2">Free Assessment</a>
-      <a href="/signin" class="border border-slate-500 text-slate-300 hover:text-white hover:border-white text-sm font-medium px-4 py-2 rounded-md transition-colors ml-1">Sign In</a>
+      <a href="/contact/" class="btn-primary ml-2">Free Assessment</a>
+      <a href="/signin/" class="border border-slate-500 text-slate-300 hover:text-white hover:border-white text-sm font-medium px-4 py-2 rounded-md transition-colors ml-1">Sign In</a>
     </div>
 
     <!-- Mobile Hamburger -->
@@ -118,12 +119,12 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="pt-3 border-t border-navy-800 flex flex-col gap-2">
       <a href="/" class="text-sm text-slate-300 hover:text-white py-2">Home</a>
-      <a href="/pricing" class="text-sm text-slate-300 hover:text-white py-2">Pricing</a>
-      <a href="/about" class="text-sm text-slate-300 hover:text-white py-2">About</a>
-      <a href="/blog" class="text-sm text-slate-300 hover:text-white py-2">Blog</a>
-      <a href="/free-assessment" class="text-sm text-slate-300 hover:text-white py-2">Free Checklist</a>
-      <a href="/contact" class="btn-primary text-center mt-2">Free Assessment</a>
-      <a href="/signin" class="border border-slate-500 text-slate-300 text-sm font-medium text-center px-4 py-2 rounded-md mt-1">Sign In</a>
+      <a href="/pricing/" class="text-sm text-slate-300 hover:text-white py-2">Pricing</a>
+      <a href="/about/" class="text-sm text-slate-300 hover:text-white py-2">About</a>
+      <a href="/blog/" class="text-sm text-slate-300 hover:text-white py-2">Blog</a>
+      <a href="/free-assessment/" class="text-sm text-slate-300 hover:text-white py-2">Free Checklist</a>
+      <a href="/contact/" class="btn-primary text-center mt-2">Free Assessment</a>
+      <a href="/signin/" class="border border-slate-500 text-slate-300 text-sm font-medium text-center px-4 py-2 rounded-md mt-1">Sign In</a>
     </div>
   </div>
 </nav>

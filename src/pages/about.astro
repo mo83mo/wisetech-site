@@ -88,8 +88,8 @@ const serviceAreas = [
     headline="Your Local IT Partner in Mississauga"
     subheadline="WiseTech was built to give Mississauga small businesses access to the kind of professional, proactive IT support that was previously only available to large enterprises — at a price that makes sense for an SMB."
     ctaText="Book a Free Assessment"
-    ctaHref="/contact"
-    secondaryCta={{ text: 'View Our Services', href: '/services' }}
+    ctaHref="/contact/"
+    secondaryCta={{ text: 'View Our Services', href: '/services/' }}
     photo="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=400&fit=crop&auto=format&fm=webp"
     photoAlt="WiseTech IT team serving Mississauga businesses"
   />
@@ -199,14 +199,14 @@ const serviceAreas = [
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { icon: '⚖️', label: 'Legal & Law Firms', href: '/industries/law-firms' },
-          { icon: '🦷', label: 'Dental & Healthcare', href: '/industries/dental-healthcare' },
-          { icon: '📊', label: 'Accounting & Finance', href: '/industries/accounting-finance' },
-          { icon: '🏠', label: 'Real Estate', href: '/industries/real-estate' },
-          { icon: '🏭', label: 'Manufacturing', href: '/industries/manufacturing' },
-          { icon: '🏨', label: 'Hospitality', href: '/industries/hospitality' },
-          { icon: '🛍️', label: 'Retail & E-Commerce', href: '/industries/retail-ecommerce' },
-          { icon: '🎓', label: 'Education', href: '/industries/education' },
+          { icon: '⚖️', label: 'Legal & Law Firms', href: '/industries/law-firms/' },
+          { icon: '🦷', label: 'Dental & Healthcare', href: '/industries/dental-healthcare/' },
+          { icon: '📊', label: 'Accounting & Finance', href: '/industries/accounting-finance/' },
+          { icon: '🏠', label: 'Real Estate', href: '/industries/real-estate/' },
+          { icon: '🏭', label: 'Manufacturing', href: '/industries/manufacturing/' },
+          { icon: '🏨', label: 'Hospitality', href: '/industries/hospitality/' },
+          { icon: '🛍️', label: 'Retail & E-Commerce', href: '/industries/retail-ecommerce/' },
+          { icon: '🎓', label: 'Education', href: '/industries/education/' },
         ].map(ind => (
           <a href={ind.href} class="card p-4 text-center hover:shadow-md hover:border-cyan-400 transition-all group">
             <div class="text-2xl mb-2">{ind.icon}</div>

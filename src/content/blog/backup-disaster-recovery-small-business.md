@@ -109,7 +109,7 @@ A basic DR plan for a Mississauga SMB should include:
 
 WiseTech includes backup and disaster recovery planning as part of our managed IT service — documenting your environment, designing a recovery solution matched to your RTO and RPO requirements, and testing it regularly so you know it works.
 
-[Talk to WiseTech about backup and disaster recovery →](/services/backup-disaster-recovery)
+[Talk to WiseTech about backup and disaster recovery →](/services/backup-disaster-recovery/)
 
 ---
 

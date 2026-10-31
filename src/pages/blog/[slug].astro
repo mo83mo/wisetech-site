@@ -31,20 +31,28 @@ const categoryColors: Record<string, string> = {
   'Industry News': 'bg-purple-50 text-purple-700 border-purple-200',
 };
 
+const postURL = `https://wisetech.ca/blog/${entry.slug}/`;
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": data.title,
   "description": data.description,
+  "url": postURL,
+  "mainEntityOfPage": postURL,
   "datePublished": data.pubDate.toISOString(),
   "dateModified": (data.updatedDate ?? data.pubDate).toISOString(),
+  "articleSection": data.category,
+  "inLanguage": "en-CA",
   "author": {
     "@type": "Organization",
+    "@id": "https://wisetech.ca/#organization",
     "name": "WiseTech",
-    "url": "https://wisetech.ca"
+    "url": "https://wisetech.ca/"
   },
   "publisher": {
     "@type": "Organization",
+    "@id": "https://wisetech.ca/#organization",
     "name": "WiseTech",
     "logo": {
       "@type": "ImageObject",
@@ -53,19 +61,31 @@ const articleSchema = {
   },
   ...(data.heroImage ? { "image": data.heroImage } : {}),
 };
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://wisetech.ca/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://wisetech.ca/blog/" },
+    { "@type": "ListItem", "position": 3, "name": data.title, "item": postURL }
+  ]
+};
 ---
 
 <PageLayout
   title={data.metaTitle ?? `${data.title} | WiseTech Blog`}
   description={data.description}
   ogImage={data.heroImage}
-  additionalSchema={articleSchema}
+  ogType="article"
+  publishedTime={data.pubDate.toISOString()}
+  additionalSchema={[articleSchema, breadcrumbSchema]}
 >
 
   <div class="bg-hero-gradient py-14 px-4">
     <div class="max-w-3xl mx-auto">
       <div class="flex items-center gap-3 mb-5">
-        <a href="/blog" class="text-slate-400 hover:text-white text-sm transition">← Blog</a>
+        <a href="/blog/" class="text-slate-400 hover:text-white text-sm transition">← Blog</a>
         <span class="text-slate-600">/</span>
         <span class={`text-xs font-semibold px-2 py-0.5 rounded border ${categoryColors[data.category] ?? 'bg-slate-700 text-slate-300 border-slate-600'}`}>
           {data.category}
@@ -94,6 +114,7 @@ const articleSchema = {
           height="630"
           class="w-full rounded-t-xl object-cover h-64 md:h-80"
           loading="eager"
+          fetchpriority="high"
         />
       </div>
     </div>
@@ -119,7 +140,7 @@ const articleSchema = {
           <p class="text-sm text-slate-500">Published by <span class="font-semibold text-slate-700">{data.author}</span></p>
           <p class="text-sm text-slate-400">{formatDate(data.pubDate)}</p>
         </div>
-        <a href="/blog" class="text-cyan-500 font-semibold text-sm hover:text-cyan-400 transition">
+        <a href="/blog/" class="text-cyan-500 font-semibold text-sm hover:text-cyan-400 transition">
           ← Back to Blog
         </a>
       </div>

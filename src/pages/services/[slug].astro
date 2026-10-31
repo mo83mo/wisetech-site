@@ -6,6 +6,7 @@ import Hero from '../../components/Hero.astro';
 import TrustBar from '../../components/TrustBar.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTABanner from '../../components/CTABanner.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
@@ -25,11 +26,13 @@ const serviceSchema = {
   "@type": "Service",
   "name": data.serviceSchema.serviceType,
   "description": data.serviceSchema.description,
+  "url": `https://wisetech.ca/services/${entry.slug}/`,
   "provider": {
     "@type": "LocalBusiness",
+    "@id": "https://wisetech.ca/#organization",
     "name": "WiseTech",
-    "url": "https://wisetech.ca",
-    "telephone": "888-445-9473",
+    "url": "https://wisetech.ca/",
+    "telephone": "+1-888-445-9473",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Mississauga",
@@ -55,19 +58,19 @@ const combinedSchema = [
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://wisetech.ca"
+        "item": "https://wisetech.ca/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Services",
-        "item": "https://wisetech.ca/services"
+        "item": "https://wisetech.ca/services/"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": data.title,
-        "item": `https://wisetech.ca/services/${entry.slug}`
+        "item": `https://wisetech.ca/services/${entry.slug}/`
       }
     ]
   }
@@ -85,7 +88,7 @@ const combinedSchema = [
     headline={data.hero.headline}
     subheadline={data.hero.subheadline}
     ctaText="Get a Free Assessment"
-    ctaHref="/contact"
+    ctaHref="/contact/"
     photo={data.hero.photo}
     photoAlt={data.hero.photoAlt}
   />
@@ -121,6 +124,8 @@ const combinedSchema = [
   </section>
 
   <FAQ faqs={data.faqs} />
+
+  <RelatedPosts path={`/services/${entry.slug}`} />
 
   <CTABanner
     headline={data.ctaHeadline}

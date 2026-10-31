@@ -3,19 +3,19 @@
 const year = new Date().getFullYear();
 
 const serviceLinks = [
-  { label: 'Managed IT Services', href: '/services/managed-it' },
-  { label: 'Cybersecurity', href: '/services/cybersecurity' },
-  { label: 'Backup & Disaster Recovery', href: '/services/backup-disaster-recovery' },
-  { label: 'Cloud Solutions', href: '/services/cloud-solutions' },
-  { label: 'Network & Infrastructure', href: '/services/network-infrastructure' },
-  { label: 'IT Consulting', href: '/services/it-consulting' },
+  { label: 'Managed IT Services', href: '/services/managed-it/' },
+  { label: 'Cybersecurity', href: '/services/cybersecurity/' },
+  { label: 'Backup & Disaster Recovery', href: '/services/backup-disaster-recovery/' },
+  { label: 'Cloud Solutions', href: '/services/cloud-solutions/' },
+  { label: 'Network & Infrastructure', href: '/services/network-infrastructure/' },
+  { label: 'IT Consulting', href: '/services/it-consulting/' },
 ];
 
 const companyLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Pricing', href: '/pricing' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'About', href: '/about/' },
+  { label: 'Pricing', href: '/pricing/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Contact', href: '/contact/' },
 ];
 ---
 
@@ -60,7 +60,7 @@ const companyLinks = [
             </li>
           ))}
           <li>
-            <a href="/services" class="text-sm text-cyan-400 hover:text-cyan-300 transition">View All →</a>
+            <a href="/services/" class="text-sm text-cyan-400 hover:text-cyan-300 transition">View All →</a>
           </li>
         </ul>
       </div>
@@ -96,8 +96,8 @@ const companyLinks = [
     <div class="border-t border-navy-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
       <p>© {year} WiseTech Inc. All rights reserved.</p>
       <div class="flex gap-4">
-        <a href="/privacy" class="hover:text-white transition">Privacy Policy</a>
-        <a href="/terms" class="hover:text-white transition">Terms of Service</a>
+        <a href="/privacy/" class="hover:text-white transition">Privacy Policy</a>
+        <a href="/terms/" class="hover:text-white transition">Terms of Service</a>
         <a href="https://status.wisetech.ca" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">System Status</a>
       </div>
     </div>

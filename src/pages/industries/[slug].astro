@@ -6,6 +6,7 @@ import Hero from '../../components/Hero.astro';
 import TrustBar from '../../components/TrustBar.astro';
 import FAQ from '../../components/FAQ.astro';
 import CTABanner from '../../components/CTABanner.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 
 export async function getStaticPaths() {
   const industries = await getCollection('industries');
@@ -24,11 +25,13 @@ const industryServiceSchema = {
   "@type": "Service",
   "name": `IT Support for ${data.title.replace('IT Support for ', '')}`,
   "description": data.metaDescription,
+  "url": `https://wisetech.ca/industries/${entry.slug}/`,
   "provider": {
     "@type": ["LocalBusiness", "ProfessionalService"],
+    "@id": "https://wisetech.ca/#organization",
     "name": "WiseTech",
-    "url": "https://wisetech.ca",
-    "telephone": "888-445-9473",
+    "url": "https://wisetech.ca/",
+    "telephone": "+1-888-445-9473",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Mississauga",
@@ -52,19 +55,19 @@ const breadcrumbSchema = {
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://wisetech.ca"
+      "item": "https://wisetech.ca/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Industries",
-      "item": "https://wisetech.ca/industries"
+      "item": "https://wisetech.ca/industries/"
     },
     {
       "@type": "ListItem",
       "position": 3,
       "name": data.title,
-      "item": `https://wisetech.ca/industries/${entry.slug}`
+      "item": `https://wisetech.ca/industries/${entry.slug}/`
     }
   ]
 };
@@ -83,7 +86,7 @@ const combinedSchema = [industryServiceSchema, breadcrumbSchema];
     headline={data.hero.headline}
     subheadline={data.hero.subheadline}
     ctaText="Get a Free Assessment"
-    ctaHref="/contact"
+    ctaHref="/contact/"
     photo={data.hero.photo}
     photoAlt={data.hero.photoAlt}
   />
@@ -124,15 +127,17 @@ const combinedSchema = [industryServiceSchema, breadcrumbSchema];
     <div class="container-lg">
       <h2 class="text-xl font-bold text-slate-900 mb-4">Related Services</h2>
       <div class="flex flex-wrap gap-3">
-        <a href="/services/managed-it" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Managed IT →</a>
-        <a href="/services/cybersecurity" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Cybersecurity →</a>
-        <a href="/services/backup-disaster-recovery" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Backup & DR →</a>
-        <a href="/services/cloud-solutions" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Cloud Solutions →</a>
+        <a href="/services/managed-it/" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Managed IT →</a>
+        <a href="/services/cybersecurity/" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Cybersecurity →</a>
+        <a href="/services/backup-disaster-recovery/" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Backup & DR →</a>
+        <a href="/services/cloud-solutions/" class="text-sm font-medium text-cyan-600 hover:text-cyan-500 bg-slate-50 border border-gray-200 px-4 py-2 rounded-full transition">Cloud Solutions →</a>
       </div>
     </div>
   </section>
 
   <FAQ faqs={data.faqs} />
+
+  <RelatedPosts path={`/industries/${entry.slug}`} />
 
   <CTABanner
     headline={data.ctaHeadline}

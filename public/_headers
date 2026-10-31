@@ -1,0 +1,19 @@
+# WiseTech response headers — Cloudflare Pages
+# HSTS, nosniff and Referrer-Policy are already added at the Cloudflare zone level.
+
+# Keep the pages.dev copies (production alias + preview deployments) out of search results.
+# The real site is https://wisetech.ca — these were being indexed as duplicates.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Astro fingerprints these filenames, so they can be cached forever
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

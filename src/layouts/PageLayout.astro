@@ -9,8 +9,11 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
   canonicalURL?: string;
-  additionalSchema?: object;
+  noindex?: boolean;
+  additionalSchema?: object | object[];
 }
 
 const props = Astro.props;

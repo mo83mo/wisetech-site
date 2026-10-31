@@ -99,7 +99,7 @@ If you are currently on one platform and considering switching, understand what 
 
 Both platforms are excellent. If you are genuinely undecided, we typically recommend Microsoft 365 Business Standard for most Mississauga SMBs — the combination of familiar desktop apps, Teams for communication, and SharePoint for document management covers most business needs well.
 
-[Talk to WiseTech about your cloud migration →](/services/cloud-solutions)
+[Talk to WiseTech about your cloud migration →](/services/cloud-solutions/)
 
 ---
 

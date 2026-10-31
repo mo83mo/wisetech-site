@@ -2,8 +2,8 @@
 # Old Wix URLs → New site URLs
 # Cloudflare Pages handles trailing slashes automatically — do NOT add trailing slash rules here
 
-# www → non-www canonicalization (fixes URL canonicalization SEO issue)
-https://www.wisetech.ca/*   https://wisetech.ca/:splat  301
+# www → non-www must be a Cloudflare dashboard Redirect Rule — _redirects only matches paths,
+# so a domain rule here is silently ignored (www.wisetech.ca was still serving 200s).
 
 # Old "Who We Are" page
 /who-we-are                                         /about                              301
@@ -58,3 +58,22 @@ https://www.wisetech.ca/*   https://wisetech.ca/:splat  301
 /contact-us/                                        /contact                            301
 /get-in-touch                                       /contact                            301
 /get-in-touch/                                      /contact                            301
+
+# Old static site (.html pages, previously deployed as wisetechinc.pages.dev)
+/about.html                                         /about                              301
+/contact.html                                       /contact                            301
+/services.html                                      /services                           301
+/services/managed-it.html                           /services/managed-it                301
+/services/cybersecurity.html                        /services/cybersecurity             301
+/services/cloud-solutions.html                      /services/cloud-solutions           301
+/services/microsoft-365.html                        /services/cloud-solutions           301
+/services/network-firewall.html                     /services/network-infrastructure    301
+/services/voip.html                                 /services/voip-communications       301
+/services/cctv-surveillance.html                    /services/cctv-surveillance         301
+/industries/healthcare.html                         /industries/dental-healthcare       301
+/industries/legal.html                              /industries/law-firms               301
+/industries/real-estate.html                        /industries/real-estate             301
+/industries/retail.html                             /industries/retail-ecommerce        301
+
+# Uptime Kuma status page lives on its own subdomain
+/status/*                                           https://status.wisetech.ca/status/:splat  301

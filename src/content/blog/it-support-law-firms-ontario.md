@@ -94,7 +94,7 @@ A provider who cannot answer these questions confidently is not the right partne
 
 WiseTech works with law firms across Mississauga and the GTA, with specific experience in legal practice management platforms and the compliance requirements facing Ontario lawyers.
 
-[Learn more about WiseTech's IT support for law firms →](/industries/law-firms)
+[Learn more about WiseTech's IT support for law firms →](/industries/law-firms/)
 
 ---
 

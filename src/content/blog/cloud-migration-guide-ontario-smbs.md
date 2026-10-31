@@ -93,7 +93,7 @@ A local Mississauga IT provider who can be on-site if needed offers an advantage
 
 WiseTech has managed Microsoft 365 and Google Workspace migrations for businesses across the GTA, with a documented process that eliminates data loss and minimises downtime.
 
-[Talk to WiseTech about your cloud migration →](/services/cloud-solutions)
+[Talk to WiseTech about your cloud migration →](/services/cloud-solutions/)
 
 ---
 
