@@ -65,7 +65,7 @@ If you'd like help with any of this, our [cybersecurity](/services/cybersecurity
 
 ## Take the next step
 
-Not sure where your business stands? Book a free IT assessment at [/contact/](/contact/) or take our free IT health check (20 questions, about 4 minutes) at [/free-assessment/](/free-assessment/). You'll get a clear picture of your biggest gaps, including how well your data is protected today.
+Not sure where your business stands? [Book a free IT assessment](/contact/) or [take our free IT health check](/free-assessment/) (20 questions, about 4 minutes). You'll get a clear picture of your biggest gaps, including how well your data is protected today.
 
 ---
 

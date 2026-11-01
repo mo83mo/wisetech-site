@@ -158,11 +158,11 @@ Accounting & Finance · Dental & Healthcare · Education · Hospitality · Law F
 
 ## Blog Automation
 
-Two Claude Sonnet agents run automatically — no manual action needed:
-- **Tuesday 9am EDT** → trig_01UtpkL6tgDVKd1jNGsaBQKu
-- **Friday 9am EDT** → trig_01JhMMtJcrj3xorM8phS44FU
+Two Claude Sonnet 5.5 routines run automatically — no manual action needed (cron is 13:00 UTC: 9am EDT in summer, 8am EST in winter):
+- **Tuesday** → trig_01UtpkL6tgDVKd1jNGsaBQKu
+- **Friday** → trig_01JhMMtJcrj3xorM8phS44FU
 
-Each agent reads existing posts to avoid duplicate topics, researches stats, writes a full SEO post, runs `npm run build`, commits, and pushes via GitHub PAT.
+Each agent reads existing posts to avoid duplicate topics, researches sourced stats, writes a full SEO post, runs `npm ci` + `npm run build`, commits as "Claude", and pushes to `main` through the **Claude GitHub App** (installed on mo83mo/wisetech-site only). No tokens in the prompts. If posts stop appearing, check the app's repo access first, then the routine's run log (RemoteTrigger `list_runs` / `get_run_log`).
 
 ---
 
