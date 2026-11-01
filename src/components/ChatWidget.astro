@@ -286,6 +286,10 @@
     if (inOl) out += '</ol>';
 
     // Markdown links [text](url)
+    // Phone links, e.g. [888-445-9473](tel:8884459473)
+    out = out.replace(/\[([^\]]+)\]\((tel:[+\d\-().]{7,20})\)/g, function (m, label, href) {
+      return '<a href="' + href + '" style="color:#22d3ee;text-decoration:underline;">' + label + '</a>';
+    });
     out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\)\s]+)\)/g, function (m, label, url) {
       return isWiseTechUrl(url) ? linkHtml(url, label) : label;
     });
