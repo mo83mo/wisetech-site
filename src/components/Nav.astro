@@ -35,7 +35,7 @@ const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
     </a>
 
     <!-- Desktop Nav -->
-    <div class="hidden md:flex items-center gap-6">
+    <div class="hidden lg:flex items-center gap-6">
 
       <a href="/" class={`text-sm font-medium ${currentPath === '/' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Home</a>
 
@@ -86,14 +86,14 @@ const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
       <a href="/pricing/" class={`text-sm font-medium ${currentPath === '/pricing' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Pricing</a>
       <a href="/about/" class={`text-sm font-medium ${currentPath === '/about' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>About</a>
       <a href="/blog/" class={`text-sm font-medium ${currentPath.startsWith('/blog') ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Blog</a>
-      <a href="/free-assessment/" class={`text-sm font-medium ${currentPath === '/free-assessment' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Free Checklist</a>
+      <a href="/free-assessment/" class={`text-sm font-medium ${currentPath === '/free-assessment' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>IT Health Check</a>
       <a href="/support/" class={`text-sm font-medium ${currentPath === '/support' ? 'text-white' : 'text-slate-300 hover:text-white'} transition-colors`}>Support</a>
 
       <a href="/contact/" class="btn-primary ml-2" data-track="cta_click" data-track-label="nav">Book Free Assessment</a>
     </div>
 
     <!-- Mobile Hamburger -->
-    <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white p-2" aria-label="Toggle menu">
+    <button id="mobile-menu-btn" class="lg:hidden text-slate-300 hover:text-white p-2" aria-label="Toggle menu">
       <svg id="icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
@@ -104,7 +104,7 @@ const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-navy-800 px-4 pb-4">
+  <div id="mobile-menu" class="hidden lg:hidden bg-navy-900 border-t border-navy-800 px-4 pb-4">
     <div class="pt-3">
       <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Services</p>
       {services.map(s => (
@@ -122,7 +122,7 @@ const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
       <a href="/pricing/" class="text-sm text-slate-300 hover:text-white py-2">Pricing</a>
       <a href="/about/" class="text-sm text-slate-300 hover:text-white py-2">About</a>
       <a href="/blog/" class="text-sm text-slate-300 hover:text-white py-2">Blog</a>
-      <a href="/free-assessment/" class="text-sm text-slate-300 hover:text-white py-2">Free Checklist</a>
+      <a href="/free-assessment/" class="text-sm text-slate-300 hover:text-white py-2">IT Health Check</a>
       <a href="/support/" class="text-sm text-slate-300 hover:text-white py-2">Support for Existing Clients</a>
       <a href="/contact/" class="btn-primary text-center mt-2" data-track="cta_click" data-track-label="nav_mobile">Book Free Assessment</a>
     </div>

@@ -271,7 +271,13 @@ const businessHours = [
   const params = new URLSearchParams(window.location.search);
   const teamSize = parseInt(params.get('users') || '', 10);
   const messageField = document.getElementById('message') as HTMLTextAreaElement | null;
-  if (messageField && !messageField.value) {
+  const healthScore = parseInt(params.get('score') || '', 10);
+  const sizeBucket = params.get('size') || '';
+  if (messageField && !messageField.value && params.get('from') === 'health-check' && healthScore >= 0 && healthScore <= 100) {
+    // Arriving from the IT health check results (?from=health-check&score=N&size=bucket)
+    const sizeText = /^[0-9–+-]{1,8}$/.test(sizeBucket) ? ` Team size: ${sizeBucket} users.` : '';
+    messageField.value = `I took the IT health check and scored ${healthScore}%.${sizeText} I'd like an expert to review our setup. `;
+  } else if (messageField && !messageField.value) {
     if (teamSize >= 1 && teamSize <= 100000) {
       messageField.value = `Team size: ${teamSize.toLocaleString('en-CA')} users${params.get('plan') === 'enterprise' ? ' (Enterprise plan)' : ''}. `;
     } else if (params.get('plan') === 'enterprise') {

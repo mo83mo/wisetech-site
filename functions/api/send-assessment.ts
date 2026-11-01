@@ -1,542 +1,276 @@
 // functions/api/send-assessment.ts
-// Sends visitor a detailed personalised IT assessment report
-// Sends Info@wisetech.ca a qualified lead notification with full breakdown
+// Emails the visitor their IT & Security Health Check report and sends Info@wisetech.ca a lead summary.
+// The browser sends only question IDs and Yes / No / Not sure answers; the score and every sentence
+// in the emails come from src/data/health-check.ts, so nothing a visitor types except their name and
+// company (validated and escaped) ends up in an email.
+import {
+  questions, areas, teamSizes, industries, itSupportOptions, scoreAnswers, gradeFor,
+  type Answer, type HealthResult,
+} from '../../src/data/health-check';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface ChecklistSection {
-  title: string;
-  icon: string;
-  checked: string[];
-  unchecked: string[];
+interface Env {
+  RESEND_API_KEY: string;
+  TURNSTILE_SECRET_KEY: string;
 }
 
-// ─── Risk priority map (all 30 checklist items) ───────────────────────────────
-// Lower number = higher priority / greater risk if missing
-
-const RISK_MAP: Record<string, { priority: number; risk: string }> = {
-  'Is multi-factor authentication (MFA) enabled on all business email accounts?': {
-    priority: 1,
-    risk: 'Account takeover is the #1 cause of data breaches and ransomware entry',
-  },
-  'Do all workstations have business-grade endpoint protection (EDR), not just consumer antivirus?': {
-    priority: 2,
-    risk: 'Ransomware and malware can run undetected for days without EDR',
-  },
-  'Is email security filtering configured to block phishing and malicious attachments?': {
-    priority: 3,
-    risk: 'Over 90% of cyberattacks start with a phishing email reaching an inbox',
-  },
-  'Are backups stored off-site or in the cloud (not just on a local drive)?': {
-    priority: 4,
-    risk: 'Ransomware encrypts local backup drives alongside your live data',
-  },
-  'Are all critical business files backed up automatically every day?': {
-    priority: 5,
-    risk: 'Without daily backups you risk losing days or weeks of irreplaceable work',
-  },
-  'Is remote access to your network secured with a VPN?': {
-    priority: 6,
-    risk: 'Unsecured remote access is the second most common ransomware entry point',
-  },
-  'Do you have a business-grade firewall protecting your network?': {
-    priority: 7,
-    risk: 'Consumer routers lack deep-packet inspection needed to block modern threats',
-  },
-  'Are your backups immutable (protected from ransomware encryption)?': {
-    priority: 8,
-    risk: 'Modern ransomware specifically targets and encrypts backup repositories',
-  },
-  'Do you have a written incident response plan for a cyberattack?': {
-    priority: 9,
-    risk: 'Without a plan, response time triples and recovery costs increase significantly',
-  },
-  'Have your staff completed security awareness training in the last 12 months?': {
-    priority: 10,
-    risk: 'Untrained staff are the most common reason phishing attacks succeed',
-  },
-  'Are Windows/macOS updates applied to all workstations within 30 days of release?': {
-    priority: 11,
-    risk: 'Unpatched systems contain known vulnerabilities actively exploited by attackers',
-  },
-  'Are servers on a regular patching schedule?': {
-    priority: 12,
-    risk: 'Unpatched servers are a top entry point for ransomware and data breaches',
-  },
-  'Is your Wi-Fi network segmented (guest Wi-Fi separate from business systems)?': {
-    priority: 13,
-    risk: 'A compromised guest device can reach your business systems on a flat network',
-  },
-  'Are DMARC, DKIM, and SPF records configured on your email domain?': {
-    priority: 14,
-    risk: 'Without these records attackers can spoof your domain to commit fraud',
-  },
-  'Is Microsoft 365 or Google Workspace admin access properly secured with MFA and limited to IT staff?': {
-    priority: 15,
-    risk: 'A compromised admin account gives full control of your entire cloud environment',
-  },
-  'Are you using a business-tier Microsoft 365 or Google Workspace plan (not personal/consumer accounts)?': {
-    priority: 16,
-    risk: 'Consumer plans lack the security controls and compliance features required for business use',
-  },
-  'Do you have a process for revoking cloud access when employees leave?': {
-    priority: 17,
-    risk: 'Former employees with active credentials represent an ongoing insider access risk',
-  },
-  'Do you have cyber insurance coverage?': {
-    priority: 18,
-    risk: 'Without coverage, your business absorbs the full cost of a breach — often $100,000+',
-  },
-  'Is all third-party software (browsers, Office, Adobe, etc.) kept up to date?': {
-    priority: 19,
-    risk: 'Outdated third-party software is a common exploit kit target',
-  },
-  'Are firmware updates applied to network devices and servers?': {
-    priority: 20,
-    risk: 'Outdated firmware on routers and switches can harbour exploitable vulnerabilities',
-  },
-  'Have you tested a full restore from backup in the last 6 months?': {
-    priority: 21,
-    risk: 'Untested backups frequently fail at the worst possible time — during a real incident',
-  },
-  'Do you have a documented Recovery Time Objective (RTO) and Recovery Point Objective (RPO)?': {
-    priority: 22,
-    risk: 'Without defined RTO/RPO, recovery from an incident lacks direction and drags on',
-  },
-  'Do you have a documented IT security policy?': {
-    priority: 23,
-    risk: 'A security policy is required for most cyber insurance policies and compliance frameworks',
-  },
-  'Do you have a privacy policy that covers how client data is collected and stored?': {
-    priority: 24,
-    risk: 'Required under PIPEDA for any Canadian business that handles personal information',
-  },
-  'Are all network devices (routers, switches, access points) under support?': {
-    priority: 25,
-    risk: 'End-of-life network devices no longer receive security patches',
-  },
-  'Do you have a documented network diagram showing all devices?': {
-    priority: 26,
-    risk: 'Without visibility into your network, unknown devices and risks go undetected',
-  },
-  'Are all software licences tracked and up to date?': {
-    priority: 27,
-    risk: 'Unlicensed or expired software may stop receiving critical security updates',
-  },
-  'Is your line-of-business software hosted in the cloud or on a supported server?': {
-    priority: 28,
-    risk: 'Unsupported servers running business software represent a significant ongoing risk',
-  },
-  'If your business handles health information, do you have PHIPA compliance controls in place?': {
-    priority: 29,
-    risk: 'PHIPA violations carry significant fines and reputational damage for Ontario healthcare businesses',
-  },
-  'Is there a process for securely disposing of old computers and hard drives?': {
-    priority: 30,
-    risk: 'Improperly disposed drives can expose sensitive client and business data',
-  },
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': 'https://wisetech.ca',
+  'Content-Type': 'application/json',
 };
+const ALLOWED_ORIGINS = ['https://wisetech.ca', 'https://www.wisetech.ca'];
+const ANSWERS: Answer[] = ['yes', 'no', 'unsure'];
 
-// ─── Score theme helper ────────────────────────────────────────────────────────
-
-function getScoreTheme(pct: number) {
-  if (pct >= 1)   return { color: '#22d3ee', bg: '#f0fdfe', border: '#22d3ee', label: 'Excellent',     message: '🎉 Excellent IT posture — you have most controls in place. Book a call to verify the details.' };
-  if (pct >= 0.7) return { color: '#22c55e', bg: '#f0fdf4', border: '#22c55e', label: 'Good',          message: '✅ Good foundation — a few gaps remain. An assessment will give you a prioritised action plan.' };
-  if (pct >= 0.4) return { color: '#f59e0b', bg: '#fffbeb', border: '#f59e0b', label: 'Fair',          message: '🔶 Some gaps found. A WiseTech assessment will help you prioritise what to fix first.' };
-  return           { color: '#ef4444', bg: '#fef2f2', border: '#ef4444', label: 'Needs Attention', message: '⚠️ Significant gaps identified — we strongly recommend a professional assessment.' };
+function reply(body: unknown, status: number): Response {
+  return new Response(JSON.stringify(body), { status, headers: CORS_HEADERS });
 }
 
-// ─── Email HTML generators ─────────────────────────────────────────────────────
-
-function buildSectionBreakdown(sections: ChecklistSection[]): string {
-  if (!sections.length) return '';
-  return sections.map(({ title, icon, checked, unchecked }) => {
-    const total = checked.length + unchecked.length;
-    const checkedRows = checked.map(item => `
-      <div style="padding:9px 18px;border-bottom:1px solid #f1f5f9;background:#f0fdf4;">
-        <span style="color:#22c55e;font-weight:700;font-size:13px;">✓</span>
-        <span style="color:#374151;font-size:13px;margin-left:8px;">${item}</span>
-      </div>`).join('');
-    const uncheckedRows = unchecked.map(item => `
-      <div style="padding:9px 18px;border-bottom:1px solid #f1f5f9;">
-        <span style="color:#ef4444;font-weight:700;font-size:13px;">✗</span>
-        <span style="color:#9ca3af;font-size:13px;margin-left:8px;">${item}</span>
-      </div>`).join('');
-    return `
-      <div style="border:1px solid #e5e7eb;border-radius:8px;margin-bottom:14px;overflow:hidden;">
-        <div style="background:#f8fafc;padding:11px 18px;border-bottom:1px solid #e5e7eb;">
-          <span style="font-size:16px;">${icon}</span>
-          <strong style="color:#0f172a;font-size:14px;margin-left:7px;">${title}</strong>
-          <span style="float:right;color:#64748b;font-size:12px;background:white;border:1px solid #e5e7eb;padding:2px 9px;border-radius:99px;">${checked.length} / ${total}</span>
-        </div>
-        ${checkedRows}${uncheckedRows}
-      </div>`;
-  }).join('');
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-function buildTopGaps(sections: ChecklistSection[]): string {
-  const all: Array<{ item: string; section: string; priority: number; risk: string }> = [];
-  sections.forEach(s => {
-    s.unchecked.forEach(item => {
-      const info = RISK_MAP[item] ?? { priority: 99, risk: 'Addresses an important IT security or operational gap.' };
-      all.push({ item, section: s.title, priority: info.priority, risk: info.risk });
+// Free-text fields: trimmed, length-capped, no markup characters or line breaks
+function cleanText(value: unknown, max: number): string | null {
+  if (value === undefined || value === null || value === '') return '';
+  if (typeof value !== 'string') return null;
+  const v = value.trim();
+  if (v.length > max || /[<>{}\[\]\r\n]/.test(v)) return null;
+  return v;
+}
+
+function pickFrom(value: unknown, allowed: string[]): string {
+  return typeof value === 'string' && allowed.includes(value) ? value : '';
+}
+
+async function verifyTurnstile(secret: string, token: unknown, ip: string): Promise<boolean> {
+  if (typeof token !== 'string' || !token || token.length > 2048) return false;
+  try {
+    const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
     });
-  });
-  const top5 = all.sort((a, b) => a.priority - b.priority).slice(0, 5);
-  if (!top5.length) return '<p style="color:#22c55e;font-size:14px;">No critical gaps found — great work!</p>';
-  return top5.map(({ item, section, risk }, i) => `
-    <div style="display:flex;align-items:flex-start;gap:0;margin-bottom:12px;background:#fff8f8;border:1px solid #fee2e2;border-radius:8px;padding:14px 16px;">
-      <div style="background:#ef4444;color:white;font-weight:800;font-size:12px;min-width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;margin-right:12px;flex-shrink:0;">${i + 1}</div>
-      <div>
-        <p style="color:#0f172a;font-size:14px;font-weight:600;margin:0 0 3px;">${item}</p>
-        <p style="color:#64748b;font-size:12px;margin:0 0 3px;font-style:italic;">${section}</p>
-        <p style="color:#ef4444;font-size:12px;margin:0;"><strong>Risk:</strong> ${risk}</p>
-      </div>
-    </div>`).join('');
+    const data = (await res.json()) as { success?: boolean };
+    return data.success === true;
+  } catch {
+    return false;
+  }
 }
 
-function buildCheckedSummary(sections: ChecklistSection[]): string {
-  const all = sections.flatMap(s => s.checked.map(item => ({ item, section: s.title })));
-  if (!all.length) return '';
-  return all.map(({ item }) => `
-    <div style="padding:7px 0;border-bottom:1px solid #f1f5f9;">
-      <span style="color:#22c55e;font-weight:700;">✓</span>
-      <span style="color:#374151;font-size:13px;margin-left:8px;">${item}</span>
-    </div>`).join('');
-}
+// ─── Email building blocks ──────────────────────────────────────────────────────
 
-// Compact section table for owner notification email
-function buildOwnerSections(sections: ChecklistSection[]): string {
-  if (!sections.length) return '';
+const toneColour: Record<string, string> = { good: '#10b981', fair: '#06b6d4', risk: '#f59e0b', high: '#ef4444' };
+const barColour = (pct: number) => (pct >= 85 ? '#10b981' : pct >= 65 ? '#06b6d4' : pct >= 40 ? '#f59e0b' : '#ef4444');
+
+function areaTable(result: HealthResult): string {
   return `
-    <table style="width:100%;border-collapse:collapse;margin-top:16px;">
-      <thead>
-        <tr style="background:#f8fafc;">
-          <th style="text-align:left;padding:8px 12px;font-size:12px;color:#64748b;border-bottom:2px solid #e5e7eb;">Category</th>
-          <th style="text-align:center;padding:8px 12px;font-size:12px;color:#64748b;border-bottom:2px solid #e5e7eb;">Score</th>
-          <th style="text-align:left;padding:8px 12px;font-size:12px;color:#64748b;border-bottom:2px solid #e5e7eb;">Key Gaps</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${sections.map(s => {
-          const total = s.checked.length + s.unchecked.length;
-          const pct = total ? Math.round((s.checked.length / total) * 100) : 0;
-          const barColor = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : '#ef4444';
-          const topGaps = s.unchecked.slice(0, 2).map(g => `<li style="color:#64748b;font-size:12px;">${g}</li>`).join('');
-          return `
-          <tr style="border-bottom:1px solid #f1f5f9;">
-            <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#0f172a;">${s.icon} ${s.title}</td>
-            <td style="padding:10px 12px;text-align:center;">
-              <span style="background:${barColor};color:white;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;">${s.checked.length}/${total}</span>
-            </td>
-            <td style="padding:10px 12px;"><ul style="margin:0;padding-left:16px;">${topGaps || '<li style="color:#22c55e;font-size:12px;">All clear</li>'}</ul></td>
-          </tr>`;
-        }).join('')}
-      </tbody>
+    <table style="width:100%;border-collapse:collapse;margin:0 0 28px;">
+      ${result.areaScores.map(({ area, pct, yes, total }) => `
+      <tr>
+        <td style="padding:8px 0;font-size:14px;color:#0f172a;width:45%;">${area.icon} ${area.title}</td>
+        <td style="padding:8px 12px;">
+          <div style="background:#e2e8f0;border-radius:6px;height:8px;overflow:hidden;">
+            <div style="background:${barColour(pct)};width:${Math.max(pct, 3)}%;height:8px;"></div>
+          </div>
+        </td>
+        <td style="padding:8px 0;font-size:13px;color:#64748b;text-align:right;white-space:nowrap;">${yes}/${total} · ${pct}%</td>
+      </tr>`).join('')}
     </table>`;
 }
 
-// ─── Main handler ──────────────────────────────────────────────────────────────
+function priorityList(result: HealthResult, limit: number): string {
+  const top = result.gaps.slice(0, limit);
+  if (!top.length) return '<p style="color:#10b981;font-size:14px;margin:0 0 24px;">No gaps found — every protection we asked about is in place.</p>';
+  return top.map((q, i) => `
+    <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:14px 16px;margin:0 0 10px;">
+      <p style="margin:0 0 4px;font-size:14px;font-weight:700;color:#0f172a;">${i + 1}. ${q.fix}</p>
+      <p style="margin:0;font-size:13px;color:#64748b;line-height:1.5;">${q.why}</p>
+    </div>`).join('');
+}
 
-export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SECRET_KEY: string }> = async (context) => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': 'https://wisetech.ca',
-    'Content-Type': 'application/json',
-  };
+function questionList(items: string[], colour: string): string {
+  return items.map(text => `<li style="font-size:13px;color:${colour};margin:0 0 6px;line-height:1.5;">${text}</li>`).join('');
+}
 
-  const apiKey = context.env.RESEND_API_KEY;
-  const turnstileSecret = context.env.TURNSTILE_SECRET_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ success: false, error: 'Server configuration error' }), {
-      status: 500, headers: corsHeaders,
-    });
+function visitorEmail(name: string, result: HealthResult): string {
+  const grade = gradeFor(result.pct);
+  return `
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f1f5f9;">
+    <div style="background:#0f172a;padding:28px 40px;text-align:center;">
+      <img src="https://wisetech.ca/images/logo-white.png" width="150" alt="WiseTech" style="display:inline-block;max-width:150px;" />
+    </div>
+    <div style="background:#ffffff;padding:36px 40px;">
+      <h2 style="color:#0f172a;font-size:20px;margin:0 0 8px;">Hi ${escapeHtml(name)}, here's your IT health check report</h2>
+      <p style="color:#475569;font-size:14px;line-height:1.7;margin:0 0 24px;">
+        Thanks for completing the WiseTech IT &amp; Security Health Check. Below is your score, how each area compares,
+        and the steps that would make the biggest difference.
+      </p>
+
+      <div style="border:2px solid ${toneColour[grade.tone]};border-radius:12px;padding:24px;text-align:center;margin:0 0 28px;">
+        <p style="color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0 0 6px;">Your IT health score</p>
+        <p style="color:#0f172a;font-size:46px;font-weight:800;margin:0;line-height:1.1;">${result.pct}%</p>
+        <p style="color:${toneColour[grade.tone]};font-size:18px;font-weight:700;margin:4px 0 10px;">${grade.label}</p>
+        <p style="color:#475569;font-size:13px;line-height:1.6;margin:0;">${grade.message}</p>
+      </div>
+
+      <h3 style="color:#0f172a;font-size:16px;margin:0 0 10px;">By area</h3>
+      ${areaTable(result)}
+
+      <h3 style="color:#0f172a;font-size:16px;margin:0 0 12px;">Your priorities</h3>
+      ${priorityList(result, 5)}
+
+      ${result.unsure.length ? `
+      <h3 style="color:#0f172a;font-size:16px;margin:24px 0 8px;">Worth checking</h3>
+      <p style="color:#475569;font-size:13px;margin:0 0 8px;">You weren't sure about these. If you can't confirm it's in place, it's safest to assume it isn't.</p>
+      <ul style="margin:0 0 20px;padding-left:20px;">${questionList(result.unsure.map(q => q.question), '#92400e')}</ul>` : ''}
+
+      ${result.inPlace.length ? `
+      <h3 style="color:#0f172a;font-size:16px;margin:24px 0 8px;">Already in place (${result.inPlace.length})</h3>
+      <ul style="margin:0 0 20px;padding-left:20px;">${questionList(result.inPlace.map(q => q.question), '#047857')}</ul>` : ''}
+
+      <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:24px;margin:28px 0;text-align:center;">
+        <h3 style="color:#0f172a;font-size:16px;margin:0 0 8px;">Want an expert to confirm it?</h3>
+        <p style="color:#475569;font-size:13px;line-height:1.6;margin:0 0 18px;">
+          A free professional assessment checks your actual systems — not just your answers — and gives you a written,
+          prioritised plan. No obligation.
+        </p>
+        <a href="https://wisetech.ca/contact/?service=cybersecurity&amp;from=health-check&amp;score=${result.pct}" style="display:inline-block;background:#22d3ee;color:#0f172a;font-weight:700;font-size:15px;text-decoration:none;padding:13px 28px;border-radius:8px;">Book a Free Assessment →</a>
+      </div>
+
+      <p style="color:#94a3b8;font-size:12px;line-height:1.7;margin:0;">
+        Questions? Reply to this email or call <a href="tel:8884459473" style="color:#06b6d4;">888-445-9473</a>.
+        WiseTech serves Mississauga, Toronto, Brampton, Oakville, Burlington and the GTA.
+      </p>
+    </div>
+    <div style="background:#0f172a;padding:20px 40px;text-align:center;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">WiseTech Inc. · 750-2 Robert Speck Parkway, Mississauga, ON L4Z 1H8 ·
+        <a href="https://wisetech.ca/privacy/" style="color:#22d3ee;text-decoration:none;">Privacy Policy</a></p>
+    </div>
+  </div>`;
+}
+
+function ownerEmail(lead: { name: string; email: string; company: string; teamSize: string; industry: string; itSupport: string }, result: HealthResult): string {
+  const grade = gradeFor(result.pct);
+  const row = (label: string, value: string) =>
+    `<tr><td style="padding:8px 0;color:#64748b;font-size:13px;width:150px;">${label}</td><td style="padding:8px 0;font-size:14px;color:#0f172a;font-weight:600;">${value || '<span style="color:#94a3b8;font-weight:400;">Not given</span>'}</td></tr>`;
+  return `
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:640px;margin:0 auto;background:#ffffff;padding:28px;">
+    <h2 style="color:#0f172a;font-size:18px;margin:0 0 4px;">🎯 New health check lead — ${result.pct}% (${grade.label})</h2>
+    <p style="color:#64748b;font-size:13px;margin:0 0 18px;">Completed the IT &amp; Security Health Check on wisetech.ca</p>
+    <table style="width:100%;border-collapse:collapse;margin:0 0 18px;">
+      ${row('Name', escapeHtml(lead.name))}
+      ${row('Email', `<a href="mailto:${escapeHtml(lead.email)}" style="color:#06b6d4;">${escapeHtml(lead.email)}</a>`)}
+      ${row('Company', escapeHtml(lead.company))}
+      ${row('Team size', lead.teamSize ? `${escapeHtml(lead.teamSize)} users` : '')}
+      ${row('Industry', escapeHtml(lead.industry))}
+      ${row('IT handled by', escapeHtml(lead.itSupport))}
+    </table>
+    <a href="mailto:${escapeHtml(lead.email)}?subject=Your%20WiseTech%20IT%20health%20check" style="display:inline-block;background:#22d3ee;color:#0f172a;font-weight:700;font-size:14px;text-decoration:none;padding:10px 20px;border-radius:6px;margin:0 0 22px;">Reply to Lead →</a>
+    <h3 style="color:#0f172a;font-size:15px;margin:0 0 8px;">Scores by area</h3>
+    ${areaTable(result)}
+    <h3 style="color:#0f172a;font-size:15px;margin:0 0 10px;">Top gaps (${result.gaps.length} total)</h3>
+    ${priorityList(result, 5)}
+    ${result.unsure.length ? `<h3 style="color:#0f172a;font-size:15px;margin:18px 0 8px;">Not sure (${result.unsure.length}) — good discovery-call topics</h3>
+    <ul style="margin:0;padding-left:20px;">${questionList(result.unsure.map(q => q.question), '#92400e')}</ul>` : ''}
+  </div>`;
+}
+
+async function sendEmail(apiKey: string, payload: Record<string, unknown>): Promise<Response> {
+  return fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+}
+
+// ─── Handler ────────────────────────────────────────────────────────────────────
+
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+  const { request, env } = context;
+
+  if (!ALLOWED_ORIGINS.includes(request.headers.get('Origin') ?? '')) {
+    return reply({ success: false, error: 'Forbidden.' }, 403);
+  }
+  if (!env.RESEND_API_KEY) {
+    return reply({ success: false, error: 'Email service not configured.' }, 500);
   }
 
-  let email = '', score = '', turnstileToken = '', checklistRaw = '';
-
+  let body: Record<string, unknown>;
   try {
-    const contentType = context.request.headers.get('Content-Type') || '';
-    if (contentType.includes('application/json')) {
-      const body = await context.request.json() as Record<string, string>;
-      email          = body.email || '';
-      score          = body.assessment_score || '';
-      turnstileToken = body['cf-turnstile-response'] || '';
-      checklistRaw   = body.checklist_data || '';
-    } else {
-      const fd = await context.request.formData();
-      email          = fd.get('email') as string || '';
-      score          = fd.get('assessment_score') as string || '';
-      turnstileToken = fd.get('cf-turnstile-response') as string || '';
-      checklistRaw   = fd.get('checklist_data') as string || '';
-    }
+    body = await request.json();
   } catch {
-    return new Response(JSON.stringify({ success: false, error: 'Invalid request body' }), {
-      status: 400, headers: corsHeaders,
-    });
+    return reply({ success: false, error: 'Invalid request.' }, 400);
   }
 
-  if (!email || !email.includes('@')) {
-    return new Response(JSON.stringify({ success: false, error: 'Valid email is required' }), {
-      status: 400, headers: corsHeaders,
-    });
-  }
-
-  // Cloudflare Turnstile verification
-  if (turnstileSecret) {
-    if (!turnstileToken) {
-      return new Response(JSON.stringify({ success: false, error: 'Please complete the security check.' }), {
-        status: 400, headers: corsHeaders,
-      });
-    }
-    try {
-      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          secret: turnstileSecret,
-          response: turnstileToken,
-          remoteip: context.request.headers.get('CF-Connecting-IP') || '',
-        }),
-      });
-      const verifyData = await verifyRes.json() as { success: boolean };
-      if (!verifyData.success) {
-        return new Response(JSON.stringify({ success: false, error: 'Security check failed. Please refresh and try again.' }), {
-          status: 400, headers: corsHeaders,
-        });
-      }
-    } catch {
-      // Allow through if Turnstile API itself is unreachable
+  if (env.TURNSTILE_SECRET_KEY) {
+    const ip = request.headers.get('CF-Connecting-IP') ?? '';
+    if (!(await verifyTurnstile(env.TURNSTILE_SECRET_KEY, body['cf-turnstile-response'], ip))) {
+      return reply({ success: false, error: 'Security check failed. Please refresh the page and try again.' }, 403);
     }
   }
 
-  // Parse checklist data
-  let sections: ChecklistSection[] = [];
+  const name = cleanText(body.name, 80);
+  const company = cleanText(body.company, 120);
+  const email = typeof body.email === 'string' ? body.email.trim() : '';
+  if (!name || company === null || email.length > 254 || !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(email)) {
+    return reply({ success: false, error: 'Please check your name and email address.' }, 400);
+  }
+
+  // Only known question IDs with Yes / No / Not sure answers; every question must be answered
+  const raw = (body.answers ?? {}) as Record<string, unknown>;
+  const answers: Record<string, Answer> = {};
+  for (const q of questions) {
+    const a = raw[q.id];
+    if (typeof a === 'string' && (ANSWERS as string[]).includes(a)) answers[q.id] = a as Answer;
+  }
+  if (Object.keys(answers).length !== questions.length) {
+    return reply({ success: false, error: 'Please answer every question first.' }, 400);
+  }
+
+  const lead = {
+    name,
+    email,
+    company: company ?? '',
+    teamSize: pickFrom(body.teamSize, teamSizes),
+    industry: pickFrom(body.industry, industries),
+    itSupport: pickFrom(body.itSupport, itSupportOptions),
+  };
+  const result = scoreAnswers(answers);
+  const grade = gradeFor(result.pct);
+
   try {
-    if (checklistRaw) sections = JSON.parse(checklistRaw) as ChecklistSection[];
-  } catch { /* use empty sections — email still sends without breakdown */ }
-
-  // Compute score metrics
-  const scoreDisplay = score || 'Not recorded';
-  const parts = score.split(' / ');
-  const scoreNum = parseInt(parts[0]) || 0;
-  const totalItems = parseInt(parts[1]) || 30;
-  const pct = totalItems > 0 ? scoreNum / totalItems : 0;
-  const barWidth = Math.max(2, Math.round(pct * 100));
-  const theme = getScoreTheme(pct);
-
-  const hasSections = sections.length > 0;
-  const totalChecked = sections.reduce((acc, s) => acc + s.checked.length, 0);
-  const totalUnchecked = sections.reduce((acc, s) => acc + s.unchecked.length, 0);
-
-  // ── Visitor email ───────────────────────────────────────────────────────────
-  const visitorHtml = `
-    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f1f5f9;padding:0;">
-
-      <!-- HEADER -->
-      <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);padding:28px 40px;text-align:center;">
-        <img src="https://wisetech.ca/images/logo-white.png" width="160" height="auto" alt="WiseTech" style="display:inline-block;max-width:160px;" />
-        <p style="color:#94a3b8;font-size:12px;margin:6px 0 0;letter-spacing:0.5px;">Advanced IT Solutions · Mississauga, ON</p>
-      </div>
-
-      <!-- BODY -->
-      <div style="background:#ffffff;padding:36px 40px;">
-
-        <h2 style="color:#0f172a;font-size:20px;font-weight:700;margin:0 0 8px;">Your IT Assessment Results</h2>
-        <p style="color:#475569;font-size:14px;line-height:1.7;margin:0 0 28px;">
-          Thank you for completing the WiseTech Free IT Assessment Checklist.
-          Below is your personalised results report — including what you have in place,
-          where the gaps are, and what to prioritise first.
-        </p>
-
-        <!-- SCORE CARD -->
-        <div style="background:${theme.bg};border:2px solid ${theme.border};border-radius:12px;padding:24px 28px;text-align:center;margin:0 0 32px;">
-          <p style="color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:0 0 6px;">Your Overall Score</p>
-          <p style="color:#0f172a;font-size:46px;font-weight:800;margin:0 0 4px;line-height:1;">${scoreDisplay}</p>
-          <p style="color:#64748b;font-size:12px;margin:0 0 14px;">items currently in place</p>
-          <!-- Progress bar -->
-          <div style="background:#e2e8f0;border-radius:6px;height:10px;margin:0 0 14px;overflow:hidden;">
-            <div style="background:${theme.color};width:${barWidth}%;height:10px;border-radius:6px;"></div>
-          </div>
-          <p style="color:${theme.color};font-size:14px;font-weight:600;margin:0;">${theme.message}</p>
-        </div>
-
-        ${hasSections ? `
-        <!-- SECTION BREAKDOWN -->
-        <h3 style="color:#0f172a;font-size:16px;font-weight:700;margin:0 0 16px;padding-bottom:8px;border-bottom:2px solid #f1f5f9;">
-          📊 Your Results by Category
-        </h3>
-        ${buildSectionBreakdown(sections)}
-
-        <!-- TOP 5 PRIORITY GAPS -->
-        ${totalUnchecked > 0 ? `
-        <h3 style="color:#0f172a;font-size:16px;font-weight:700;margin:28px 0 14px;padding-bottom:8px;border-bottom:2px solid #f1f5f9;">
-          🚨 Your Top ${Math.min(5, totalUnchecked)} Priority Gaps
-        </h3>
-        <p style="color:#475569;font-size:13px;margin:0 0 14px;line-height:1.6;">
-          These are the highest-risk items you haven't yet addressed, ranked by the potential impact on your business:
-        </p>
-        ${buildTopGaps(sections)}
-        ` : ''}
-
-        <!-- WHAT YOU'RE DOING RIGHT -->
-        ${totalChecked > 0 ? `
-        <h3 style="color:#0f172a;font-size:16px;font-weight:700;margin:28px 0 14px;padding-bottom:8px;border-bottom:2px solid #f1f5f9;">
-          ✅ What You Have In Place (${totalChecked} items)
-        </h3>
-        <div style="margin-bottom:8px;">
-          ${buildCheckedSummary(sections)}
-        </div>
-        ` : ''}
-        ` : `
-        <!-- Fallback if no checklist data -->
-        <p style="color:#475569;font-size:14px;line-height:1.7;margin:0 0 24px;">
-          Every unchecked item on the assessment represents a gap in your IT security, backup, or compliance posture —
-          whether that is the risk of a ransomware attack, data loss, or a compliance violation.
-        </p>
-        `}
-
-        <!-- NEXT STEPS -->
-        <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:24px 28px;margin:32px 0;text-align:center;">
-          <h3 style="color:#0f172a;font-size:16px;font-weight:700;margin:0 0 8px;">Ready to close these gaps?</h3>
-          <p style="color:#475569;font-size:13px;line-height:1.6;margin:0 0 20px;">
-            A WiseTech professional assessment goes deeper than this checklist — we review your actual systems,
-            identify your specific vulnerabilities, and give you a prioritised action plan. It's <strong>free</strong> and takes about 45 minutes.
-          </p>
-          <a href="https://wisetech.ca/contact" style="display:inline-block;background:#22d3ee;color:#0f172a;font-weight:700;font-size:15px;text-decoration:none;padding:14px 32px;border-radius:8px;">
-            Book Your Free Professional Assessment →
-          </a>
-          <p style="color:#94a3b8;font-size:12px;margin:12px 0 0;">No obligation · Free · ~45 minutes</p>
-        </div>
-
-        <p style="color:#94a3b8;font-size:12px;line-height:1.7;margin:0;">
-          Questions? Reply to this email or call us at
-          <a href="tel:8884459473" style="color:#22d3ee;">888-445-9473</a>.
-          We serve Mississauga, Toronto, Brampton, Oakville, Burlington, and the GTA.
-        </p>
-      </div>
-
-      <!-- FOOTER -->
-      <div style="background:#0f172a;padding:28px 40px;text-align:center;">
-        <img src="https://wisetech.ca/images/logo-white.png" width="120" height="auto" alt="WiseTech" style="display:inline-block;max-width:120px;margin-bottom:14px;" />
-        <p style="color:#94a3b8;font-size:13px;margin:0 0 6px;">
-          📞 <a href="tel:8884459473" style="color:#22d3ee;text-decoration:none;">888-445-9473</a>
-          &nbsp;·&nbsp;
-          ✉️ <a href="mailto:Info@wisetech.ca" style="color:#22d3ee;text-decoration:none;">Info@wisetech.ca</a>
-        </p>
-        <p style="color:#64748b;font-size:12px;margin:0 0 6px;">
-          📍 750-2 Robert Speck Parkway, Mississauga, ON L4Z 1H8
-        </p>
-        <p style="color:#64748b;font-size:12px;margin:0 0 14px;">
-          Mon–Fri 8:00 AM – 6:00 PM EST
-        </p>
-        <p style="color:#334155;font-size:11px;margin:0;">
-          © 2026 WiseTech Inc. &nbsp;·&nbsp;
-          <a href="https://wisetech.ca" style="color:#22d3ee;text-decoration:none;">wisetech.ca</a>
-          &nbsp;·&nbsp;
-          <a href="https://wisetech.ca/privacy" style="color:#475569;text-decoration:none;">Privacy Policy</a>
-        </p>
-      </div>
-
-    </div>`;
-
-  // ── Owner notification email ────────────────────────────────────────────────
-  const ownerHtml = `
-    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:640px;margin:0 auto;padding:0;background:#f1f5f9;">
-
-      <!-- HEADER -->
-      <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);padding:20px 28px;">
-        <img src="https://wisetech.ca/images/logo-white.png" width="120" height="auto" alt="WiseTech" style="display:inline-block;" />
-      </div>
-
-      <!-- BODY -->
-      <div style="background:#ffffff;padding:28px;">
-        <h2 style="color:#0f172a;font-size:18px;font-weight:700;margin:0 0 4px;">🎯 New Assessment Lead</h2>
-        <p style="color:#64748b;font-size:13px;margin:0 0 20px;">Submitted via the Free IT Assessment checklist on wisetech.ca</p>
-
-        <!-- Lead details -->
-        <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
-          <tr style="border-bottom:1px solid #f1f5f9;">
-            <td style="padding:10px 0;color:#64748b;font-size:13px;width:100px;">Email</td>
-            <td style="padding:10px 0;font-weight:600;font-size:14px;">
-              <a href="mailto:${email}" style="color:#22d3ee;">${email}</a>
-            </td>
-          </tr>
-          <tr style="border-bottom:1px solid #f1f5f9;">
-            <td style="padding:10px 0;color:#64748b;font-size:13px;">Score</td>
-            <td style="padding:10px 0;font-weight:700;font-size:20px;color:${theme.color};">
-              ${scoreDisplay} <span style="font-size:13px;color:#64748b;font-weight:400;">(${theme.label})</span>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:10px 0;color:#64748b;font-size:13px;">Gaps found</td>
-            <td style="padding:10px 0;font-weight:600;font-size:14px;color:#ef4444;">${totalUnchecked} unchecked items</td>
-          </tr>
-        </table>
-
-        <a href="mailto:${email}?subject=Your WiseTech IT Assessment Follow-Up" style="display:inline-block;background:#22d3ee;color:#0f172a;font-weight:700;font-size:14px;text-decoration:none;padding:10px 22px;border-radius:6px;margin-bottom:28px;">
-          Reply to Lead →
-        </a>
-
-        ${hasSections ? `
-        <!-- Section breakdown table -->
-        <h3 style="color:#0f172a;font-size:15px;font-weight:700;margin:0 0 4px;">Results Breakdown</h3>
-        <p style="color:#64748b;font-size:12px;margin:0 0 4px;">Quick overview of what they have vs. what's missing:</p>
-        ${buildOwnerSections(sections)}
-
-        <!-- Top 5 gaps -->
-        ${totalUnchecked > 0 ? `
-        <h3 style="color:#0f172a;font-size:15px;font-weight:700;margin:24px 0 12px;">Top ${Math.min(5, totalUnchecked)} Priority Gaps</h3>
-        ${buildTopGaps(sections)}
-        ` : ''}
-        ` : ''}
-      </div>
-
-      <!-- FOOTER -->
-      <div style="background:#0f172a;padding:16px 28px;text-align:center;">
-        <p style="color:#475569;font-size:11px;margin:0;">WiseTech Inc. · 750-2 Robert Speck Parkway, Mississauga, ON</p>
-      </div>
-    </div>`;
-
-  // ── Send both emails ────────────────────────────────────────────────────────
-  try {
-    const [visitorRes] = await Promise.all([
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'WiseTech Support <support@wisetech.ca>',
-          to: [email],
-          subject: `Your WiseTech IT Assessment Report — ${scoreDisplay} (${theme.label})`,
-          html: visitorHtml,
-        }),
+    const [visitorRes, ownerRes] = await Promise.all([
+      sendEmail(env.RESEND_API_KEY, {
+        from: 'WiseTech <support@wisetech.ca>',
+        to: [email],
+        reply_to: 'Info@wisetech.ca',
+        subject: `Your IT health check report — ${result.pct}% (${grade.label})`,
+        html: visitorEmail(name, result),
       }),
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'WiseTech Website <support@wisetech.ca>',
-          to: ['Info@wisetech.ca'],
-          subject: `🎯 New Assessment Lead — ${scoreDisplay} (${theme.label}) — ${email}`,
-          html: ownerHtml,
-        }),
+      sendEmail(env.RESEND_API_KEY, {
+        from: 'WiseTech Website <support@wisetech.ca>',
+        to: ['Info@wisetech.ca'],
+        reply_to: email,
+        subject: `🎯 Health check lead — ${result.pct}% (${grade.label})${lead.teamSize ? ` · ${lead.teamSize} users` : ''}`,
+        html: ownerEmail(lead, result),
       }),
     ]);
-
-    if (visitorRes.ok) {
-      return new Response(JSON.stringify({ success: true }), { status: 200, headers: corsHeaders });
+    if (!ownerRes.ok) console.error('send-assessment: owner email failed', ownerRes.status);
+    if (!visitorRes.ok) {
+      console.error('send-assessment: visitor email failed', visitorRes.status, (await visitorRes.text()).slice(0, 300));
+      return reply({ success: false, error: 'Could not send the report.' }, 502);
     }
-    const err = await visitorRes.json() as { message?: string };
-    return new Response(JSON.stringify({ success: false, error: err.message || 'Failed to send email' }), {
-      status: 500, headers: corsHeaders,
-    });
-  } catch {
-    return new Response(JSON.stringify({ success: false, error: 'Server error sending email' }), {
-      status: 500, headers: corsHeaders,
-    });
+    return reply({ success: true }, 200);
+  } catch (err) {
+    console.error('send-assessment: email request failed', err);
+    return reply({ success: false, error: 'Could not send the report.' }, 502);
   }
 };
 
-// Handle OPTIONS preflight
 export const onRequestOptions: PagesFunction = async () => {
   return new Response(null, {
     headers: {

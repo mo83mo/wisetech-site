@@ -23,14 +23,14 @@ export const GET: APIRoute = async () => {
   sections.push(`## Company
 - WiseTech Inc. is a managed IT services provider based in Mississauga, Ontario, Canada.
 - Who we serve: small and medium-sized businesses across the Greater Toronto Area. WiseTech never turns a business away because of its size. Plans start at five users; larger organisations (including teams with 100+ users) get a tailored proposal after a free assessment.
-- WiseTech is owner-led and deliberately small: clients deal directly with the person responsible for their systems — no call centre, no ticket queue.
+- Clients get a direct line to the person responsible for their systems — no call centre or ticket queue — backed by enterprise-grade monitoring and security tools that run 24/7. Every environment is documented and kept in the client's name, so they are never locked in or dependent on any one person.
 - Phone: ${site.phone} · Email: ${site.email} · Office: ${site.address}
 - Hours: ${site.hours}. 24/7 monitoring stays active outside business hours; 24/7 support is on the Professional and Advanced plans.
 - On-site service area: ${site.serviceAreas.join(', ')} and the rest of the GTA. Remote helpdesk support for clients anywhere in Ontario.`);
 
   sections.push(`## Useful pages
 - Book a free IT assessment / contact form: ${BASE}/contact/
-- Free IT security checklist (about 5 minutes, emails a personalised report): ${BASE}/free-assessment/
+- Free IT & security health check (20 plain-English questions, about 4 minutes, instant score and top priorities, optional emailed report): ${BASE}/free-assessment/
 - Pricing and cost calculator: ${BASE}/pricing/
 - All services: ${BASE}/services/ · Industries: ${BASE}/industries/
 - About WiseTech: ${BASE}/about/ · Blog: ${BASE}/blog/

@@ -58,7 +58,7 @@ src/
   pages/
     index.astro           — Homepage
     contact.astro         — Contact form (→ /api/send-contact)
-    free-assessment.astro — IT checklist + email capture (→ /api/send-assessment)
+    free-assessment.astro — IT & security health check, instant results + optional emailed report (→ /api/send-assessment; questions in src/data/health-check.ts)
     pricing.astro         — Pricing page with calculator
     blog/[slug].astro     — Blog post template
     services/[slug].astro — Service page template

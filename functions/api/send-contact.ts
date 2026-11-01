@@ -188,12 +188,12 @@ export const onRequestPost: PagesFunction<{ RESEND_API_KEY: string; TURNSTILE_SE
           </div>
 
           <p style="color: #475569; line-height: 1.6; margin: 0 0 28px;">
-            In the meantime, you can use our free IT assessment checklist to evaluate your business's current IT posture — it takes about 5 minutes and shows exactly where your gaps are.
+            In the meantime, you can take our free IT health check — 20 plain-English questions, about 4 minutes, with an instant score and your top priorities.
           </p>
 
           <div style="text-align: center; margin: 0 0 32px;">
-            <a href="https://wisetech.ca/free-assessment" style="display: inline-block; background: #22d3ee; color: #0f172a; font-weight: 700; font-size: 15px; text-decoration: none; padding: 14px 28px; border-radius: 8px;">
-              Try the Free IT Assessment →
+            <a href="https://wisetech.ca/free-assessment/" style="display: inline-block; background: #22d3ee; color: #0f172a; font-weight: 700; font-size: 15px; text-decoration: none; padding: 14px 28px; border-radius: 8px;">
+              Take the Free IT Health Check →
             </a>
           </div>
 

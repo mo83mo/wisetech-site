@@ -176,11 +176,11 @@ function buildTranscriptEmail(lead: LeadBody, date: string): string {
             <p style="margin:0 0 16px;color:#111827;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
             <p style="margin:0 0 24px;color:#111827;font-size:16px;line-height:1.6;">Here's a copy of your conversation with WiseTech AI today.</p>
             <pre style="background:#f3f4f6;border-radius:6px;padding:16px;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-word;color:#111827;margin:0 0 32px;">${transcriptHtml}</pre>
-            <p style="margin:0 0 8px;color:#374151;font-size:15px;line-height:1.6;">One of our advisors will be in touch within one business hour. In the meantime, you can give our team an even fuller picture before the call by completing our free IT assessment — it only takes about 5 minutes.</p>
+            <p style="margin:0 0 8px;color:#374151;font-size:15px;line-height:1.6;">One of our advisors will be in touch within one business hour. In the meantime, you can give our team an even fuller picture before the call by taking our free IT health check — 20 quick questions, about 4 minutes.</p>
             <table width="100%" cellpadding="0" cellspacing="0">
               <tr>
                 <td align="center" style="padding:24px 0;">
-                  <a href="https://wisetech.ca/free-assessment" style="display:inline-block;background:#0a2540;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:6px;font-size:16px;font-weight:bold;">Complete Free IT Assessment &rarr;</a>
+                  <a href="https://wisetech.ca/free-assessment" style="display:inline-block;background:#0a2540;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:6px;font-size:16px;font-weight:bold;">Take the Free IT Health Check &rarr;</a>
                 </td>
               </tr>
             </table>

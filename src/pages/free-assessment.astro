@@ -1,323 +1,366 @@
 ---
 // src/pages/free-assessment.astro
+// Free IT & Security Health Check: 20 plain-English Yes / No / Not sure questions with
+// instant, weighted results on the page. Emailing the full report is optional.
+// Questions, scoring and grades live in src/data/health-check.ts (shared with the email report).
 import PageLayout from '../layouts/PageLayout.astro';
 import CTABanner from '../components/CTABanner.astro';
+import { areas, questions, teamSizes, industries, itSupportOptions } from '../data/health-check';
 
-const sections = [
-  {
-    title: 'Network & Infrastructure',
-    icon: '🌐',
-    items: [
-      'Do you have a business-grade firewall protecting your network?',
-      'Is your Wi-Fi network segmented (guest Wi-Fi separate from business systems)?',
-      'Are all network devices (routers, switches, access points) under support?',
-      'Do you have a documented network diagram showing all devices?',
-      'Is remote access to your network secured with a VPN?',
-    ],
-  },
-  {
-    title: 'Cybersecurity',
-    icon: '🔒',
-    items: [
-      'Is multi-factor authentication (MFA) enabled on all business email accounts?',
-      'Do all workstations have business-grade endpoint protection (EDR), not just consumer antivirus?',
-      'Is email security filtering configured to block phishing and malicious attachments?',
-      'Have your staff completed security awareness training in the last 12 months?',
-      'Do you have a written incident response plan for a cyberattack?',
-      'Are DMARC, DKIM, and SPF records configured on your email domain?',
-    ],
-  },
-  {
-    title: 'Backup & Disaster Recovery',
-    icon: '💾',
-    items: [
-      'Are all critical business files backed up automatically every day?',
-      'Are backups stored off-site or in the cloud (not just on a local drive)?',
-      'Are your backups immutable (protected from ransomware encryption)?',
-      'Have you tested a full restore from backup in the last 6 months?',
-      'Do you have a documented Recovery Time Objective (RTO) and Recovery Point Objective (RPO)?',
-    ],
-  },
-  {
-    title: 'Cloud & Productivity',
-    icon: '☁️',
-    items: [
-      'Are you using a business-tier Microsoft 365 or Google Workspace plan (not personal/consumer accounts)?',
-      'Is Microsoft 365 or Google Workspace admin access properly secured with MFA and limited to IT staff?',
-      'Do you have a process for revoking cloud access when employees leave?',
-      'Are all software licences tracked and up to date?',
-      'Is your line-of-business software hosted in the cloud or on a supported server?',
-    ],
-  },
-  {
-    title: 'Patch Management & Updates',
-    icon: '🔧',
-    items: [
-      'Are Windows/macOS updates applied to all workstations within 30 days of release?',
-      'Are servers on a regular patching schedule?',
-      'Is all third-party software (browsers, Office, Adobe, etc.) kept up to date?',
-      'Are firmware updates applied to network devices and servers?',
-    ],
-  },
-  {
-    title: 'Compliance & Privacy',
-    icon: '📋',
-    items: [
-      'Do you have a documented IT security policy?',
-      'Do you have a privacy policy that covers how client data is collected and stored?',
-      'If your business handles health information, do you have PHIPA compliance controls in place?',
-      'Do you have cyber insurance coverage?',
-      'Is there a process for securely disposing of old computers and hard drives?',
-    ],
-  },
+const answerOptions = [
+  { value: 'yes', label: 'Yes', checked: 'has-[:checked]:bg-emerald-500 has-[:checked]:border-emerald-500 has-[:checked]:text-white' },
+  { value: 'no', label: 'No', checked: 'has-[:checked]:bg-red-500 has-[:checked]:border-red-500 has-[:checked]:text-white' },
+  { value: 'unsure', label: 'Not sure', checked: 'has-[:checked]:bg-amber-400 has-[:checked]:border-amber-400 has-[:checked]:text-navy-900' },
 ];
+
+const pill = 'cursor-pointer border border-gray-300 rounded-full px-4 py-2 text-sm font-semibold text-slate-700 bg-white hover:border-cyan-400 transition select-none';
+let questionNumber = 0;
 ---
 
 <PageLayout
-  title="Free IT Assessment Checklist | WiseTech Mississauga"
-  description="Use WiseTech's free IT assessment to evaluate your cybersecurity, backup, network, and compliance posture. Identify gaps before they become problems."
+  title="Free IT & Security Health Check | WiseTech Mississauga"
+  description="Answer 20 plain-English questions and get an instant IT and cybersecurity score, your top priorities, and a free report. Takes about 4 minutes."
 >
 
   <!-- Hero -->
   <div class="bg-hero-gradient py-16 px-4">
     <div class="max-w-3xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-5">
-        Free Service
+        Free · About 4 minutes · Instant results
       </div>
       <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
-        Free IT Assessment Checklist
+        How Protected Is Your Business, Really?
       </h1>
       <p class="text-slate-400 text-lg leading-relaxed mb-6">
-        Use this checklist to evaluate your business's IT posture across six key areas. Identify gaps before they become costly problems — and see exactly where WiseTech can help.
+        Answer 20 plain-English questions — no technical knowledge needed. You'll get an instant score, your top three
+        priorities, and a free report you can share with your team. No email required to see your results.
       </p>
       <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="#checklist" class="btn-primary">Start the Checklist ↓</a>
-        <a href="/contact/" class="btn-secondary">Book a Professional Assessment</a>
+        <a href="#about-you" class="btn-primary">Start the Health Check ↓</a>
+        <a href="/contact/?service=cybersecurity" class="btn-secondary">Prefer an Expert Review?</a>
       </div>
     </div>
   </div>
 
-  <!-- How to use -->
-  <section class="section-slate">
-    <div class="container-lg max-w-3xl">
-      <div class="bg-white border border-gray-200 rounded-xl p-6">
-        <h2 class="font-bold text-slate-900 mb-2">How to Use This Checklist</h2>
-        <p class="text-slate-600 text-sm leading-relaxed">
-          Go through each section and check off the items that are currently in place at your business.
-          Items you cannot check off represent gaps in your IT security or operations.
-          The more unchecked items you find, the more value a WiseTech managed IT assessment will provide.
-          <strong class="text-slate-900"> A professional assessment is free and takes about 45 minutes.</strong>
-        </p>
-      </div>
-    </div>
-  </section>
+  <form id="health-check" class="contents" onsubmit="return false">
 
-  <!-- Checklist sections -->
-  <section id="checklist" class="section-white">
-    <div class="container-lg max-w-3xl">
-      <div class="flex flex-col gap-8">
-        {sections.map((section, sIdx) => (
-          <div class="border border-gray-200 rounded-2xl overflow-hidden">
-            <!-- Section header -->
-            <div class="bg-slate-50 px-6 py-4 flex items-center gap-3 border-b border-gray-200">
-              <span class="text-2xl">{section.icon}</span>
-              <h2 class="font-extrabold text-slate-900 text-lg">{section.title}</h2>
-              <span id={`score-${sIdx}`} class="ml-auto text-xs font-semibold text-slate-500 bg-white border border-gray-200 px-3 py-1 rounded-full">
-                0 / {section.items.length}
-              </span>
-            </div>
-            <!-- Items -->
-            <div class="divide-y divide-gray-100">
-              {section.items.map((item, iIdx) => (
-                <label class="flex items-start gap-4 px-6 py-4 cursor-pointer hover:bg-slate-50 transition group">
-                  <input
-                    type="checkbox"
-                    class="mt-0.5 h-5 w-5 rounded border-gray-300 accent-cyan-500 flex-shrink-0 cursor-pointer"
-                    data-section={sIdx}
-                  />
-                  <span class="text-slate-700 text-sm leading-relaxed group-has-[:checked]:line-through group-has-[:checked]:text-slate-400 transition">
-                    {item}
-                  </span>
+    <!-- About your business (optional) -->
+    <section id="about-you" class="section-slate">
+      <div class="container-lg max-w-3xl">
+        <h2 class="text-2xl font-extrabold text-slate-900 mb-1">First, a little about your business</h2>
+        <p class="text-slate-500 text-sm mb-6">Optional — it helps us tailor your recommendations.</p>
+
+        <div class="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col gap-6">
+          <fieldset>
+            <legend class="text-sm font-semibold text-slate-800 mb-3">How many people use computers or email at work?</legend>
+            <div class="flex flex-wrap gap-2">
+              {teamSizes.map(size => (
+                <label class={`${pill} has-[:checked]:bg-cyan-400 has-[:checked]:border-cyan-400 has-[:checked]:text-navy-900`}>
+                  <input type="radio" name="teamSize" value={size} class="sr-only" />{size}
                 </label>
               ))}
             </div>
+          </fieldset>
+
+          <div>
+            <label for="industry" class="block text-sm font-semibold text-slate-800 mb-2">What industry are you in?</label>
+            <select id="industry" name="industry" class="w-full sm:w-80 border border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400">
+              <option value="">Choose one…</option>
+              {industries.map(i => <option value={i}>{i}</option>)}
+            </select>
           </div>
-        ))}
-      </div>
 
-      <!-- Overall score -->
-      <div class="mt-10 bg-navy-900 rounded-2xl p-8 text-center">
-        <h2 class="text-white font-extrabold text-xl mb-2">Your IT Assessment Score</h2>
-        <div class="flex items-end justify-center gap-1 my-4">
-          <span id="total-score" class="text-6xl font-extrabold text-cyan-400">0</span>
-          <span class="text-slate-400 text-2xl mb-2">/ {sections.reduce((a, s) => a + s.items.length, 0)}</span>
-        </div>
-        <div id="score-bar-wrap" class="w-full bg-navy-800 rounded-full h-3 mb-4 overflow-hidden">
-          <div id="score-bar" class="bg-cyan-400 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
-        </div>
-        <p id="score-message" class="text-slate-400 text-sm mb-4">
-          Complete the checklist above to see your score.
-        </p>
-
-        <!-- Email capture — shown after 3+ items checked -->
-        <div id="email-capture" class="hidden w-full max-w-sm mx-auto mb-6">
-          <p class="text-slate-300 text-sm mb-3 font-semibold">📧 Get your full results report by email</p>
-          <form id="capture-form" action="/api/send-assessment" method="POST" class="flex flex-col gap-2">
-            <input id="capture-score" type="hidden" name="assessment_score" value="" />
-            <div class="flex gap-2">
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="your@email.com"
-                class="flex-1 bg-navy-800 border border-navy-700 text-white placeholder-slate-500 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
-              />
-              <button type="submit" class="bg-cyan-400 text-navy-900 font-bold rounded-lg px-4 py-2.5 text-sm hover:bg-cyan-300 transition whitespace-nowrap">
-                Send Report
-              </button>
+          <fieldset>
+            <legend class="text-sm font-semibold text-slate-800 mb-3">Who looks after your IT today?</legend>
+            <div class="flex flex-wrap gap-2">
+              {itSupportOptions.map(opt => (
+                <label class={`${pill} has-[:checked]:bg-cyan-400 has-[:checked]:border-cyan-400 has-[:checked]:text-navy-900`}>
+                  <input type="radio" name="itSupport" value={opt} class="sr-only" />{opt}
+                </label>
+              ))}
             </div>
-            <!-- Cloudflare Turnstile — dark theme to match navy background -->
-            <div
-              class="cf-turnstile mt-1"
-              data-sitekey="0x4AAAAAADQm4rqIkwSB3i1I"
-              data-theme="dark"
-            ></div>
-            <p class="text-slate-500 text-xs">No spam. We'll email your score and top recommendations.</p>
-          </form>
-          <div id="capture-success" class="hidden mt-2 text-cyan-400 text-sm font-semibold">
-            ✓ Check your inbox — your results report is on its way!
+          </fieldset>
+        </div>
+      </div>
+    </section>
+
+    <!-- Questions -->
+    <section id="questions" class="section-white">
+      <div class="container-lg max-w-3xl">
+        <div class="flex items-end justify-between gap-4 mb-2">
+          <h2 class="text-2xl font-extrabold text-slate-900">Your health check</h2>
+          <p class="text-sm font-semibold text-slate-500"><span id="progress-count">0</span> of {questions.length} answered</p>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-2 mb-3 overflow-hidden">
+          <div id="progress-bar" class="bg-cyan-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <p class="text-slate-500 text-sm mb-8">Not sure about something? Choose <strong class="text-slate-700">Not sure</strong> — it's an honest answer, and it tells us what's worth checking.</p>
+
+        <div class="flex flex-col gap-10">
+          {areas.map(area => (
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl" aria-hidden="true">{area.icon}</span>
+                <h3 class="font-extrabold text-slate-900 text-lg">{area.title}</h3>
+                <span data-area-count={area.id} class="ml-auto text-xs font-semibold text-slate-500 bg-slate-50 border border-gray-200 px-3 py-1 rounded-full">
+                  0 / {questions.filter(q => q.area === area.id).length}
+                </span>
+              </div>
+              <div class="flex flex-col gap-3">
+                {questions.filter(q => q.area === area.id).map(q => (
+                  <fieldset id={`q-${q.id}`} class="border border-gray-200 rounded-xl p-5 scroll-mt-24" data-question={q.id}>
+                    <legend class="sr-only">{q.question}</legend>
+                    <p class="text-slate-900 font-semibold leading-snug" aria-hidden="true">
+                      <span class="text-cyan-500 mr-1">{++questionNumber}.</span> {q.question}
+                    </p>
+                    <p class="text-slate-500 text-sm leading-relaxed mt-1.5">{q.why}</p>
+                    <div class="flex flex-wrap gap-2 mt-4">
+                      {answerOptions.map(opt => (
+                        <label class={`${pill} ${opt.checked}`}>
+                          <input type="radio" name={`answer-${q.id}`} value={opt.value} class="sr-only" />{opt.label}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+  </form>
+
+  <!-- Results -->
+  <section id="results" class="section-slate scroll-mt-20">
+    <div class="container-lg max-w-3xl">
+
+      <!-- Shown until every question is answered -->
+      <div id="results-pending" class="bg-white border border-gray-200 rounded-2xl p-8 text-center">
+        <h2 class="text-xl font-extrabold text-slate-900 mb-2">Your results will appear here</h2>
+        <p class="text-slate-600 text-sm mb-5"><span id="remaining-count">{questions.length}</span> questions to go.</p>
+        <button type="button" id="next-unanswered" class="btn-primary">Go to the next question</button>
+      </div>
+
+      <!-- Shown when complete -->
+      <div id="results-ready" class="hidden flex flex-col gap-6">
+        <div class="bg-navy-900 rounded-2xl p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="text-center md:text-left">
+            <p class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Your IT health score</p>
+            <p class="text-6xl font-extrabold text-white"><span id="result-score">0</span><span class="text-3xl text-slate-400">%</span></p>
+            <p id="result-grade" class="text-xl font-extrabold mt-2"></p>
+            <p id="result-message" class="text-slate-300 text-sm leading-relaxed mt-3"></p>
           </div>
+          <div id="result-areas" class="flex flex-col gap-3"></div>
         </div>
 
-        <a href="/contact/" class="btn-primary text-base px-8">
-          Book Your Free Professional Assessment →
-        </a>
+        <div class="bg-white border border-gray-200 rounded-2xl p-6">
+          <h3 class="font-extrabold text-slate-900 text-lg mb-1">Your top priorities</h3>
+          <p class="text-slate-500 text-sm mb-4">The gaps that would make the biggest difference to your protection.</p>
+          <ol id="result-priorities" class="flex flex-col gap-4"></ol>
+        </div>
+
+        <div id="result-unsure-wrap" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-6">
+          <h3 class="font-extrabold text-slate-900 text-lg mb-1">Worth checking</h3>
+          <p class="text-slate-600 text-sm mb-3">You weren't sure about these. If you can't confirm it's in place, it's safest to assume it isn't.</p>
+          <ul id="result-unsure" class="list-disc pl-5 flex flex-col gap-1.5 text-sm text-slate-700"></ul>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Email report -->
+          <div class="bg-white border border-gray-200 rounded-2xl p-6">
+            <h3 class="font-extrabold text-slate-900 mb-1">Email me the full report</h3>
+            <p class="text-slate-500 text-sm mb-4">Every answer, every recommendation — easy to share with your team.</p>
+            <form id="report-form" class="flex flex-col gap-3" novalidate>
+              <input name="name" type="text" required maxlength="80" placeholder="First name" aria-label="First name" class="border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+              <input name="email" type="email" required maxlength="254" placeholder="you@company.ca" aria-label="Email address" class="border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+              <input name="company" type="text" maxlength="120" placeholder="Company (optional)" aria-label="Company" class="border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400" />
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAADQm4rqIkwSB3i1I" data-theme="light"></div>
+              <p id="report-error" class="hidden text-red-600 text-sm" role="alert"></p>
+              <button type="submit" id="report-submit" class="btn-primary">Send My Report</button>
+              <p class="text-slate-400 text-xs">No spam. We'll email your report and may follow up once to offer help.</p>
+            </form>
+            <p id="report-success" class="hidden text-emerald-700 font-semibold text-sm" role="status">✓ Report sent — check your inbox.</p>
+          </div>
+
+          <!-- Book review -->
+          <div class="bg-navy-900 rounded-2xl p-6 flex flex-col">
+            <h3 class="font-extrabold text-white mb-1">Want an expert to confirm it?</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-5 flex-1">
+              A free professional assessment checks your actual systems — not just your answers — and gives you a
+              written, prioritised plan. No obligation.
+            </p>
+            <a id="book-cta" href="/contact/?service=cybersecurity" class="btn-primary text-center" data-track="cta_click" data-track-label="health_check_results">Book a Free Assessment →</a>
+          </div>
+        </div>
       </div>
+
     </div>
   </section>
 
   <CTABanner
-    headline="Ready for a Professional IT Assessment?"
-    subtext="Our free IT assessment goes deeper than a checklist — we review your actual systems and give you a prioritised action plan. No obligation."
+    headline="Rather Have an Expert Look?"
+    subtext="Our free assessment reviews your actual systems — security, backups, network, and Microsoft 365 or Google Workspace — and gives you a prioritised plan. No obligation."
     ctaText="Book a Free Assessment"
-    ctaHref="/contact/"
+    ctaHref="/contact/?service=cybersecurity"
   />
 
 </PageLayout>
 
-<!-- Cloudflare Turnstile script -->
+<!-- Cloudflare Turnstile for the optional email report -->
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <script>
-  const checkboxes = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-section]');
-  const totalItems = checkboxes.length;
+  import { questions, areas, scoreAnswers, gradeFor, type Answer } from '../data/health-check';
 
-  function updateScore(checkbox: HTMLInputElement) {
-    const sectionIdx = checkbox.dataset.section;
-    const sectionItems = document.querySelectorAll<HTMLInputElement>(`input[data-section="${sectionIdx}"]`);
-    const checked = Array.from(sectionItems).filter(i => i.checked).length;
-    const scoreEl = document.getElementById(`score-${sectionIdx}`);
-    if (scoreEl) scoreEl.textContent = `${checked} / ${sectionItems.length}`;
+  const toneClass: Record<string, string> = {
+    good: 'text-emerald-400', fair: 'text-cyan-400', risk: 'text-amber-400', high: 'text-red-400',
+  };
 
-    // Update total
-    const total = document.querySelectorAll<HTMLInputElement>('input[type="checkbox"][data-section]:checked').length;
-    const totalEl = document.getElementById('total-score');
-    const bar = document.getElementById('score-bar');
-    const msg = document.getElementById('score-message');
-    if (totalEl) totalEl.textContent = String(total);
-    updateEmailCapture(total);
-    if (bar) bar.style.width = `${Math.round((total / totalItems) * 100)}%`;
-    if (msg) {
-      const pct = total / totalItems;
-      if (pct === 0) {
-        msg.textContent = 'Complete the checklist above to see your score.';
-        msg.className = 'text-slate-400 text-sm mb-6';
-      } else if (pct < 0.4) {
-        msg.textContent = '⚠️ Significant gaps identified. We strongly recommend a professional assessment.';
-        msg.className = 'text-red-400 text-sm mb-6';
-      } else if (pct < 0.7) {
-        msg.textContent = '🔶 Some gaps found. A WiseTech assessment will help prioritise what to fix first.';
-        msg.className = 'text-yellow-400 text-sm mb-6';
-      } else if (pct < 1) {
-        msg.textContent = '✅ Good foundation — a few gaps to close. Book an assessment for a detailed action plan.';
-        msg.className = 'text-green-400 text-sm mb-6';
-      } else {
-        msg.textContent = '🎉 Excellent! Your IT posture looks strong. Book a call to verify with our experts.';
-        msg.className = 'text-cyan-400 text-sm mb-6';
-      }
+  const formEl = document.getElementById('health-check') as HTMLFormElement;
+  const el = (id: string) => document.getElementById(id)!;
+
+  function readAnswers(): Record<string, Answer> {
+    const answers: Record<string, Answer> = {};
+    for (const q of questions) {
+      const picked = formEl.querySelector<HTMLInputElement>(`input[name="answer-${q.id}"]:checked`);
+      if (picked) answers[q.id] = picked.value as Answer;
     }
+    return answers;
   }
 
-  // Attach listeners to every checkbox — this replaces the broken inline onchange
-  checkboxes.forEach(cb => {
-    cb.addEventListener('change', () => updateScore(cb));
+  function readContext() {
+    const value = (name: string) =>
+      formEl.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`)?.value ?? '';
+    return {
+      teamSize: value('teamSize'),
+      industry: (document.getElementById('industry') as HTMLSelectElement).value,
+      itSupport: value('itSupport'),
+    };
+  }
+
+  function item(tag: string, className: string, text: string) {
+    const node = document.createElement(tag);
+    node.className = className;
+    node.textContent = text;
+    return node;
+  }
+
+  function render() {
+    const answers = readAnswers();
+    const answered = Object.keys(answers).length;
+    const remaining = questions.length - answered;
+
+    el('progress-count').textContent = String(answered);
+    el('progress-bar').style.width = `${Math.round((answered / questions.length) * 100)}%`;
+    el('remaining-count').textContent = String(remaining);
+    for (const area of areas) {
+      const qs = questions.filter(q => q.area === area.id);
+      const done = qs.filter(q => answers[q.id]).length;
+      const badge = document.querySelector(`[data-area-count="${area.id}"]`);
+      if (badge) badge.textContent = `${done} / ${qs.length}`;
+    }
+
+    const complete = remaining === 0;
+    el('results-pending').classList.toggle('hidden', complete);
+    el('results-ready').classList.toggle('hidden', !complete);
+    if (!complete) return;
+
+    const result = scoreAnswers(answers);
+    const grade = gradeFor(result.pct);
+    el('result-score').textContent = String(result.pct);
+    const gradeEl = el('result-grade');
+    gradeEl.textContent = grade.label;
+    gradeEl.className = `text-xl font-extrabold mt-2 ${toneClass[grade.tone]}`;
+    el('result-message').textContent = grade.message;
+
+    const areasEl = el('result-areas');
+    areasEl.replaceChildren(...result.areaScores.map(({ area, pct }) => {
+      const row = document.createElement('div');
+      const label = item('div', 'flex justify-between text-sm mb-1', '');
+      label.append(item('span', 'text-slate-300', `${area.icon} ${area.title}`), item('span', 'text-white font-semibold', `${pct}%`));
+      const track = item('div', 'w-full bg-navy-800 rounded-full h-2 overflow-hidden', '');
+      const bar = item('div', `h-2 rounded-full ${pct >= 85 ? 'bg-emerald-400' : pct >= 65 ? 'bg-cyan-400' : pct >= 40 ? 'bg-amber-400' : 'bg-red-400'}`, '');
+      bar.style.width = `${Math.max(pct, 3)}%`;
+      track.append(bar);
+      row.append(label, track);
+      return row;
+    }));
+
+    const prioritiesEl = el('result-priorities');
+    const top = result.gaps.slice(0, 3);
+    prioritiesEl.replaceChildren(...(top.length ? top.map((q, i) => {
+      const li = item('li', 'flex gap-4', '');
+      li.append(item('span', 'flex-shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-full bg-cyan-400 text-navy-900 font-extrabold text-sm', String(i + 1)));
+      const body = item('div', '', '');
+      body.append(item('p', 'font-semibold text-slate-900', q.fix), item('p', 'text-slate-500 text-sm mt-0.5', q.why));
+      li.append(body);
+      return li;
+    }) : [item('li', 'text-emerald-700 font-semibold', 'No gaps found — every protection we asked about is in place.')]));
+
+    el('result-unsure-wrap').classList.toggle('hidden', result.unsure.length === 0);
+    el('result-unsure').replaceChildren(...result.unsure.map(q => item('li', '', q.question)));
+
+    const context = readContext();
+    const params = new URLSearchParams({ service: 'cybersecurity', from: 'health-check', score: String(result.pct) });
+    if (context.teamSize) params.set('size', context.teamSize);
+    (el('book-cta') as HTMLAnchorElement).href = `/contact/?${params}`;
+  }
+
+  formEl.addEventListener('change', render);
+
+  el('next-unanswered').addEventListener('click', () => {
+    const answers = readAnswers();
+    const next = questions.find(q => !answers[q.id]);
+    if (next) {
+      el(`q-${next.id}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el(`q-${next.id}`).querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
+    }
   });
 
-  // Show email capture after 3+ items checked
-  function updateEmailCapture(total: number) {
-    const capture = document.getElementById('email-capture');
-    const scoreInput = document.getElementById('capture-score') as HTMLInputElement | null;
-    if (capture) {
-      if (total >= 3) {
-        capture.classList.remove('hidden');
-      } else {
-        capture.classList.add('hidden');
-      }
-    }
-    if (scoreInput) {
-      scoreInput.value = `${total} / ${totalItems}`;
-    }
-  }
-
-  // Serialise full checklist state into JSON for the email report
-  function serializeChecklist(): string {
-    const result: Array<{ title: string; icon: string; checked: string[]; unchecked: string[] }> = [];
-    document.querySelectorAll<HTMLElement>('[id^="score-"]').forEach((_scoreEl, sIdx) => {
-      // Section header is the .bg-slate-50 sibling of the score badge's parent
-      const card = document.querySelectorAll<HTMLElement>('.border.border-gray-200.rounded-2xl')[sIdx];
-      const title = card?.querySelector<HTMLElement>('h2')?.textContent?.trim() ?? '';
-      const icon  = card?.querySelector<HTMLElement>('span.text-2xl')?.textContent?.trim() ?? '';
-      const cbs   = document.querySelectorAll<HTMLInputElement>(`input[data-section="${sIdx}"]`);
-      const checked: string[]   = [];
-      const unchecked: string[] = [];
-      cbs.forEach(cb => {
-        const text = cb.closest('label')?.querySelector('span')?.textContent?.trim() ?? '';
-        if (text) (cb.checked ? checked : unchecked).push(text);
-      });
-      result.push({ title, icon, checked, unchecked });
-    });
-    return JSON.stringify(result);
-  }
-
-  // Handle email capture form submission
-  const captureForm = document.getElementById('capture-form');
-  const captureSuccess = document.getElementById('capture-success');
-  captureForm?.addEventListener('submit', async (e) => {
+  // Optional email report
+  const reportForm = el('report-form') as HTMLFormElement;
+  const reportError = el('report-error');
+  reportForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
+    const data = new FormData(reportForm);
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const showError = (msg: string) => { reportError.textContent = msg; reportError.classList.remove('hidden'); };
 
-    // Remove any previous checklist_data input, then add a fresh one
-    form.querySelector('input[name="checklist_data"]')?.remove();
-    const checklistInput = document.createElement('input');
-    checklistInput.type = 'hidden';
-    checklistInput.name = 'checklist_data';
-    checklistInput.value = serializeChecklist();
-    form.appendChild(checklistInput);
+    if (!name) return showError('Enter your first name.');
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return showError('Enter a valid email address.');
+    const token = String(data.get('cf-turnstile-response') ?? '');
+    if (!token) return showError('Please wait a moment for the security check to finish, then try again.');
+    reportError.classList.add('hidden');
 
-    const data = new FormData(form);
+    const submit = el('report-submit') as HTMLButtonElement;
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
     try {
-      const res = await fetch(form.action, {
+      const res = await fetch('/api/send-assessment', {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          company: String(data.get('company') ?? '').trim(),
+          ...readContext(),
+          answers: readAnswers(),
+          'cf-turnstile-response': token,
+        }),
       });
-      if (res.ok) {
-        window.wtTrack?.('generate_lead', { lead_source: 'checklist' });
-        form.classList.add('hidden');
-        captureSuccess?.classList.remove('hidden');
-      }
-    } catch {
-      // silently fail — don't block the user experience
+      const result = await res.json().catch(() => ({})) as { success?: boolean; error?: string };
+      if (!res.ok || !result.success) throw new Error(result.error || 'Could not send the report.');
+      window.wtTrack?.('generate_lead', { lead_source: 'health_check' });
+      reportForm.classList.add('hidden');
+      el('report-success').classList.remove('hidden');
+    } catch (err) {
+      showError(`${err instanceof Error ? err.message : 'Could not send the report.'} You can also call 888-445-9473.`);
+      submit.disabled = false;
+      submit.textContent = 'Send My Report';
+      (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
     }
   });
 </script>

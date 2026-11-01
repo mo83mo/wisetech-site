@@ -26,4 +26,5 @@ export const commitments = [
   'Month-to-month on monthly billing',
   'Published, flat monthly pricing',
   'Written quote before you sign',
+  'Your systems documented, in your name',
 ];
