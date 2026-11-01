@@ -10,6 +10,10 @@ export const site = {
   founderName: 'Mo',
   founderTitle: 'Founder, WiseTech Inc.',
 
+  address: '750-2 Robert Speck Parkway, Mississauga, ON L4Z 1H8',
+  hours: 'Monday–Friday, 8:00 AM – 6:00 PM (Eastern)',
+  serviceAreas: ['Mississauga', 'Brampton', 'Toronto', 'Oakville', 'Burlington', 'Etobicoke', 'North York', 'Scarborough'],
+
   // Paste a Microsoft Bookings / Cal.com link here to show "Pick a time" buttons.
   // Leave empty and the site falls back to the contact form.
   bookingUrl: '',

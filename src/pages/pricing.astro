@@ -3,117 +3,20 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 import PricingCard from '../components/PricingCard.astro';
+import EnterpriseCard from '../components/EnterpriseCard.astro';
 import FAQ from '../components/FAQ.astro';
 import CTABanner from '../components/CTABanner.astro';
-
-const plans = [
-  {
-    name: 'Essential',
-    monthlyPrice: 99,
-    annualMonthlyEquiv: 83,
-    annualYearlyTotal: 990,
-    annualSavings: 198,
-    minUsers: 5,
-    bestFor: 'Small teams, low IT risk',
-    features: [
-      'Remote helpdesk (Mon–Fri 8am–6pm)',
-      'Patch management & updates',
-      'Endpoint antivirus & firewall',
-      '24/7 remote monitoring',
-      'Email security & spam filtering',
-      'Cloud backup (daily)',
-    ],
-    notIncluded: [
-      'On-site support',
-      'Advanced EDR / MDR',
-      'vCIO / IT strategy',
-    ],
-    isPopular: false,
-  },
-  {
-    name: 'Professional',
-    monthlyPrice: 149,
-    annualMonthlyEquiv: 124,
-    annualYearlyTotal: 1490,
-    annualSavings: 298,
-    minUsers: 5,
-    bestFor: 'Most Mississauga SMBs',
-    features: [
-      'Everything in Essential',
-      '24/7 helpdesk support',
-      'Advanced EDR (endpoint detection)',
-      'Microsoft 365 / Google Workspace admin',
-      'Security awareness training (quarterly)',
-      'On-site support (2 visits/month per client)',
-      'Disaster recovery planning',
-      'Quarterly business review',
-    ],
-    notIncluded: [
-      'MDR / compliance reporting',
-    ],
-    isPopular: true,
-  },
-  {
-    name: 'Advanced',
-    monthlyPrice: 199,
-    annualMonthlyEquiv: 166,
-    annualYearlyTotal: 1990,
-    annualSavings: 398,
-    minUsers: 5,
-    bestFor: 'Legal, dental, accounting firms',
-    features: [
-      'Everything in Professional',
-      'Managed Detection & Response (MDR)',
-      'Compliance support (PHIPA, PIPEDA)',
-      'vCIO — IT strategy & roadmap',
-      'Unlimited on-site support',
-      'Cyber insurance documentation',
-      '1-hour SLA for critical issues',
-      'Monthly executive reports',
-    ],
-    isPopular: false,
-  },
-];
-
-const addons = [
-  { name: 'VoIP & Unified Communications', price: 'From $15/user/month' },
-  { name: 'CCTV Installation & Service', price: 'Project-based quote' },
-  { name: 'Cloud Migration', price: 'Project-based quote' },
-  { name: 'Network Installation', price: 'Project-based quote' },
-];
-
-const pricingFaqs = [
-  {
-    question: 'Is there a setup or onboarding fee?',
-    answer: 'WiseTech charges a one-time onboarding fee to cover the initial environment assessment, documentation, and configuration of monitoring and security tools. The fee varies based on the number of users and complexity of your environment. We will provide a clear quote before you sign anything.',
-  },
-  {
-    question: 'What is the minimum contract length?',
-    answer: 'Our standard agreements are month-to-month on the monthly billing plan, or 12 months on the annual plan. Annual contracts receive the equivalent of 2 months free. There are no penalties for leaving after your agreed term.',
-  },
-  {
-    question: 'Can I change plans after signing up?',
-    answer: 'Yes. You can upgrade to a higher tier at any time — the new rate takes effect at the start of the next billing cycle. Downgrading is available at renewal. If your business needs change significantly, contact us and we will find the right solution.',
-  },
-  {
-    question: 'What happens if I need to add more users?',
-    answer: 'Adding users is straightforward — we simply pro-rate the additional users at your current plan rate for the remainder of the month, then include them in full from the next billing cycle. There is no minimum notice period for adding users.',
-  },
-  {
-    question: 'Do your plans cover remote workers?',
-    answer: 'Yes. All WiseTech plans support remote and hybrid workforces. Remote workers receive the same helpdesk support, endpoint protection, and monitoring as office-based staff. For on-site visits, we cover the Mississauga and GTA area.',
-  },
-];
+import { plans, addons, pricingFaqs, enterpriseMinUsers } from '../data/pricing';
 ---
 
 <PageLayout
   title="Managed IT Pricing Mississauga | WiseTech"
-  description="Transparent managed IT pricing for Mississauga businesses. Essential $99/user/month, Professional $149, Advanced $199. Annual plans available."
+  description="Transparent managed IT pricing in Mississauga: $99, $149 or $199 per user/month for teams of 5–49, and custom Enterprise plans for 50+ users."
 >
 
   <Hero
     headline="Simple, Transparent IT Pricing"
-    subheadline="No hidden fees. No surprise invoices. One flat monthly rate covers everything in your plan — with annual billing available for businesses that want to save."
+    subheadline="No hidden fees. No surprise invoices. Published per-user pricing for teams of 5–49, and custom Enterprise plans for organisations with 50 or more users."
     ctaText="Book a Free Assessment"
     ctaHref="/contact/"
     showPhone={true}
@@ -138,10 +41,11 @@ const pricingFaqs = [
   <!-- Pricing Cards -->
   <section class="section-slate">
     <div class="container-lg">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
         {plans.map(plan => (
           <PricingCard {...plan} ctaHref="/contact/" />
         ))}
+        <EnterpriseCard />
       </div>
 
       <!-- Add-ons -->
@@ -351,6 +255,10 @@ const pricingFaqs = [
             </tbody>
           </table>
         </div>
+        <p class="text-slate-500 text-sm text-center mt-4">
+          {enterpriseMinUsers}+ users or several locations? The <strong class="text-slate-700">Enterprise plan</strong> combines any of these services with volume pricing.
+          <a href="/contact/?service=managed-it&plan=enterprise" class="text-cyan-600 font-semibold hover:underline">Talk to us →</a>
+        </p>
       </div>
     </div>
   </section>
@@ -372,15 +280,16 @@ const pricingFaqs = [
               type="number"
               id="calc-users"
               min="5"
-              max="500"
+              max="100000"
               value="10"
+              data-enterprise-min={enterpriseMinUsers}
               class="w-full border border-gray-300 rounded-lg px-4 py-3 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-cyan-400 text-slate-900"
             />
-            <p class="text-xs text-slate-500 mt-1">Minimum 5 users</p>
+            <p class="text-xs text-slate-500 mt-1">Minimum 5 users. Teams of {enterpriseMinUsers}+ get Enterprise pricing.</p>
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2">Select Plan</label>
-            <div class="flex flex-col gap-2">
+            <div id="calc-plan-group" class="flex flex-col gap-2 transition-opacity">
               <label class="flex items-center gap-3 cursor-pointer p-3 rounded-lg border border-gray-200 bg-white hover:border-cyan-400 transition has-[:checked]:border-cyan-400 has-[:checked]:bg-cyan-50">
                 <input type="radio" name="calc-plan" value="99" class="accent-cyan-500" checked />
                 <span class="text-sm font-medium text-slate-700">Essential — $99/user/mo</span>
@@ -397,7 +306,8 @@ const pricingFaqs = [
           </div>
         </div>
 
-        <!-- Results -->
+        <!-- Results (5–49 users) -->
+        <div id="calc-results">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="bg-white border-2 border-gray-200 rounded-xl p-6 text-center">
             <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Monthly Cost</p>
@@ -414,6 +324,18 @@ const pricingFaqs = [
 
         <div class="text-center mt-6">
           <a href="/contact/" class="btn-primary text-base px-8">Get a Custom Quote →</a>
+        </div>
+        </div>
+
+        <!-- Enterprise (50+ users): no totals, invite a tailored quote instead -->
+        <div id="calc-enterprise" class="hidden bg-navy-900 border-2 border-cyan-400 rounded-xl p-8 text-center">
+          <p class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">Enterprise plan</p>
+          <h3 class="text-2xl font-extrabold text-white mb-3"><span id="calc-enterprise-users">50</span> users — let's build a plan around your team</h3>
+          <p class="text-slate-300 text-sm leading-relaxed max-w-xl mx-auto mb-6">
+            Organisations with {enterpriseMinUsers} or more users get volume pricing and a plan shaped to how your teams and locations work — including a co-managed option if you have in-house IT staff.
+          </p>
+          <a id="calc-enterprise-cta" href="/contact/?service=managed-it&plan=enterprise" class="btn-primary text-base px-8" data-track="cta_click" data-track-label="calculator_enterprise">Get a Tailored Quote →</a>
+          <p class="text-slate-400 text-xs mt-3">No obligation. It starts with a free IT assessment.</p>
         </div>
       </div>
     </div>
@@ -472,6 +394,21 @@ const pricingFaqs = [
 
     let users = parseInt(usersInput.value) || 5;
     if (users < 5) users = 5;
+
+    // At Enterprise size, swap the totals for a tailored-quote panel (no list-price totals)
+    const enterpriseMin = parseInt(usersInput.dataset.enterpriseMin || '50');
+    const isEnterprise = users >= enterpriseMin;
+    document.getElementById('calc-results')?.classList.toggle('hidden', isEnterprise);
+    document.getElementById('calc-enterprise')?.classList.toggle('hidden', !isEnterprise);
+    planRadios.forEach(radio => { radio.disabled = isEnterprise; });
+    document.getElementById('calc-plan-group')?.classList.toggle('opacity-50', isEnterprise);
+    if (isEnterprise) {
+      const usersEl = document.getElementById('calc-enterprise-users');
+      const cta = document.getElementById('calc-enterprise-cta') as HTMLAnchorElement | null;
+      if (usersEl) usersEl.textContent = users.toLocaleString('en-CA');
+      if (cta) cta.href = `/contact/?service=managed-it&plan=enterprise&users=${users}`;
+      return;
+    }
 
     let pricePerUser = 99;
     planRadios.forEach(radio => {

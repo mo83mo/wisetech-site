@@ -123,9 +123,43 @@
   var iconChat   = document.getElementById('icon-chat');
   var iconClose  = document.getElementById('icon-close');
 
-  var history    = [];   // [{role, content}]
+  var history    = [];   // [{role, content, sig?}] — sig is the server's signature on its own replies
   var isOpen     = false;
   var initialized = false;
+
+  // ---- Cloudflare Turnstile (loaded only when a lead is submitted) ----
+  var TURNSTILE_SITEKEY = '0x4AAAAAADQm4rqIkwSB3i1I';
+  var turnstileLoading = null;
+
+  function loadTurnstile() {
+    if (window.turnstile) { return Promise.resolve(window.turnstile); }
+    turnstileLoading = turnstileLoading || new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = function () { resolve(window.turnstile); };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    return turnstileLoading;
+  }
+
+  // Invisible for most visitors; shows a checkbox in the chat only if Cloudflare needs one
+  function getTurnstileToken() {
+    return loadTurnstile().then(function (ts) {
+      return new Promise(function (resolve, reject) {
+        var holder = document.createElement('div');
+        holder.style.margin = '4px 0';
+        messagesEl.appendChild(holder);
+        ts.render(holder, {
+          sitekey: TURNSTILE_SITEKEY,
+          appearance: 'interaction-only',
+          callback: function (token) { resolve(token); setTimeout(function () { holder.remove(); }, 0); },
+          'error-callback': function () { holder.remove(); reject(new Error('turnstile')); }
+        });
+      });
+    });
+  }
 
   function openPanel() {
     isOpen = true;
@@ -206,12 +240,25 @@
   });
 
   // Lightweight markdown → HTML renderer for chat bubbles
+  // Only wisetech.ca links become clickable, so a tricked reply can't send visitors elsewhere
+  function isWiseTechUrl(url) {
+    try {
+      var host = new URL(url.replace(/&amp;/g, '&')).hostname;
+      return host === 'wisetech.ca' || /\.wisetech\.ca$/.test(host);
+    } catch (e) { return false; }
+  }
+
+  function linkHtml(url, text) {
+    return '<a href="' + url + '" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">' + text + '</a>';
+  }
+
   function renderMarkdown(text) {
-    // Escape HTML entities first
+    // Escape HTML entities first (quotes too, so nothing can break out of an href)
     var s = text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
 
     // Process line by line to handle lists
     var lines = s.split('\n');
@@ -239,9 +286,13 @@
     if (inOl) out += '</ol>';
 
     // Markdown links [text](url)
-    out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">$1</a>');
+    out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\)\s]+)\)/g, function (m, label, url) {
+      return isWiseTechUrl(url) ? linkHtml(url, label) : label;
+    });
     // Bare URLs (not already inside an href)
-    out = out.replace(/(?<!href="|">)(https?:\/\/[^\s<"]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:#22d3ee;text-decoration:underline;">$1</a>');
+    out = out.replace(/(?<!href="|">)(https?:\/\/[^\s<"&]+)/g, function (m, url) {
+      return isWiseTechUrl(url) ? linkHtml(url, url) : url;
+    });
     // Bold **text** and __text__
     out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     out = out.replace(/__(.+?)__/g, '<strong>$1</strong>');
@@ -284,18 +335,21 @@
           var transcript = history.map(function(m) {
             return (m.role === 'user' ? 'Visitor: ' : 'WiseTech AI: ') + m.content;
           }).join('\n\n');
-          // POST to /api/chat-lead
-          fetch('/api/chat-lead', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: leadData.name || '',
-              email: leadData.email || '',
-              phone: leadData.phone || '',
-              company: leadData.company || '',
-              summary: leadData.summary || '',
-              transcript: transcript
-            })
+          // POST to /api/chat-lead with a Turnstile token (the endpoint rejects requests without one)
+          getTurnstileToken().then(function (token) {
+            return fetch('/api/chat-lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name: leadData.name || '',
+                email: leadData.email || '',
+                phone: leadData.phone || '',
+                company: leadData.company || '',
+                summary: leadData.summary || '',
+                transcript: transcript,
+                turnstileToken: token
+              })
+            });
           }).catch(function() {}); // silent fail — don't block UX
         } catch(e) {}
       }
@@ -378,9 +432,10 @@
       if (!res.ok) { throw new Error('HTTP ' + res.status); }
 
       var data = await res.json();
-      var reply = (data && data.reply) ? data.reply : ERROR_MSG;
-      history.push({ role: 'assistant', content: reply });
-      appendMessage('assistant', reply);
+      if (!data || !data.reply) { throw new Error('Empty reply'); }
+      // Keep the server's signature so it can confirm this reply is genuine next turn
+      history.push({ role: 'assistant', content: data.reply, sig: data.sig });
+      appendMessage('assistant', data.reply);
     } catch (err) {
       appendMessage('assistant', ERROR_MSG);
     } finally {

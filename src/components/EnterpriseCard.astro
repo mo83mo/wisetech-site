@@ -1,0 +1,41 @@
+---
+// src/components/EnterpriseCard.astro
+// Fourth pricing card: no list price — organisations with 50+ users get a tailored quote.
+import { enterprisePlan } from '../data/pricing';
+
+interface Props {
+  ctaHref?: string;
+}
+
+const { ctaHref = '/contact/?service=managed-it&plan=enterprise' } = Astro.props;
+const { name, audience, summary, features } = enterprisePlan;
+---
+
+<div class="rounded-xl overflow-hidden flex flex-col bg-white border-2 border-navy-900 shadow-sm">
+  <div class="p-6 border-b text-center bg-slate-50 border-gray-200">
+    <p class="text-xs font-bold uppercase tracking-wider mb-2 text-slate-500">{name}</p>
+    <div class="text-4xl font-extrabold text-slate-900">Custom</div>
+    <p class="text-xs mt-1 text-slate-500">volume pricing</p>
+    <p class="text-xs mt-2 text-slate-400">{audience}</p>
+  </div>
+
+  <div class="p-6 flex flex-col flex-1 gap-4">
+    <p class="text-xs font-bold text-slate-700">{summary}</p>
+    <ul class="flex flex-col gap-3 flex-1">
+      {features.map(f => (
+        <li class="flex gap-2 items-start text-sm">
+          <span class="text-cyan-400 font-bold mt-0.5 flex-shrink-0">✓</span>
+          <span class="text-slate-700">{f}</span>
+        </li>
+      ))}
+    </ul>
+    <a
+      href={ctaHref}
+      class="block text-center font-bold rounded-md px-5 py-3 text-sm transition-colors mt-2 bg-navy-900 text-white hover:bg-cyan-400 hover:text-navy-900"
+      data-track="cta_click"
+      data-track-label="enterprise_card"
+    >
+      Contact Us
+    </a>
+  </div>
+</div>

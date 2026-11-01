@@ -1,5 +1,7 @@
 ---
 // src/components/PricingCard.astro
+import { enterpriseMinUsers } from '../data/pricing';
+
 interface Props {
   name: string;
   monthlyPrice: number;
@@ -54,7 +56,7 @@ const {
       Save ${annualSavings}/user/year
     </p>
     <p class:list={['text-xs mt-2', isPopular ? 'text-slate-500' : 'text-slate-400']}>
-      Min. {minUsers} users
+      {minUsers}–{enterpriseMinUsers - 1} users
     </p>
   </div>
 

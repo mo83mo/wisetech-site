@@ -1,8 +1,15 @@
+// functions/api/chat-lead.ts
+// Emails a chat lead to WiseTech and a transcript copy to the visitor.
+// Hardened because it sends email to a visitor-supplied address: requests must come from
+// wisetech.ca, pass Cloudflare Turnstile, and every field is validated and HTML-escaped.
+
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "https://wisetech.ca",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
+
+const ALLOWED_ORIGINS = ["https://wisetech.ca", "https://www.wisetech.ca"];
 
 interface LeadBody {
   name: string;
@@ -15,6 +22,53 @@ interface LeadBody {
 
 interface Env {
   RESEND_API_KEY: string;
+  TURNSTILE_SECRET_KEY: string;
+}
+
+// Field limits: [max length, pattern]
+const FIELD_RULES: Record<keyof LeadBody, [number, RegExp]> = {
+  name: [100, /^[^<>{}\[\]\n\r]{2,}$/],
+  company: [150, /^[^<>{}\[\]\n\r]{1,}$/],
+  email: [254, /^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i],
+  phone: [40, /^[0-9+().\-\s]{7,}$/],
+  summary: [500, /^[^<>]{1,}$/],
+  transcript: [20000, /^[\s\S]{1,}$/],
+};
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function validateLead(raw: Record<string, unknown>): LeadBody | null {
+  const lead = {} as LeadBody;
+  for (const [field, [max, pattern]] of Object.entries(FIELD_RULES) as [keyof LeadBody, [number, RegExp]][]) {
+    const value = raw[field];
+    if (typeof value !== "string") return null;
+    const trimmed = value.trim();
+    if (!trimmed || trimmed.length > max || !pattern.test(trimmed)) return null;
+    lead[field] = trimmed;
+  }
+  return lead;
+}
+
+async function verifyTurnstile(secret: string, token: unknown, ip: string): Promise<boolean> {
+  if (typeof token !== "string" || !token || token.length > 2048) return false;
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret, response: token, remoteip: ip }),
+    });
+    const data = (await res.json()) as { success?: boolean };
+    return data.success === true;
+  } catch {
+    return false;
+  }
 }
 
 function todayFormatted(): string {
@@ -37,10 +91,7 @@ function cleanTranscript(raw: string): string {
 
 function buildLeadEmail(lead: LeadBody): string {
   const cleanedTranscript = cleanTranscript(lead.transcript);
-  const transcriptHtml = cleanedTranscript
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  const transcriptHtml = escapeHtml(cleanedTranscript);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -63,26 +114,26 @@ function buildLeadEmail(lead: LeadBody): string {
                 <td style="padding-bottom:8px;color:#374151;font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;">Contact Details</td>
               </tr>
               <tr>
-                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Name:</strong> ${lead.name}</td>
+                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Name:</strong> ${escapeHtml(lead.name)}</td>
               </tr>
               <tr>
-                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Company:</strong> ${lead.company}</td>
+                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Company:</strong> ${escapeHtml(lead.company)}</td>
               </tr>
               <tr>
-                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Email:</strong> <a href="mailto:${lead.email}" style="color:#0a2540;">${lead.email}</a></td>
+                <td style="padding-bottom:4px;color:#111827;font-size:16px;"><strong>Email:</strong> <a href="mailto:${escapeHtml(lead.email)}" style="color:#0a2540;">${escapeHtml(lead.email)}</a></td>
               </tr>
               <tr>
-                <td style="padding-bottom:24px;color:#111827;font-size:16px;"><strong>Phone:</strong> ${lead.phone}</td>
+                <td style="padding-bottom:24px;color:#111827;font-size:16px;"><strong>Phone:</strong> ${escapeHtml(lead.phone)}</td>
               </tr>
               <tr>
                 <td style="padding-bottom:8px;color:#374151;font-size:14px;font-weight:bold;text-transform:uppercase;letter-spacing:0.05em;">Problem Summary</td>
               </tr>
               <tr>
-                <td style="padding-bottom:24px;color:#111827;font-size:16px;line-height:1.6;">${lead.summary}</td>
+                <td style="padding-bottom:24px;color:#111827;font-size:16px;line-height:1.6;">${escapeHtml(lead.summary)}</td>
               </tr>
               <tr>
                 <td align="center" style="padding-bottom:32px;">
-                  <a href="mailto:${lead.email}" style="display:inline-block;background:#0a2540;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:6px;font-size:16px;font-weight:bold;">Reply to Lead</a>
+                  <a href="mailto:${escapeHtml(lead.email)}" style="display:inline-block;background:#0a2540;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:6px;font-size:16px;font-weight:bold;">Reply to Lead</a>
                 </td>
               </tr>
               <tr>
@@ -104,10 +155,7 @@ function buildLeadEmail(lead: LeadBody): string {
 }
 
 function buildTranscriptEmail(lead: LeadBody, date: string): string {
-  const transcriptHtml = cleanTranscript(lead.transcript)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  const transcriptHtml = escapeHtml(cleanTranscript(lead.transcript));
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -125,7 +173,7 @@ function buildTranscriptEmail(lead: LeadBody, date: string): string {
         <!-- Body -->
         <tr>
           <td style="padding:32px;">
-            <p style="margin:0 0 16px;color:#111827;font-size:16px;line-height:1.6;">Hi ${firstName(lead.name)},</p>
+            <p style="margin:0 0 16px;color:#111827;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
             <p style="margin:0 0 24px;color:#111827;font-size:16px;line-height:1.6;">Here's a copy of your conversation with WiseTech AI today.</p>
             <pre style="background:#f3f4f6;border-radius:6px;padding:16px;font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-word;color:#111827;margin:0 0 32px;">${transcriptHtml}</pre>
             <p style="margin:0 0 8px;color:#374151;font-size:15px;line-height:1.6;">One of our advisors will be in touch within one business hour. In the meantime, you can give our team an even fuller picture before the call by completing our free IT assessment — it only takes about 5 minutes.</p>
@@ -179,33 +227,44 @@ async function sendEmail(
   }
 }
 
+function reply(body: unknown, status: number): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+  });
+}
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
-  const { RESEND_API_KEY } = context.env;
+  const { RESEND_API_KEY, TURNSTILE_SECRET_KEY } = context.env;
+  const { request } = context;
 
+  if (!ALLOWED_ORIGINS.includes(request.headers.get("Origin") ?? "")) {
+    return reply({ success: false, error: "Forbidden." }, 403);
+  }
   if (!RESEND_API_KEY) {
-    return new Response(
-      JSON.stringify({ success: false, error: "Email service not configured." }),
-      { status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
-    );
+    return reply({ success: false, error: "Email service not configured." }, 500);
   }
 
-  let lead: LeadBody;
+  let raw: Record<string, unknown>;
   try {
-    lead = await context.request.json<LeadBody>();
+    raw = await request.json();
   } catch {
-    return new Response(
-      JSON.stringify({ success: false, error: "Invalid JSON body." }),
-      { status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
-    );
+    return reply({ success: false, error: "Invalid request." }, 400);
   }
 
-  const { name, email, phone, company, summary, transcript } = lead;
-  if (!name || !email || !phone || !company || !summary || !transcript) {
-    return new Response(
-      JSON.stringify({ success: false, error: "Missing required fields." }),
-      { status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
-    );
+  // Only a real browser on wisetech.ca can get a Turnstile token, so bots can't use this to send email
+  if (TURNSTILE_SECRET_KEY) {
+    const ip = request.headers.get("CF-Connecting-IP") ?? "";
+    if (!(await verifyTurnstile(TURNSTILE_SECRET_KEY, raw?.turnstileToken, ip))) {
+      return reply({ success: false, error: "Security check failed." }, 403);
+    }
   }
+
+  const lead = validateLead(raw ?? {});
+  if (!lead) {
+    return reply({ success: false, error: "Invalid lead details." }, 400);
+  }
+  const { name, email, company } = lead;
 
   const date = todayFormatted();
 
@@ -229,16 +288,11 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       buildTranscriptEmail(lead, date)
     );
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-    });
+    return reply({ success: true }, 200);
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return new Response(
-      JSON.stringify({ success: false, error: message }),
-      { status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
-    );
+    // Log the provider error for debugging, but don't expose it to the browser
+    console.error("chat-lead: email send failed", err instanceof Error ? err.message : err);
+    return reply({ success: false, error: "Could not send email." }, 500);
   }
 };
 

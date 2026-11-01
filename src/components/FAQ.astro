@@ -7,8 +7,9 @@ interface FAQItem {
 interface Props {
   faqs: FAQItem[];
   title?: string;
+  variant?: 'white' | 'slate';
 }
-const { faqs, title = 'Frequently Asked Questions' } = Astro.props;
+const { faqs, title = 'Frequently Asked Questions', variant = 'white' } = Astro.props;
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -24,7 +25,7 @@ const faqSchema = {
 };
 ---
 
-<section class="section-white">
+<section class={variant === 'slate' ? 'section-slate' : 'section-white'}>
   <div class="container-lg max-w-4xl">
     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8">{title}</h2>
     <div class="divide-y divide-gray-200">

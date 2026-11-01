@@ -30,7 +30,7 @@ faqs:
   - question: "Microsoft 365 or Google Workspace — which is right for my business?"
     answer: "Both are excellent platforms. Microsoft 365 is generally a better fit for businesses already using Windows, Excel, and Word heavily, or those in regulated industries requiring advanced compliance features. Google Workspace is often preferred by businesses that value simplicity, real-time collaboration, and browser-based workflows. WiseTech can walk you through the decision based on your specific needs."
   - question: "How long does a cloud migration take?"
-    answer: "For most Mississauga SMBs with 5–50 users, email and file migrations typically take two to five business days from kickoff to completion. We schedule the cutover during off-hours to minimise disruption, and your team usually notices only a faster, better system on the other side."
+    answer: "For most small and medium-sized businesses, email and file migrations take two to five business days from kickoff to completion; larger organisations take longer, and we agree the timeline with you before we start. We schedule the cutover during off-hours to minimise disruption, and your team usually notices only a faster, better system on the other side."
   - question: "Will we lose any data during migration?"
     answer: "No. WiseTech follows a proven migration process that includes a full pre-migration backup, a test migration to verify data integrity, and a parallel-run period before the final cutover. In over five years of migrations, we have never lost a client's data."
   - question: "Do you help with ongoing Microsoft 365 or Google Workspace management?"

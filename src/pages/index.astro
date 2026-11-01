@@ -10,6 +10,8 @@ import PainPoints from '../components/PainPoints.astro';
 import FounderNote from '../components/FounderNote.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import { generalFaqs } from '../data/faqs';
 
 const services = [
   {
@@ -99,13 +101,13 @@ const differentiators = [
 
 <PageLayout
   title="Managed IT Services Mississauga | WiseTech"
-  description="WiseTech provides managed IT support, cybersecurity, and cloud services for small businesses in Mississauga and the GTA. Local MSP. Call 888-445-9473."
+  description="Managed IT support, cybersecurity and cloud services for small and medium-sized businesses in Mississauga and the GTA. Call 888-445-9473."
 >
 
   <!-- Hero -->
   <Hero
     headline="IT Support That Keeps Mississauga Businesses Running"
-    subheadline="WiseTech is Mississauga's trusted managed IT partner — keeping your business protected, productive, and always connected. From cybersecurity and cloud migrations to 24/7 helpdesk support, we handle your technology so you can focus on growing your business."
+    subheadline="WiseTech is the managed IT partner for small and medium-sized businesses across Mississauga and the GTA — keeping your business protected, productive, and always connected. From cybersecurity and cloud migrations to 24/7 helpdesk support, we handle your technology so you can focus on growing your business."
     ctaText="Book a Free IT Assessment"
     ctaHref="/contact/"
     secondaryCta={{ text: 'See Pricing', href: '/pricing/' }}
@@ -176,6 +178,8 @@ const differentiators = [
       </div>
     </div>
   </section>
+
+  <FAQ faqs={generalFaqs} variant="slate" />
 
   <Testimonials />
 

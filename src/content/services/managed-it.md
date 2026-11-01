@@ -62,4 +62,4 @@ Your monthly fee covers unlimited helpdesk support, all monitoring, patch manage
 
 WiseTech is a local Mississauga MSP. Our technicians are familiar with the GTA's business environment, can be on-site quickly when needed, and understand the specific challenges facing small businesses in industries like legal, healthcare, accounting, and manufacturing.
 
-Whether you have five employees or fifty, we right-size your IT support so you're not paying for enterprise features you don't need — and not going without protections you do.
+Whether you have five employees or several hundred, we right-size your IT support so you're not paying for enterprise features you don't need — and not going without protections you do.

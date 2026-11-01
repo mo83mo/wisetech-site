@@ -8,7 +8,7 @@
 
 ## The Business
 
-**WiseTech Inc.** is a managed IT services provider based in Mississauga, Ontario, Canada. Owner: **Mo Waez**. The website at wisetech.ca is the primary lead generation tool targeting small and medium businesses (5–50 users) across the GTA.
+**WiseTech Inc.** is a managed IT services provider based in Mississauga, Ontario, Canada. Owner: **Mo Waez**. The website at wisetech.ca is the primary lead generation tool targeting small and medium-sized businesses across the GTA. WiseTech never turns a business away because of its size: published plans cover 5–49 users, and 50+ users get the custom-priced Enterprise plan.
 
 Mo also works full-time as a Project Manager at **Trinity Contents Management Inc.** (insurance/contents claims). Keep WiseTech and Trinity work separate unless Mo explicitly links them.
 
@@ -146,7 +146,7 @@ Do NOT use any photo ID that already appears in the results.
 
 Managed IT · Cybersecurity · Backup & Disaster Recovery · Cloud Solutions (M365/Google Workspace) · Network & Infrastructure · IT Consulting & Strategy · VoIP & Communications · CCTV & Surveillance
 
-**Pricing:** $99 / $149 / $199 per user/month · Minimum 5 users · Annual = 2 months free
+**Pricing:** $99 / $149 / $199 per user/month for 5–49 users · Annual = 2 months free · **Enterprise** (50+ users or multiple locations): custom, volume-based pricing, "Contact us" — no list-price totals. Plan data lives in `src/data/pricing.ts` (also feeds the AI chat's knowledge base).
 
 ---
 
