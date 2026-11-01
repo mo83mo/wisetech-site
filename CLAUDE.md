@@ -138,7 +138,7 @@ Do NOT use any photo ID that already appears in the results.
 4. **No trailing slash rules in `_redirects`** — Causes ERR_TOO_MANY_REDIRECTS on Cloudflare Pages
 5. **Secrets stay in env vars** — Never commit API keys, tokens, or passwords to the repo
 6. **Blog post dates** — Always use today's actual date. Never backdate
-7. **Reminders** — For any follow-up deadline, create a RemoteTrigger one-time scheduled routine that emails Info@wisetech.ca via `POST https://wisetech.ca/api/send-contact`
+7. **Reminders** — For any follow-up deadline, create a RemoteTrigger one-time scheduled routine that emails Info@wisetech.ca through the **Gmail connector** (`mcp_connections`: connector_uuid `9b8b1ee3-613e-48d8-98c5-5886955d0c11`, name `Gmail`, url `https://gmailmcp.googleapis.com/mcp/v1`; include `mcp__Gmail` in `allowed_tools`). Do NOT POST to `/api/send-contact` — it requires a Turnstile token, so scripted requests are rejected. Remember `run_once_at` is UTC: Toronto is UTC-4 in summer (EDT) and UTC-5 from November to March (EST)
 
 ---
 
